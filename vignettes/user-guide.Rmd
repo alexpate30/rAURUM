@@ -1,0 +1,217 @@
+---
+title: "user-guide"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{user-guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+This vignette will outline how to extract CPRD AURUM data for a cohort of individuals using the \pkg{rAURUM} package. There are two main scenarios:
+
+- Basic, all file directories are specified manually, etc
+- In-built. This requires file systems and directories to have a specific set up. However, once the data is in this format, running the extract should be much simpler.
+
+It will then showcase some basic functions for extracting variables for this cohort, and how to build an analysis-ready dataset.
+
+This package tackles a key problem, of working with the large CPRD AURUM datasets in R. In the June 2021 extract, the raw files amount to XXXX TB of data in .txt files. It is therefore unfeasible to read all these files simultaneously into the R workspace, and create a cohort in a straightforward way. We take the approach of Springate et al., by creating an RSQLite database which can be saved onto the hard drive on your computer system. This RSQLite database can then be queried for data of interest in order to build an analysis-ready dataset. This package is inspired by rEHR and uses similar approaches, except relevant functions are designed specifically for CPRD AURUM file types and variable names.
+
+This package does not deal with linked secodary care data, but similar techniques could be applied.
+
+A few key pieces of terminology:
+
+- Raw data: The raw data provided to the user by CPRD.
+- Cohort: A cohort of individuals that meet the inclusion/exclusion criteria for a given research question. In this setting, the cohort is ultimately a vector of patient id's.
+- Cohort data: Data to be extracted from CPRD AURUM for individuals in the cohort of interest. For example, medical history, prescription history, test data, etc. Required to create an analysis ready dataset.
+- Analysis-ready dataset: A data frame with one row for each individual in the cohort, and a column for each variable of interest, for example, age at cohort entry, or most recent BMI score prior to cohort entry.
+
+```{r setup}
+#library(rAURUM)
+devtools::load_all()
+```
+
+# Data structure
+
+This vignette assumes you are working with the 'flatfiles', which is an extract of the entire CPRD AURUM database. For many research projects, you may be provided only with data for individuals that meet a certain inclusion criteria (i.e. a diagnoses of type 1 diabetes between 2000 - 2020). We believe the data is formatted the same way regardless of whether you are working with the flatfiles or not, so this vignette should still be relevant. *Would be great to get someone who is working with a dataset defined this way to test the package*. The CPRD AURUM data is split into eight different file types: Consultation, DrugIssue, Observation, Patient, Practice, Problem, Referral, Staff. The data specification is available here: https://cprd.com/sites/default/files/2022-02/CPRD%20Aurum%20Data%20Specification%20v2.7%20%28002%29.pdf. For most research questions, the relevant files are Patient, Observation and DrugIssue. The Patient file is often required to define the cohort. Observation contains all medical diagnoses and tests, while DrugIssue contains all information on prescriptions. There is a limit on file size in the raw data, and so each of the above file types is commonly split up into numerous individual files.
+
+The patient files are split up into groups of *CHECK THIS XXXX* 1,000,0000 individuals, denoted by set1, set2, set3, etc. There will be more than 1 observation file for each set of patients, because the file sizes are capped at 1GB. The observation files for patients in setX, will have the corresponding set number in the file name, and then a suffix 1, 2, 3, etc. The same is true for the DrugIssue files. The naming structure for these is as follows:
+
+- aurum_allpatid_setX_extract_patient_001.txt
+- aurum_allpatid_setX_extract_observation_00Y.txt
+- aurum_allpatid_setX_extract_drugissue_00Y.txt
+
+where X and Y take integer values. We have provided simulated .txt patient, observation and drugissue files with these naming conventions. This contains data on 6 fake patients from set 1, split across three observation and DrugIssue files. Note the "allpatid" in the filenames denotes that we are working with the entire CPRD AURUM database. This part of the filename may be altered if you have only been provided with data on a subset of individuals, however we expect the "set" X and suffix Y naming convention to be the same. We will showcase two approaches to extracting data for a cohort, one which is reliant on the data structure and naming conventions to reduce computational time, and one which has no reliance on these things.
+
+# Defining a cohort
+
+The first step is to define a cohort based on your inclusion and exclusion criteria. The patient data for 6 individuals is contained in the file aurum_allpatid_set1_extract_patient_001.txt.
+
+```{r}
+pat <- read.table(system.file("aurum_data", "aurum_allpatid_set1_extract_patient_001.txt", package = "rAURUM"), sep = "\t", header = TRUE)
+pat
+```
+
+In this example, we define our cohort to be those individuals with patids 1, 3, 4 and 6. When extracting the observation and prescription data, you therefore only want to extract data for these individuals.
+
+# Extract cohort data manually using add_to_database
+
+Data for individuals in the cohort of interest is extracted from the .txt files and put into a SQLite database This SQLite database is stored on the hard disk and can be queried when defining an analysis-ready dataset. Each time you want to define a new variable, this is a more computationally efficient way to query the data, in comparison to having to search through hundreds of text files. It also avoids reliance on for loops which when looping through high numbers of files, could introduce errors.
+
+In the most basic application of rAURUM, the function add_to_database can be used to add data from a text file to the SQLite database. Start by defining and connecting to your SQLite database. In this vignette we create a temporary database, but in practice this would be a permanent location the hard disk.
+
+```{r}
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+```
+
+Next we add medical diagnoses data from the observation files to a table within this database, which we call `obs`, using the `add_to_database` function.
+
+```{r}
+add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_observation_001.txt", package = "rAURUM"), 
+                filetype = "observation", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, db = aurum_extract, overwrite = TRUE)
+add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_observation_001.txt", package = "rAURUM"), 
+                filetype = "observation", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, db = aurum_extract, append = TRUE)
+add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_observation_001.txt", package = "rAURUM"), 
+                filetype = "observation", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, db = aurum_extract, append = TRUE)
+
+RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM observation', n = 3)
+```
+
+Next we add the prescription data from the DrugIssue files to a table within this database, which we call `drug`, using the `add_to_database` function.
+
+```{r}
+add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_drugissue_001.txt", package = "rAURUM"), 
+                filetype = "drugissue", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, overwrite = TRUE)
+add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_drugissue_001.txt", package = "rAURUM"), 
+                filetype = "drugissue", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, append = TRUE)
+add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_drugissue_001.txt", package = "rAURUM"), 
+                filetype = "drugissue", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, append = TRUE)
+
+RSQLite::dbListTables(aurum_extract)
+RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM drugissue', n = 3)
+RSQLite::dbDisconnect(aurum_extract)
+```
+
+# Extract cohort data using cprd_extract
+
+Now we do the exact same process but using the cprd_extract function, which will add all files in one go.
+
+Define a new dataset.
+
+```{r}
+aurum_extract2 <- connect_database(tempfile("temp.sqlite"))
+
+cprd_extract(aurum_extract2, 
+             filepath = system.file("aurum_data", package = "rAURUM"), 
+             filetype = "observation", nrows = -1, select = NULL, subset.patids = NULL, use.set = FALSE)
+
+cprd_extract(aurum_extract2, 
+             filepath = system.file("aurum_data", package = "rAURUM"), 
+             filetype = "drugissue", nrows = -1, select = NULL, subset.patids = NULL, use.set = FALSE)
+
+RSQLite::dbListTables(aurum_extract2)
+RSQLite::dbGetQuery(aurum_extract2, 'SELECT * FROM observation', n = 3)
+RSQLite::dbGetQuery(aurum_extract2, 'SELECT * FROM drugissue', n = 3)
+
+### Disconnect
+RSQLite::dbDisconnect(aurum_extract2)
+```
+
+# Repeat extraction using the set variable. I think this should maybe be a seperte vignette?
+
+When the number of patients in your cohort is very large, say 20,000,000, the add_to_database function may perform very slowly. This is because it checks to see whether each patient in the file being added to the database has a patid in the vector subset.patids. We can utilise the structure of the CPRD data to speed up this process. If data has been provided using the "set" structure, we know that we only need to search to see if an individual is in subset.patids that are in the corresponding patient file (e.g. set 1). To achieve this, the subset.patids object should be a dataframe with two columns, as opposed to a vector. The first column should be patid, the second should be "set", reporting the corresponding value of set which the patient belongs to. In our work, where subset.patids was a vector > 20,000,000 in length, subsetting was computationally unfeasible without this extra step.
+
+The first step is therefore to create a patient file, which has an extra variable `set`, which indicates the number following the text string 'set' in the files containing data for that patient. When reading in the patient files to create your cohort, this can be done using the function `extract_txt_pat`. Note that in this example there is only one patient file, with `set = 1`, but in practice there would be numerous patient files that would need to be read in and concatenated to create your cohort.
+
+```{r}
+pat <- extract_txt_pat(system.file("aurum_data", "aurum_allpatid_set1_extract_patient_001.txt", package = "rAURUM"), set = TRUE)
+pat
+```
+
+The add_to_database and cprd_extract functions can then be run using a data.frame of patids and the corresponding set values, in order to apply to subsetting to the appropriate patients. When extracting data from observation files with "set1" in the name, it will only search for patient id's with `set = 1` in the data.frame provided to `subset.patids`.
+
+```{r}
+### Reduce patient cohort to just variables "patid" and "set"
+pat_subset <- pat[,c("patid", "set")]
+pat_subset
+
+### Extract cohort and create sqlite database
+aurum_extract3 <- connect_database(tempfile("temp.sqlite"))
+
+cprd_extract(aurum_extract3, 
+             filepath = system.file("aurum_data", package = "rAURUM"), 
+             filetype = "observation", nrows = -1, select = NULL, subset.patids = pat_subset, use.set = TRUE)
+
+cprd_extract(aurum_extract3, 
+             filepath = system.file("aurum_data", package = "rAURUM"), 
+             filetype = "drugissue", nrows = -1, select = NULL, subset.patids = pat_subset, use.set = TRUE)
+
+RSQLite::dbListTables(aurum_extract3)
+RSQLite::dbGetQuery(aurum_extract3, 'SELECT * FROM observation', n = 50)
+RSQLite::dbGetQuery(aurum_extract3, 'SELECT * FROM drugissue', n = 3)
+
+```
+
+Note that there is no difference in the extracted sqlite database. The computational gains from applying the subsetting in this manner will not be realised in this example, because all the files we have provided have set = 1, and the number of observations is small.
+
+# Creating an analysis-ready dataset
+
+Once the data has been extracted and stored in an sqlite database, it can now be queried to create variables of interest. The `db_query` function will query the sqlite database for observations where medcodeid is in a specified codelist. The `combine_query_boolean` function will assess whether each individual in a specified cohort has an observation in the queried data (obtained using `db_query`) within a specified time frame from the index date, returning a 0/1 vector. This function is useful when defining 'history of' type variables, where we want to know if there is any record of a given condition prior to the index date. The `combine_query` function will merge a specified cohort with the queried data (obtained using `db_query`), returning a specified number of observations within a specified time frame from the index date. This is useful when extracting test data and requiring access to the values of the tests, or when specifying variables that require > 1 observation within a certain time frame (i.e. two prescriptions within a month prior to index date).
+
+However, it is not always necessary to work with these functions directly. We have written a number of functions which should cover the extraction of common variable types. The first is `extract_ho`, which defines a binary variable whether individual has a specified code recorded prior to index date), `extract_time_until` (define a variable for time until record of a specified code or censoring, and an indicator for whether event was observed or censored), and `extract_test` (extract test results between a given time frame for a specified code list).
+
+We have then written a number of functions for extracting specified variables, which do not fit into the above categories. See 
+
+* `extract_age`: Derives age relative to an index date. Assumes individual born on 1st July.
+* `extract_bmi`: Derives BMI scores. Requires specification of codelist for BMI, height, and weight separately.
+* `extract_cholhdl_ratio`: Derives total cholesterol/high-density lipoprotein ratio. Requires specification of separate codelists for total cholesterol/high-density lipoprotein ratio, total cholesterol, and high-density lipoproteins separately.
+* `extract_diabetes`: Derives a categorical variable for history of type 1 diabetes, history of type 2 diabetes or no history of diabetes. Requires specification of separate codelists for type 1 and type 2 diabetes.
+* `extract_ethnicity`: Derives a categorical variable for ethnicity, categories bangladeshi, black african, black caribbean, chinese, indian, other asian, other ethnic group, pakistani or white (a separate code list is required for each).
+* `extract_smoking`: Derives a categorical variable for smoking status. Requires specification of seperate codelists for non-smoker, ex-smoker, light smoker, moderate smoker and heavy smoker. If the most recent smoking status is non-smoker, but there are historical codes which indicate smoking, then individual will be classified as an ex-smoker. 
+* `extract_test_data_var`: Derives standard deviation of test data values recorded over a specified time period.
+
+```{r}
+### Read in codelist
+codelist <- "187341000000114"
+
+### Add an index date to pat
+pat$fup_start <- as.Date("01/01/2020", format = "%d/%m/%Y")
+pat$fup_end <- as.Date("01/01/2024", format = "%d/%m/%Y")
+
+### Extract a history of type variable using extract_ho
+ho <- extract_ho(pat, 
+                 codelist.vector = codelist, 
+                 indexdt = "fup_start", 
+                 db.open = aurum_extract3, 
+                 tab = "observation",
+                 return.output = TRUE)
+str(ho)
+
+### Extract a time until variable using extract_time_until
+time_until <- extract_time_until(pat, 
+                                 codelist.vector = codelist, 
+                                 indexdt = "fup_start", 
+                                 censdt = "fup_end",
+                                 db.open = aurum_extract3, 
+                                 tab = "observation",
+                                 return.output = TRUE)
+str(time_until)
+
+### Extract test data using extract_test_data
+test_data <- extract_test_data(pat, 
+                               codelist.vector = codelist, 
+                               indexdt = "fup_start", 
+                               db.open = aurum_extract3, 
+                               return.output = TRUE)
+str(test_data)
+```
+
+
