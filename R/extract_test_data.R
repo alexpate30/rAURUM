@@ -15,12 +15,12 @@
 #' @param lower.bound Lower bound for returned values.
 #' @param upper.bound Upper bound for returned values.
 #' @param db.open An open SQLite database connection created using RSQLite::dbConnect, to be queried.
-#' @param db Name of SQLITE database on hard disk, to be queried.
+#' @param db Name of SQLITE database on hard disk (stored in "data/sql/"), to be queried.
 #' @param db.filepath Full filepath to SQLITE database on hard disk, to be queried.
-#' @param out.save.disk TRUE/FALSE whether to save extracted variable to the hard disk.
-#' @param out.subdir Name of subdirectory in which to save extracted variable.
-#' @param out.filepath Name of filepath in which to save extracted variable.
-#' @param return.output TRUE/FALSE whether to return data frame containing extracted variable into the R workspace.
+#' @param out.save.disk If `TRUE` will attempt to save outputted data frame to directory "data/extraction/".
+#' @param out.subdir Sub-directory of "data/extraction/" to save outputted data frame into.
+#' @param out.filepath Full filepath and filename to save outputted data frame into.
+#' @param return.output If `TRUE` will return outputted data frame into R workspace.
 #'
 #' @details Specifying `db` requires a specific underlying directory structure. The SQLite database must be stored in "data/sql/" relative to the working directory.
 #' If the SQLite database is accessed through `db`, the connection will be opened and then closed after the query is complete. The same is true if

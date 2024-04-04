@@ -16,8 +16,8 @@ extract_time_until(
   t.varname = TRUE,
   db.open = NULL,
   db = NULL,
-  tab,
   db.filepath = NULL,
+  tab = c("observation", "drugissue", "hes_primary", "death"),
   out.save.disk = FALSE,
   out.subdir = NULL,
   out.filepath = NULL,
@@ -45,19 +45,19 @@ extract_time_until(
 
 \item{db.open}{An open SQLite database connection created using RSQLite::dbConnect, to be queried.}
 
-\item{db}{Name of SQLITE database on hard disk, to be queried.}
-
-\item{tab}{Table name to query in SQLite database.}
+\item{db}{Name of SQLITE database on hard disk (stored in "data/sql/"), to be queried.}
 
 \item{db.filepath}{Full filepath to SQLITE database on hard disk, to be queried.}
 
-\item{out.save.disk}{TRUE/FALSE whether to save extracted variable to the hard disk.}
+\item{tab}{Table name to query in SQLite database.}
 
-\item{out.subdir}{Name of subdirectory in which to save extracted variable.}
+\item{out.save.disk}{If \code{TRUE} will attempt to save outputted data frame to directory "data/extraction/".}
 
-\item{out.filepath}{Name of filepath in which to save extracted variable.}
+\item{out.subdir}{Sub-directory of "data/extraction/" to save outputted data frame into.}
 
-\item{return.output}{TRUE/FALSE whether to return data frame containing extracted variable into the R workspace.}
+\item{out.filepath}{Full filepath and filename to save outputted data frame into.}
+
+\item{return.output}{If \code{TRUE} will return outputted data frame into R workspace.}
 }
 \value{
 A data frame with variable patid, a variable containing the time until event/censoring, and a variable containing event/censoring indicator.

@@ -17,8 +17,8 @@ extract_ho(
   numobs = 1,
   db.open = NULL,
   db = NULL,
-  tab,
   db.filepath = NULL,
+  tab = c("observation", "drugissue", "hes_primary", "death"),
   out.save.disk = FALSE,
   out.subdir = NULL,
   out.filepath = NULL,
@@ -48,19 +48,19 @@ extract_ho(
 
 \item{db.open}{An open SQLite database connection created using RSQLite::dbConnect, to be queried.}
 
-\item{db}{Name of SQLITE database on hard disk, to be queried.}
-
-\item{tab}{Table name to query in SQLite database.}
+\item{db}{Name of SQLITE database on hard disk (stored in "data/sql/"), to be queried.}
 
 \item{db.filepath}{Full filepath to SQLITE database on hard disk, to be queried.}
 
-\item{out.save.disk}{TRUE/FALSE whether to save extracted variable to the hard disk.}
+\item{tab}{Table name to query in SQLite database.}
 
-\item{out.subdir}{Name of subdirectory in which to save extracted variable.}
+\item{out.save.disk}{If \code{TRUE} will attempt to save outputted data frame to directory "data/extraction/".}
 
-\item{out.filepath}{Name of filepath in which to save extracted variable.}
+\item{out.subdir}{Sub-directory of "data/extraction/" to save outputted data frame into.}
 
-\item{return.output}{TRUE/FALSE whether to return data frame containing extracted variable into the R workspace.}
+\item{out.filepath}{Full filepath and filename to save outputted data frame into.}
+
+\item{return.output}{If \code{TRUE} will return outputted data frame into R workspace.}
 }
 \value{
 A data frame with a 0/1 vector and patid.
@@ -76,7 +76,7 @@ the database is accessed through \code{db.filepath}. A connection to the SQLite 
 using the object as input to parameter \code{db.open}. After wards, the connection must be closed manually using \code{RSQLite::dbDisconnect}. If \code{db.open} is specified, this will take precedence over \code{db} or \code{db.filepath}.
 
 If \code{out.save.disk = TRUE}, the data frame will automatically be written to an .rds file in a subdirectory "data/extraction/" of the working directory.
-This directory structure must be created in advance. \code{out.subdir} can be used to specify subdirectories within "data/extraction/". These options will use a default naming convetion. This can be overwritten
+This directory structure must be created in advance. \code{out.subdir} can be used to specify subdirectories within "data/extraction/". These options will use a default naming convention. This can be overwritten
 using \code{out.filepath} to manually specify the location on the hard disk to save. Alternatively, return the data frame into the R workspace using \code{return.output = TRUE}
 and then save onto the hard disk manually.
 }

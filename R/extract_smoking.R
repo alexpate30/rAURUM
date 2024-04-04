@@ -1,4 +1,52 @@
-### Program to extract smoking status
+#' Extract smoking status prior to index date.
+#'
+#' @description
+#' Extract smoking status prior to index date.
+#'
+#' @param cohort Cohort to extract age for.
+#' @param varname Optional name for variable in output dataset.
+#' @param codelist.non Name of codelist (stored on hard disk in "codelists/analysis/") for non-smoker to query the database with.
+#' @param codelist.ex Name of codelist (stored on hard disk in "codelists/analysis/") for ex-smoker to query the database with.
+#' @param codelist.light Name of codelist (stored on hard disk in "codelists/analysis/") for light smoker to query the database with.
+#' @param codelist.mod Name of codelist (stored on hard disk in "codelists/analysis/") for moderate smoker to query the database with.
+#' @param codelist.heavy Name of codelist (stored on hard disk in "codelists/analysis/") for heavy smoker to query the database with.
+#' @param codelist.non.vector Vector of codes for non-smoker to query the database with.
+#' @param codelist.ex.vector Vector of codes for ex-smoker to query the database with.
+#' @param codelist.light.vector Vector of codes for light smoker to query the database with.
+#' @param codelist.mod.vector Vector of codes for moderate smoker to query the database with.
+#' @param codelist.heavy.vector Vector of codes for heavy smoker to query the database with.
+#' @param indexdt Name of variable which defines index date in `cohort`.
+#' @param t Number of days after index date at which to calculate variable.
+#' @param t.varname Whether to add `t` to `varname`.
+#' @param db.open An open SQLite database connection created using RSQLite::dbConnect, to be queried.
+#' @param db Name of SQLITE database on hard disk (stored in "data/sql/"), to be queried.
+#' @param db.filepath Full filepath to SQLITE database on hard disk, to be queried.
+#' @param out.save.disk If `TRUE` will attempt to save outputted data frame to directory "data/extraction/".
+#' @param out.subdir Sub-directory of "data/extraction/" to save outputted data frame into.
+#' @param out.filepath Full filepath and filename to save outputted data frame into.
+#' @param return.output If `TRUE` will return outputted data frame into R workspace.
+#'
+#' @details Specifying `db` requires a specific underlying directory structure. The SQLite database must be stored in "data/sql/" relative to the working directory.
+#' If the SQLite database is accessed through `db`, the connection will be opened and then closed after the query is complete. The same is true if
+#' the database is accessed through `db.filepath`. A connection to the SQLite database can also be opened manually using `RSQLite::dbConnect`, and then
+#' using the object as input to parameter `db.open`. After wards, the connection must be closed manually using `RSQLite::dbDisconnect`. If `db.open` is specified, this will take precedence over `db` or `db.filepath`.
+#'
+#' If `out.save.disk = TRUE`, the data frame will automatically be written to an .rds file in a subdirectory "data/extraction/" of the working directory.
+#' This directory structure must be created in advance. `out.subdir` can be used to specify subdirectories within "data/extraction/". These options will use a default naming convetion. This can be overwritten
+#' using `out.filepath` to manually specify the location on the hard disk to save. Alternatively, return the data frame into the R workspace using `return.output = TRUE`
+#' and then save onto the hard disk manually.
+#'
+#' Specifying the non-vector type codelists requires a specific underlying directory structure. The codelist on the hard disk must be stored in "codelists/analysis/" relative
+#' to the working directory, must be a .csv file, and contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the chosen `tab`. The input
+#' to these variables should just be the name of the files (excluding the suffix .csv). The codelists can also be read in manually, and supplied as a
+#' character vector. This option will take precedence over the codelists stored on the hard disk if both are specified.
+#'
+#' We take the most recent smoking status record. If an individuals most recent smoking status is a non-smoker,
+#' but they have a history of smoking prior to this, these individuals will be classed as ex-smokers.
+#'
+#' @returns A data frame with variable smoking status.
+#'
+#' @export
 extract_smoking <- function(cohort,
                             varname = NULL,
                             codelist.non,
@@ -22,21 +70,21 @@ extract_smoking <- function(cohort,
                             out.filepath = NULL,
                             return.output = FALSE){
 
-#   varname = NULL
-#   codelist.non = "edh_smoking_non_medcodeid"
-#   codelist.ex = "edh_smoking_ex_medcodeid"
-#   codelist.light = "edh_smoking_light_medcodeid"
-#   codelist.mod = "edh_smoking_mod_medcodeid"
-#   codelist.heavy = "edh_smoking_heavy_medcodeid"
-#   cohort = cohortZ
-#   indexdt = "fup_start"
-#   t = NULL
-#   db = "aurum_small"
-#   db.filepath = NULL
-#   out.save.disk = TRUE
-#   out.filepath = NULL
-#   out.subdir = NULL
-#   return.output = TRUE
+  #   varname = NULL
+  #   codelist.non = "edh_smoking_non_medcodeid"
+  #   codelist.ex = "edh_smoking_ex_medcodeid"
+  #   codelist.light = "edh_smoking_light_medcodeid"
+  #   codelist.mod = "edh_smoking_mod_medcodeid"
+  #   codelist.heavy = "edh_smoking_heavy_medcodeid"
+  #   cohort = cohortZ
+  #   indexdt = "fup_start"
+  #   t = NULL
+  #   db = "aurum_small"
+  #   db.filepath = NULL
+  #   out.save.disk = TRUE
+  #   out.filepath = NULL
+  #   out.subdir = NULL
+  #   return.output = TRUE
 
   ### Preparation
   ## Add index date variable to cohort and change indexdt based on t

@@ -206,7 +206,7 @@ db_query <- function(codelist,
                      db.open = NULL,
                      db,
                      db.filepath,
-                     tab,
+                     tab = c("observation", "drugissue", "hes_primary", "death"),
                      codelist.vector = NULL){
 
   ### Extract codelist

@@ -16,7 +16,6 @@ VignetteBuilder: knitr
 Depends: 
     data.table
 Imports: 
-    devtools,
     dplyr,
     fastmatch,
     RSQLite,
