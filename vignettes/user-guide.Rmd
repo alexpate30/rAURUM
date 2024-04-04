@@ -214,4 +214,6 @@ test_data <- extract_test_data(pat,
 str(test_data)
 ```
 
+Note that all the functions for extracting variables also have an option `out.save.disk` for saving the extracted data directly onto the hard disk. for this I recommend having the file structure of "data/extraction/" within the working directory, and the extracted dat will save automatically into this folder. The filepath can also be specified manually.
 
+There is similar functionality when specifying the code lists. If the codelists are all stored in a directory "codelists/analysis/", they can be referred to by name in the `codelist` argument, as opposed to reading in the codelist manually, and then specifying through `codelist.vector`. I will be writing up more documentation on the appropriate directory structures to use these functions most efficiently.
