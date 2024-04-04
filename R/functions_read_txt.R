@@ -36,6 +36,11 @@ extract_txt_pat <- function(filepath, ..., set = FALSE){
   out <- utils::read.table(filepath, sep = "\t", ..., header = TRUE, colClasses = c("character", "integer", "character", "integer", "integer", "integer",
                                                                                     "character", "character", "integer", "character", "integer", "character"))
 
+  ## Convert to dates where relevant
+  out$regstartdate <- as.Date(out$regstartdate, format = "%d/%m/%Y")
+  out$regenddate <- as.Date(out$regenddate, format = "%d/%m/%Y")
+  out$cprd_ddate <- as.Date(out$cprd_ddate, format = "%d/%m/%Y")
+
   ### Extract the 'set' from the filename
   if (set == TRUE){
     ### Get value of set

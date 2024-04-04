@@ -9,8 +9,8 @@
 #' @param select Vector of column names to select before adding to the SQLite database.
 #' @param subset.patids Patient id's to subset the .txt file on before adding to the SQLite database.
 #' @param use.set Reduce subset.patids to just those with a corresponding set value to the .txt file being read in. Can greatly improve computational efficiency when subset.patids is large. See vignette XXXX for more details.
-#' @param db SQLite database connection created using RSQLite::dbConnect.
-#' @param extract.txt.func Function to read the .txt file into R.
+#' @param db  An open SQLite database connection created using RSQLite::dbConnect.
+#' @param extract.txt.func User-defined function to read the .txt file into R.
 #' @param ... Extract arguments passed to read.table (or extract.txt.func) when reading in .txt files.
 #'
 #' @returns Adds .txt file to SQLite database on hard disk.
@@ -34,7 +34,15 @@
 #' change variable formats, or if the variables in the .txt files change in future releases of CPRD AURUM.
 #'
 #' @export
-add_to_database <- function(filepath, filetype, nrows = -1, select = NULL, subset.patids = NULL, use.set = FALSE, db, extract.txt.func = NULL, ...){
+add_to_database <- function(filepath,
+                            filetype = c("observation", "drugissue", "referral", "problem", "consultation", "hes_primary","death"),
+                            nrows = -1,
+                            select = NULL,
+                            subset.patids = NULL,
+                            use.set = FALSE,
+                            db,
+                            extract.txt.func = NULL,
+                            ...){
 
   ### Use the extract_txt function for the relevant filetype, unless otherwise stated by user
   if (is.null(extract.txt.func)){
@@ -82,14 +90,14 @@ add_to_database <- function(filepath, filetype, nrows = -1, select = NULL, subse
 #' @description
 #' Add the raw data from more than one of the CPRD flatfiles to an SQLite database.
 #'
-#' @param db SQLite database connection created using RSQLite::dbConnect.
+#' @param db An open SQLite database connection created using RSQLite::dbConnect.
 #' @param filepath Path to directory containing .txt files.
 #' @param filetype Type of CPRD Aurum file (observation, drugissue, referral, problem, consultation, hes_primary, death)
 #' @param nrows Number of rows to read in from .txt file.
 #' @param select Vector of column names to select before adding to the SQLite database.
 #' @param subset.patids Patient id's to subset the .txt file on before adding to the SQLite database.
 #' @param use.set Reduce subset.patids to just those with a corresponding set value to the .txt file being read in. Can greatly improve computational efficiency when subset.patids is large. See vignette XXXX for more details.
-#' @param extract.txt.func Function to read the .txt file into R.
+#' @param extract.txt.func User-defined function to read the .txt file into R.
 #'
 #' @returns Adds .txt file to SQLite database on hard disk.
 #'
@@ -112,7 +120,14 @@ add_to_database <- function(filepath, filetype, nrows = -1, select = NULL, subse
 #' change variable formats, or if the variables in the .txt files change in future releases of CPRD AURUM.
 #'
 #' @export
-cprd_extract <- function(db, filepath, filetype, nrows = -1, select = NULL, subset.patids = NULL, use.set = FALSE, extract.txt.func = NULL){
+cprd_extract <- function(db,
+                         filepath,
+                         filetype = c("observation", "drugissue", "referral", "problem", "consultation"),
+                         nrows = -1,
+                         select = NULL,
+                         subset.patids = NULL,
+                         use.set = FALSE,
+                         extract.txt.func = NULL){
 
   print(paste("nrows", nrows))
   print(paste("select", select))
@@ -144,6 +159,7 @@ cprd_extract <- function(db, filepath, filetype, nrows = -1, select = NULL, subs
   filenames <- filenames[stringr::str_detect(filenames, filetype)]
 
   if (length(filenames) >= 1){
+    print(paste(filenames[1], Sys.time()))
     ### Apply the add_to_database function to each file
     ## Overwrite for first file
     add_to_database(filenames[1],
@@ -368,11 +384,11 @@ combine_query <- function(cohort,
 
   ### Reduce to variables of interest
   if (query.type == c("med")){
-    cohort.qry <- cohort.qry[,c("patid", "indexdt", "obsdate")]
+    cohort.qry <- cohort.qry[,c("patid", "indexdt", "medcodeid", "obsdate")]
   } else if (query.type == "test"){
     cohort.qry <- cohort.qry[,c("patid", "indexdt", "medcodeid", "obsdate", "value", "numunitid", "numrangelow", "numrangehigh")]
   } else if (query.type == "drug"){
-    cohort.qry <- cohort.qry[,c("patid", "indexdt", "issuedate")]
+    cohort.qry <- cohort.qry[,c("patid", "indexdt", "prodcodeid", "issuedate")]
     ## rename issuedate to obsdate so we can use same code for medical or drug queries
     colnames(cohort.qry)[colnames(cohort.qry) == "issuedate"] <- "obsdate"
   } else if (query.type == "hes_primary"){
@@ -399,10 +415,16 @@ combine_query <- function(cohort,
   ### This will be of use for deriving smoking status
 
   ### Reduce to variables of interest
-  if (query.type %in% c("med", "drug", "hes_primary", "death")){
-    cohort.qry <- cohort.qry[,c("patid", "obsdate")]
+  if (query.type == c("med")){
+    cohort.qry <- cohort.qry[,c("patid", "medcodeid", "obsdate")]
   } else if (query.type == "test"){
     cohort.qry <- cohort.qry[,c("patid", "medcodeid", "obsdate", "value", "numunitid", "numrangelow", "numrangehigh")]
+  } else if (query.type == "drug"){
+    cohort.qry <- cohort.qry[,c("patid", "prodcodeid", "obsdate")]
+  } else if (query.type == "hes_primary"){
+    cohort.qry <- cohort.qry[,c("patid", "obsdate")]
+  }  else if (query.type == "death"){
+    cohort.qry <- cohort.qry[,c("patid", "obsdate")]
   }
 
   ### Group by patid and obsdate and keep the most recent 'numobs' number of observations

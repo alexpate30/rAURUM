@@ -32,6 +32,12 @@
 #' using `out.filepath` to manually specify the location on the hard disk to save. Alternatively, return the data frame into the R workspace using `return.output = TRUE`
 #' and then save onto the hard disk manually.
 #'
+#' Codelists can be specified in two ways. The first is to read the codelist into R as a character vector and then specify through the argument
+#' `codelist.vector`. Codelists stored on the hard disk can also be referred to from the `codelist` argument, but require a specific underlying directory structure.
+#' The codelist on the hard disk must be stored in a directory called "codelists/analysis/" relative to the working directory. The codelist must be a .csv file, and
+#' contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the input for argument `tab`. The input to argument `codelist` should just be a character string of
+#' the name of the files (excluding the suffix '.csv'). The `codelist.vector` option will take precedence over the `codelist` argument if both are specified.
+#'
 #' Currently only returns most recent test result. This will be updated to return more than one most recent test result if specified.
 #'
 #' @returns A data frame containing most recent test result that meets required criteria.
