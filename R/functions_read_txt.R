@@ -40,6 +40,7 @@ extract_txt_pat <- function(filepath, ..., set = FALSE){
   out$regstartdate <- as.Date(out$regstartdate, format = "%d/%m/%Y")
   out$regenddate <- as.Date(out$regenddate, format = "%d/%m/%Y")
   out$cprd_ddate <- as.Date(out$cprd_ddate, format = "%d/%m/%Y")
+  out$emis_ddate <- as.Date(out$emis_ddate, format = "%d/%m/%Y")
 
   ### Extract the 'set' from the filename
   if (set == TRUE){

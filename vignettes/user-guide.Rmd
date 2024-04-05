@@ -106,7 +106,7 @@ add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extrac
                 filetype = "observation", subset.patids = c(1,3,4,6), db = aurum_extract, append = TRUE)
 ```
 
-We can then query this database, by selecting all rows from the *observation* table, and only printing the first 3. More details on how the query an SQLite database using \pkg{RSQLite} is available **HERE XXXX REF**.
+We can then query this database, by selecting all rows from the *observation* table, and only printing the first 3. More details on how to query an SQLite database using \pkg{RSQLite} is available **HERE XXXX REF**. Note that when reading the .txt data into R, the dates are converted into date formats, with a underlying numeric value where day 0 is 01/01/1970. When saved to the SQLite database, it is the underlying numeric values which is saved, hence the dates now appearing as numeric values.
 
 ```{r}
 RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM observation', n = 3)
@@ -135,7 +135,7 @@ We can list all the tables in the SQLite database and see there are now two, nam
 RSQLite::dbListTables(aurum_extract)
 ```
 
-The `add_to_database` function allows specification of `filetype = c("observation", "drugissue", "referral", "problem", "consultation", "hes_primary","death")`, each corresponding to a specific function for reading in the corresponding .txt files with correct formatting. The `"hes_primary"` options corresponding to the primary diagnoses file in linked HES APC data. The `"death"` file corresponds to the death file in the linked ONS data. 
+The `add_to_database` function allows specification of `filetype = c("observation", "drugissue", "referral", "problem", "consultation", "hes_primary","death")`, each corresponding to a specific function for reading in the corresponding .txt files with correct formatting. The `"hes_primary"` options correspond to the primary diagnoses file in linked HES APC data. The `"death"` file corresponds to the death file in the linked ONS data. 
 
 Finally, when manually adding files in this manner, it is good practice to close the connection to the SQLite database once finished.
 
@@ -307,7 +307,8 @@ str(time_until)
 test_data <- extract_test_data(pat, 
                                codelist.vector = codelist, 
                                indexdt = "fup_start", 
-                               db.open = aurum_extract, 
+                               db.open = aurum_extract,
+                               time.prev = Inf,
                                return.output = TRUE)
 str(test_data)
 
