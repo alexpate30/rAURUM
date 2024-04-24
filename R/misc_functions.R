@@ -220,8 +220,8 @@ cprd_extract <- function(db,
 #' @export
 db_query <- function(codelist,
                      db.open = NULL,
-                     db,
-                     db.filepath,
+                     db = NULL,
+                     db.filepath = NULL,
                      tab = c("observation", "drugissue", "hes_primary", "death"),
                      codelist.vector = NULL){
 
@@ -242,7 +242,7 @@ db_query <- function(codelist,
 
   ### Connect to SQLite database
   if (is.null(db.open)){
-    if (is.null(db.filepath)){
+    if (!is.null(db)){
       mydb <- RSQLite::dbConnect(RSQLite::SQLite(), paste("data/sql/", db, ".sqlite", sep = ""))
     } else if (!is.null(db.filepath)){
       mydb <- RSQLite::dbConnect(RSQLite::SQLite(), db.filepath)
@@ -360,6 +360,7 @@ combine_query_boolean <- function(cohort,
 #' @param numobs Number of observations to be returned.
 #' @param value.na.rm If TRUE will remove data with NA in the \code{value} column of the queried data and remove values outside of `lower.bound` and `upper.bound` when `query.type = "test"`.
 #' @param earliest.values If TRUE will return the earliest values as opposed to most recent.
+#' @param reduce.output If TRUE will reduce output to just `patid`, `obsdate`, medical/product code, and test `value`.
 #'
 #' @details `value.na.rm = FALSE` may be of use when extracting variables like smoking status, where we want test data for number of cigarettes per day,
 #' but do not want to remove all observations with NA in the \code{value} column, because the medcodeid itself may indicate smoking status.
@@ -369,35 +370,33 @@ combine_query_boolean <- function(cohort,
 #' @export
 combine_query <- function(cohort,
                           db.query,
-                          query.type = c("med", "test", "drug", "hes_primary", "death"),
+                          query.type = c("med", "test", "drugissue", "hes_primary", "death"),
                           time.prev = Inf,
                           time.post = Inf,
                           lower.bound = -Inf,
                           upper.bound = Inf,
                           numobs = 1,
                           value.na.rm = TRUE,
-                          earliest.values = FALSE){
+                          earliest.values = FALSE,
+                          reduce.output = TRUE){
 
   ### Merge cohort with the database query keeping observations that are in both
   cohort.qry <- merge(cohort, db.query, by.x = "patid", by.y = "patid")
   cohort.qry <- data.table::as.data.table(cohort.qry)
 
-  ### Reduce to variables of interest
+  ### Rename event date variables to all be "obsdate"
   if (query.type == c("med")){
-    cohort.qry <- cohort.qry[,c("patid", "indexdt", "medcodeid", "obsdate")]
+
   } else if (query.type == "test"){
-    cohort.qry <- cohort.qry[,c("patid", "indexdt", "medcodeid", "obsdate", "value", "numunitid", "numrangelow", "numrangehigh")]
-  } else if (query.type == "drug"){
-    cohort.qry <- cohort.qry[,c("patid", "indexdt", "prodcodeid", "issuedate")]
-    ## rename issuedate to obsdate so we can use same code for medical or drug queries
+
+  } else if (query.type == "drugissue"){
+    ## rename issuedate to obsdate so we can use same naming for all queries
     colnames(cohort.qry)[colnames(cohort.qry) == "issuedate"] <- "obsdate"
   } else if (query.type == "hes_primary"){
-    cohort.qry <- cohort.qry[,c("patid", "indexdt", "admidate")]
-    ## rename issuedate to obsdate so we can use same code for medical or drug queries
+    ## rename admidate to obsdate so we can use same naming for all queries
     colnames(cohort.qry)[colnames(cohort.qry) == "admidate"] <- "obsdate"
   }  else if (query.type == "death"){
-    cohort.qry <- cohort.qry[,c("patid", "indexdt", "dod")]
-    ## rename issuedate to obsdate so we can use same code for medical or drug queries
+    ## rename dod to obsdate so we can use same naming for all queries
     colnames(cohort.qry)[colnames(cohort.qry) == "dod"] <- "obsdate"
   }
 
@@ -411,20 +410,23 @@ combine_query <- function(cohort,
       cohort.qry <- cohort.qry[!is.na(value) & value > lower.bound & value < upper.bound]
     }
   }
+
   ### Note that if value.na.rm = FALSE, we will skip this step and keep all test results including NA's.
   ### This will be of use for deriving smoking status
 
   ### Reduce to variables of interest
-  if (query.type == c("med")){
-    cohort.qry <- cohort.qry[,c("patid", "medcodeid", "obsdate")]
-  } else if (query.type == "test"){
-    cohort.qry <- cohort.qry[,c("patid", "medcodeid", "obsdate", "value", "numunitid", "numrangelow", "numrangehigh")]
-  } else if (query.type == "drug"){
-    cohort.qry <- cohort.qry[,c("patid", "prodcodeid", "obsdate")]
-  } else if (query.type == "hes_primary"){
-    cohort.qry <- cohort.qry[,c("patid", "obsdate")]
-  }  else if (query.type == "death"){
-    cohort.qry <- cohort.qry[,c("patid", "obsdate")]
+  if (reduce.output == TRUE){
+    if (query.type == c("med")){
+      cohort.qry <- cohort.qry[,c("patid", "medcodeid", "obsdate")]
+    } else if (query.type == "test"){
+      cohort.qry <- cohort.qry[,c("patid", "medcodeid", "obsdate", "value", "numunitid", "numrangelow", "numrangehigh")]
+    } else if (query.type == "drugissue"){
+      cohort.qry <- cohort.qry[,c("patid", "prodcodeid", "obsdate")]
+    } else if (query.type == "hes_primary"){
+      cohort.qry <- cohort.qry[,c("patid", "obsdate")]
+    }  else if (query.type == "death"){
+      cohort.qry <- cohort.qry[,c("patid", "obsdate")]
+    }
   }
 
   ### Group by patid and obsdate and keep the most recent 'numobs' number of observations

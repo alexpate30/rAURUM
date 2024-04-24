@@ -10,6 +10,7 @@
 #' @param codelist.vector Vector of codes to query the database with. This takes precedent over `codelist` if both are specified.
 #' @param indexdt Name of variable in `cohort` which specifies the index date. The extracted variable will be calculated relative to this.
 #' @param censdt Name of variable in `cohort` which specifies the censoring date.
+#' @param censdt.lag Number of days after censoring where events will still be considered, to account for delays in recording.
 #' @param t Number of days after \code{indexdt} at which to extract the variable.
 #' @param t.varname Whether to alter the variable name in the outputted data frame to reflect `t`.
 #' @param db.open An open SQLite database connection created using RSQLite::dbConnect, to be queried.
@@ -37,6 +38,8 @@
 #' contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the input for argument `tab`. The input to argument `codelist` should just be a character string of
 #' the name of the files (excluding the suffix '.csv'). The `codelist.vector` option will take precedence over the `codelist` argument if both are specified.
 #'
+#' If `dtcens.lag > 0`, then the time until the event of interest will be the time until the minimum of the event of interest, and date of censoring.
+#'
 #' @returns A data frame with variable patid, a variable containing the time until event/censoring, and a variable containing event/censoring indicator.
 #'
 #' @export
@@ -47,6 +50,7 @@ extract_time_until <- function(cohort,
                                codelist.vector = NULL,
                                indexdt,
                                censdt,
+                               censdt.lag = 0,
                                t = NULL,
                                t.varname = TRUE,
                                db.open = NULL,
@@ -114,24 +118,31 @@ extract_time_until <- function(cohort,
                      db.open = db.open,
                      db = db,
                      db.filepath = db.filepath,
-                     tab = "observation",
+                     tab = tab,
                      codelist.vector = codelist.vector)
 
   ### Identify the first CVD event happening after the indexdt
+  ## If tab = "observation", this could be a query.type of "med" or "test", choose "med" as not interested in test results themselves
+  query.type <- tab
+  if (query.type == "observation"){query.type <- "med"}
+
+  ## Combine query
+  ## reduce.output = FALSE because we want access to censdt and
   variable.dat <- combine_query(cohort,
                                 db.query = db.qry,
-                                query.type = tab,
+                                query.type = query.type,
                                 time.prev = 0,
                                 time.post = Inf,
                                 numobs = 1,
                                 value.na.rm = FALSE,
-                                earliest.values = TRUE)
+                                earliest.values = TRUE,
+                                reduce.output = FALSE)
 
   ### Calculate the time until event of interest, set to NA and remove if beyond censdt
   variable.dat <-
     dplyr::mutate(variable.dat,
-                  var_time = dplyr::case_when(obsdate <= censdt ~ obsdate - as.numeric(indexdt),
-                                              obsdate > censdt ~ NA),
+                  var_time = dplyr::case_when(obsdate <= censdt + censdt.lag ~ pmin(obsdate, censdt) - as.numeric(indexdt),
+                                              obsdate > censdt + censdt.lag ~ NA),
                   var_indicator = dplyr::case_when(!is.na(var_time) ~ 1,
                                                    TRUE ~ NA)) |>
     dplyr::filter(!is.na(var_time))
