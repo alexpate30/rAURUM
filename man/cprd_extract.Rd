@@ -2,21 +2,24 @@
 % Please edit documentation in R/misc_functions.R
 \name{cprd_extract}
 \alias{cprd_extract}
-\title{Adds all the .txt files in a directory to an SQLite database on the hard disk.}
+\title{Adds all the .txt files in a directory, with certain filenames, to an SQLite database on the hard disk.}
 \usage{
 cprd_extract(
   db,
   filepath,
-  filetype,
+  filetype = c("observation", "drugissue", "referral", "problem", "consultation",
+    "hes_primary", "death"),
   nrows = -1,
   select = NULL,
   subset.patids = NULL,
   use.set = FALSE,
-  extract.txt.func = NULL
+  extract.txt.func = NULL,
+  str.match = NULL,
+  tablename = NULL
 )
 }
 \arguments{
-\item{db}{SQLite database connection created using RSQLite::dbConnect.}
+\item{db}{An open SQLite database connection created using RSQLite::dbConnect.}
 
 \item{filepath}{Path to directory containing .txt files.}
 
@@ -30,7 +33,11 @@ cprd_extract(
 
 \item{use.set}{Reduce subset.patids to just those with a corresponding set value to the .txt file being read in. Can greatly improve computational efficiency when subset.patids is large. See vignette XXXX for more details.}
 
-\item{extract.txt.func}{Function to read the .txt file into R.}
+\item{extract.txt.func}{User-defined function to read the .txt file into R.}
+
+\item{str.match}{Character vector to match on when searching for filenames to add to the database.}
+
+\item{tablename}{Name of table in SQLite database that the data will be added to.}
 }
 \value{
 Adds .txt file to SQLite database on hard disk.
@@ -39,6 +46,15 @@ Adds .txt file to SQLite database on hard disk.
 Add the raw data from more than one of the CPRD flatfiles to an SQLite database.
 }
 \details{
+By default, will add files that contain \code{filetype} in the filename to a table named \code{filetype} in the SQLite database.
+If \code{str.match} is specified, will add files that contain \code{str.match} in the filename to a table named \code{str.match} in the SQLite database.
+In this case, \code{filetype} will still be used to choose which function reads in and formats the raw data, although this can be overwritten with
+\code{extract.txt.func}. If argument \code{tablename} is specified, data will be added to a table called \code{tablename} in the SQLite database.
+
+Currently, rAURUM only deals with \code{filetype = c("observation", "drugissue", "referral", "problem", "consultation", "hes_primary", "death")} by default.
+However, by using \code{str.match} and \code{extract.txt.func}, the user can manually search for files with any string in the file name, and read them in
+and format using a user-defined function. This means the user is not restricted to only adding the pre-defined file types to the SQLite database.
+
 If \code{use.set = FALSE}, then \code{subset.patids} should be a vector of patid's that the .txt files will be subsetted on before adding to the SQLite database.
 If \code{use.set = TRUE}, then \code{subset.patids} should be a dataframe with two columns, \code{patid} and \code{set}, where \code{set} corresponds to the number in the filename
 following the word 'set'. This functionality is provided to increase computational efficiency when subsetting to a cohort of patients which is very large (millions).
@@ -52,7 +68,7 @@ subset.patids (our cohort), we only need to do so for patients who were also in 
 If the cohort of patients for which you want to subset the data to is very small, the computational gains from this argument are minor and it
 can be ignored.
 
-The function for reading in the .txt file will be chosen from a set of functions provided with rAURUM, based on  the fletype (\code{filetype}).
+The function for reading in the .txt file will be chosen from a set of functions provided with rAURUM, based on  the filetype (\code{filetype}).
 \code{extract.txt.func} does not need to be specified unless wanting to manually define the function for doing this. This may be beneficial if wanting to
-change variable formats, or if the variables in the .txt files change in future releases of CPRD AURUM.
+change variable formats, or if the variables in the .txt files change in future releases of CPRD AURUM and rAURUM has not been updated.
 }

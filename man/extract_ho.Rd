@@ -79,4 +79,10 @@ If \code{out.save.disk = TRUE}, the data frame will automatically be written to 
 This directory structure must be created in advance. \code{out.subdir} can be used to specify subdirectories within "data/extraction/". These options will use a default naming convention. This can be overwritten
 using \code{out.filepath} to manually specify the location on the hard disk to save. Alternatively, return the data frame into the R workspace using \code{return.output = TRUE}
 and then save onto the hard disk manually.
+
+Codelists can be specified in two ways. The first is to read the codelist into R as a character vector and then specify through the argument
+\code{codelist.vector}. Codelists stored on the hard disk can also be referred to from the \code{codelist} argument, but require a specific underlying directory structure.
+The codelist on the hard disk must be stored in a directory called "codelists/analysis/" relative to the working directory. The codelist must be a .csv file, and
+contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the input for argument \code{tab}. The input to argument \code{codelist} should just be a character string of
+the name of the files (excluding the suffix '.csv'). The \code{codelist.vector} option will take precedence over the \code{codelist} argument if both are specified.
 }

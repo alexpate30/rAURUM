@@ -7,8 +7,8 @@
 db_query(
   codelist,
   db.open = NULL,
-  db,
-  db.filepath,
+  db = NULL,
+  db.filepath = NULL,
   tab = c("observation", "drugissue", "hes_primary", "death"),
   codelist.vector = NULL
 )

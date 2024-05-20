@@ -7,14 +7,15 @@
 combine_query(
   cohort,
   db.query,
-  query.type = c("med", "test", "drug", "hes_primary", "death"),
+  query.type = c("med", "test", "drugissue", "hes_primary", "death"),
   time.prev = Inf,
   time.post = Inf,
   lower.bound = -Inf,
   upper.bound = Inf,
   numobs = 1,
   value.na.rm = TRUE,
-  earliest.values = FALSE
+  earliest.values = FALSE,
+  reduce.output = TRUE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ combine_query(
 \item{value.na.rm}{If TRUE will remove data with NA in the \code{value} column of the queried data and remove values outside of \code{lower.bound} and \code{upper.bound} when \code{query.type = "test"}.}
 
 \item{earliest.values}{If TRUE will return the earliest values as opposed to most recent.}
+
+\item{reduce.output}{If TRUE will reduce output to just \code{patid}, \code{obsdate}, medical/product code, and test \code{value}.}
 }
 \value{
 A data.table with observations that meet specified criteria.

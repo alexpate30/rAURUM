@@ -6,13 +6,15 @@
 \usage{
 add_to_database(
   filepath,
-  filetype,
+  filetype = c("observation", "drugissue", "referral", "problem", "consultation",
+    "hes_primary", "death"),
   nrows = -1,
   select = NULL,
   subset.patids = NULL,
   use.set = FALSE,
   db,
   extract.txt.func = NULL,
+  tablename = NULL,
   ...
 )
 }
@@ -29,9 +31,11 @@ add_to_database(
 
 \item{use.set}{Reduce subset.patids to just those with a corresponding set value to the .txt file being read in. Can greatly improve computational efficiency when subset.patids is large. See vignette XXXX for more details.}
 
-\item{db}{SQLite database connection created using RSQLite::dbConnect.}
+\item{db}{An open SQLite database connection created using RSQLite::dbConnect.}
 
-\item{extract.txt.func}{Function to read the .txt file into R.}
+\item{extract.txt.func}{User-defined function to read the .txt file into R.}
+
+\item{tablename}{Name of table in SQLite database that the data will be added to.}
 
 \item{...}{Extract arguments passed to read.table (or extract.txt.func) when reading in .txt files.}
 }
@@ -42,6 +46,8 @@ Adds .txt file to SQLite database on hard disk.
 Add the raw data from one of the CPRD flatfiles to an SQLite database.
 }
 \details{
+Will add the file to a table named \code{filetype} in the SQLite database, unless \code{tablename} is specified.
+
 If \code{use.set = FALSE}, then \code{subset.patids} should be a vector of patid's that the .txt files will be subsetted on before adding to the SQLite database.
 If \code{use.set = TRUE}, then \code{subset.patids} should be a dataframe with two columns, \code{patid} and \code{set}, where \code{set} corresponds to the number in the filename
 following the word 'set'. This functionality is provided to increase computational efficiency when subsetting to a cohort of patients which is very large (millions).
