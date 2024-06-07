@@ -22,7 +22,7 @@ extract_ho(
   out.save.disk = FALSE,
   out.subdir = NULL,
   out.filepath = NULL,
-  return.output = FALSE
+  return.output = TRUE
 )
 }
 \arguments{

@@ -10,10 +10,10 @@ extract_ethnicity(
   db.open = NULL,
   db = NULL,
   db.filepath = NULL,
-  out.save.disk = TRUE,
+  out.save.disk = FALSE,
   out.subdir = NULL,
   out.filepath = NULL,
-  return.output = FALSE
+  return.output = TRUE
 )
 }
 \arguments{

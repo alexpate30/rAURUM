@@ -106,13 +106,40 @@ testthat::test_that("Extract multiple ways and expect equivalence. Testing add_t
   ### Disconnect
   RSQLite::dbDisconnect(aurum_extract)
 
+  ###
+  ### Attempt 5 (manually define str.match and tablename)
+
+  ### Reconnect
+  aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+  ### Extract data using cprd_Extract
+  cprd_extract(aurum_extract,
+               filepath = system.file("aurum_data", package = "rAURUM"),
+               filetype = "observation", subset.patids = c(1,3,4,6),
+               str.match = "observation", tablename = "scrambled", use.set = FALSE)
+
+  cprd_extract(aurum_extract,
+               filepath = system.file("aurum_data", package = "rAURUM"),
+               filetype = "drugissue", subset.patids = c(1,3,4,6),
+               str.match = "drugissue", tablename = "eggs", use.set = FALSE)
+
+  ### Save output
+  obs5 <- RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM scrambled')
+  drugissue5 <- RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM eggs')
+  testthat::expect_equal(RSQLite::dbListTables(aurum_extract), c("eggs", "scrambled"))
+
+  ### Disconnect
+  RSQLite::dbDisconnect(aurum_extract)
+
   ### Test for equivalence between extracts
   testthat::expect_equal(obs1, obs2)
   testthat::expect_equal(obs1, obs3)
   testthat::expect_equal(obs1, obs4)
+  testthat::expect_equal(obs1, obs5)
   testthat::expect_equal(drugissue1, drugissue2)
   testthat::expect_equal(drugissue1, drugissue3)
   testthat::expect_equal(drugissue1, drugissue4)
+  testthat::expect_equal(drugissue1, drugissue5)
 
   ###
   ### Attempt 6 (expect an error due to no filenames)
