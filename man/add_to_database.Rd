@@ -49,7 +49,7 @@ Add the raw data from one of the CPRD flatfiles to an SQLite database.
 Will add the file to a table named \code{filetype} in the SQLite database, unless \code{tablename} is specified.
 
 If \code{use.set = FALSE}, then \code{subset.patids} should be a vector of patid's that the .txt files will be subsetted on before adding to the SQLite database.
-If \code{use.set = TRUE}, then \code{subset.patids} should be a dataframe with two columns, \code{patid} and \code{set}, where \code{set} corresponds to the number in the filename
+If \code{use.set = TRUE}, then \code{subset.patids} should be a dataframe with two columns, \code{patid} and \code{set}, where \code{set} corresponds to the number in the file name
 following the word 'set'. This functionality is provided to increase computational efficiency when subsetting to a cohort of patients which is very large (millions).
 This can be a computationally expensive process as each flatfile being read in, must be cross matched with a large vector .
 The CPRD flatfiles are split up into groups which can be identified from their naming convention. Patients from set 1, will have their data

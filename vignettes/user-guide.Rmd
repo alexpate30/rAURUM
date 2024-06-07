@@ -14,6 +14,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+*All data used in this vignette is simulated at random and does not contain any real patient data.*
+
 # Introduction
 
 This vignette will outline how to extract CPRD AURUM data for a cohort of individuals using the \pkg{rAURUM} package. There are two main scenarios:
@@ -34,7 +36,7 @@ A few key pieces of terminology that will be used in this vignette:
 - Analysis-ready dataset: A data frame with one row for each individual in the cohort, and a column for each variable of interest, for example, age at cohort entry, or most recent BMI score prior to cohort entry.
 
 ```{r setup}
-#library(rAURUM)
+library(rAURUM)
 devtools::load_all()
 ```
 
@@ -63,6 +65,8 @@ We recommend this process for the following reasons. Once set up, querying the S
 
 # Defining a cohort
 
+This section is only applicable if the user is required to define a cohort using the raw data.
+
 The first step is to define a cohort based on your inclusion and exclusion criteria. The simulated patient data for 6 individuals is contained in the file aurum_allpatid_set1_extract_patient_001.txt. We read this in using the function `extract_txt_pat`, which is just a wrapper for `read.table` which formats the variables appropriately.
 
 ```{r}
@@ -80,8 +84,6 @@ However, it is common for inclusion/exclusion criteria to also be dependent on m
 * Step 4: [Optional] Reduce SQLite database to only contain data on individuals in final cohort. This may be worthwhile if the inclusion/exclusion criteria in step 3 excluded a large number of individuals. This will mean future queries into the SQLite database will run much quicker.
 * Step 5: Query this SQLite database for specific codes and tests to create variables for each individual in the cohort.
 * Step 6: Combine extracted variables into an analysis-ready dataset.
-
-This section is only applicable if the user is required to define a cohort using the raw data.
 
 # Creating an SQLite database
 

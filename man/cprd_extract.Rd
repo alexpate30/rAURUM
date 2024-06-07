@@ -2,7 +2,7 @@
 % Please edit documentation in R/misc_functions.R
 \name{cprd_extract}
 \alias{cprd_extract}
-\title{Adds all the .txt files in a directory, with certain filenames, to an SQLite database on the hard disk.}
+\title{Adds all the .txt files in a directory, with certain file names, to an SQLite database on the hard disk.}
 \usage{
 cprd_extract(
   db,
@@ -35,7 +35,7 @@ cprd_extract(
 
 \item{extract.txt.func}{User-defined function to read the .txt file into R.}
 
-\item{str.match}{Character vector to match on when searching for filenames to add to the database.}
+\item{str.match}{Character vector to match on when searching for file names to add to the database.}
 
 \item{tablename}{Name of table in SQLite database that the data will be added to.}
 }
@@ -46,8 +46,8 @@ Adds .txt file to SQLite database on hard disk.
 Add the raw data from more than one of the CPRD flatfiles to an SQLite database.
 }
 \details{
-By default, will add files that contain \code{filetype} in the filename to a table named \code{filetype} in the SQLite database.
-If \code{str.match} is specified, will add files that contain \code{str.match} in the filename to a table named \code{str.match} in the SQLite database.
+By default, will add files that contain \code{filetype} in the file name to a table named \code{filetype} in the SQLite database.
+If \code{str.match} is specified, will add files that contain \code{str.match} in the file name to a table named \code{str.match} in the SQLite database.
 In this case, \code{filetype} will still be used to choose which function reads in and formats the raw data, although this can be overwritten with
 \code{extract.txt.func}. If argument \code{tablename} is specified, data will be added to a table called \code{tablename} in the SQLite database.
 
@@ -56,13 +56,13 @@ However, by using \code{str.match} and \code{extract.txt.func}, the user can man
 and format using a user-defined function. This means the user is not restricted to only adding the pre-defined file types to the SQLite database.
 
 If \code{use.set = FALSE}, then \code{subset.patids} should be a vector of patid's that the .txt files will be subsetted on before adding to the SQLite database.
-If \code{use.set = TRUE}, then \code{subset.patids} should be a dataframe with two columns, \code{patid} and \code{set}, where \code{set} corresponds to the number in the filename
+If \code{use.set = TRUE}, then \code{subset.patids} should be a dataframe with two columns, \code{patid} and \code{set}, where \code{set} corresponds to the number in the file name
 following the word 'set'. This functionality is provided to increase computational efficiency when subsetting to a cohort of patients which is very large (millions).
 This can be a computationally expensive process as each flatfile being read in, must be cross matched with a large vector .
 The CPRD flatfiles are split up into groups which can be identified from their naming convention. Patients from set 1, will have their data
 in DrugIssue, Observation, etc, all with the same "set" suffix in the flatfile name. We can utilise this to speed up the process of subsetting
 the data from the flatfiles to only those with patids in subset.patid. Instead we subset to those with patids in subset.patids, and with the
-corresponding value of "set", which matches the suffix "set" in the CPRD flatfile filename. For example, patients in the Patient file which had
+corresponding value of "set", which matches the suffix "set" in the CPRD flatfile file name. For example, patients in the Patient file which had
 suffix "set1", will have their medical data in the Observation file with suffix "set1". When subsetting the Observation file to those in
 subset.patids (our cohort), we only need to do so for patients who were also in the patient file with suffix "set1".
 If the cohort of patients for which you want to subset the data to is very small, the computational gains from this argument are minor and it
