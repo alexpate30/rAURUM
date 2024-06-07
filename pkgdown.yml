@@ -2,8 +2,8 @@ pandoc: 3.1.11
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
-  user-guide: user-guide.html
-last_built: 2024-06-07T15:37Z
+  rAURUM: rAURUM.html
+last_built: 2024-06-07T16:01Z
 urls:
   reference: https://alexpate30.github.io/rAURUM/reference
   article: https://alexpate30.github.io/rAURUM/articles
