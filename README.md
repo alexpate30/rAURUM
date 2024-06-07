@@ -18,7 +18,10 @@ the R workspace. rAURUM utilises
 [RSQLite](https://cran.r-project.org/web/packages/RSQLite/index.html) to
 create SQLite databases which are stored on the hard disk. These are
 then queried to extract the required information for a cohort of
-interest.
+interest. The processes follow closely that from the
+[rEHR](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5323003/) package,
+which was designed for extractin CPRD GOLD data, and is no longer
+available on CRAN.
 
 For a detailed guide on how to use **rAURUM** please see the [user-guide
 vignette](https://alexpate30.github.io/rAURUM/articles/user-guide.html).
@@ -46,7 +49,6 @@ Load rAURUM:
 ``` r
 library(rAURUM)
 #> Loading required package: data.table
-#> Warning: package 'data.table' was built under R version 4.3.3
 ```
 
 Read in patient file:
