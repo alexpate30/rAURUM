@@ -380,12 +380,12 @@ the same as previously.</p>
 <span><span class="co">#&gt; [1] "nrows -1"</span></span>
 <span><span class="co">#&gt; [1] "select "</span></span>
 <span><span class="co">#&gt; [1] "use.set FALSE"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-07 12:49:48.402658"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-07 12:49:48.415384"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-07 12:49:48.426392"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-07 14:28:42.793637"</span></span>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-07 14:28:42.806272"</span></span>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-07 14:28:42.817217"</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co">### Queyr first three rows</span></span>
+<span><span class="co">### Query first three rows</span></span>
 <span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">aurum_extract</span>, <span class="st">'SELECT * FROM observation'</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patid consid pracid obsid obsdate enterdate staffid parentobsid</span></span>
 <span><span class="co">#&gt; 1     1     33      1   100  -15931      -994      79          95</span></span>
@@ -408,9 +408,9 @@ the same as previously.</p>
 <span><span class="co">#&gt; [1] "nrows -1"</span></span>
 <span><span class="co">#&gt; [1] "select "</span></span>
 <span><span class="co">#&gt; [1] "use.set FALSE"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-07 12:49:48.508777"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-07 12:49:48.521154"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-07 12:49:48.532094"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-07 14:28:42.90107"</span></span>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-07 14:28:42.914559"</span></span>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-07 14:28:42.927081"</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">### List tables</span></span>
@@ -525,9 +525,9 @@ the data.frame provided to <code>subset.patids</code>.</p>
 <span><span class="co">#&gt; [1] "nrows -1"</span></span>
 <span><span class="co">#&gt; [1] "select "</span></span>
 <span><span class="co">#&gt; [1] "use.set TRUE"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-07 12:49:48.688882"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-07 12:49:48.704954"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-07 12:49:48.717659"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-07 14:28:43.086369"</span></span>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-07 14:28:43.102229"</span></span>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-07 14:28:43.114815"</span></span></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">### Add drugissue files</span></span>
@@ -537,9 +537,9 @@ the data.frame provided to <code>subset.patids</code>.</p>
 <span><span class="co">#&gt; [1] "nrows -1"</span></span>
 <span><span class="co">#&gt; [1] "select "</span></span>
 <span><span class="co">#&gt; [1] "use.set TRUE"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-07 12:49:48.733943"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-07 12:49:48.747428"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-07 12:49:48.75992"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-07 14:28:43.131586"</span></span>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-07 14:28:43.146261"</span></span>
+<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-07 14:28:43.158812"</span></span></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">### Query first three rows of each table</span></span>
