@@ -62,10 +62,10 @@ extract_bmi <- function(cohort,
                         db.open = NULL,
                         db = NULL,
                         db.filepath = NULL,
-                        out.save.disk = TRUE,
+                        out.save.disk = FALSE,
                         out.subdir = NULL,
                         out.filepath = NULL,
-                        return.output = FALSE){
+                        return.output = TRUE){
 
   #         varname = NULL
   #         cohort = cohortZ

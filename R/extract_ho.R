@@ -59,7 +59,7 @@ extract_ho <- function(cohort,
                        out.save.disk = FALSE,
                        out.subdir = NULL,
                        out.filepath = NULL,
-                       return.output = FALSE){
+                       return.output = TRUE){
 
   #       varname = "ho_ra_test10"
   #       codelist = "edh_ra_medcodeid"

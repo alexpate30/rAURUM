@@ -55,10 +55,10 @@ extract_impotence <- function(cohort,
                               db.open = NULL,
                               db = NULL,
                               db.filepath = NULL,
-                              out.save.disk = TRUE,
+                              out.save.disk = FALSE,
                               out.subdir = NULL,
                               out.filepath = NULL,
-                              return.output = FALSE){
+                              return.output = TRUE){
 
   #         varname = NULL
   #         codelist.type1 = "edh_t1dia_medcodeid"
@@ -78,7 +78,7 @@ extract_impotence <- function(cohort,
   cohort <- prep_cohort(cohort, indexdt, t)
   ## Assign variable name if unspecified
   if (is.null(varname)){
-    varname <- "diabetes"
+    varname <- "impotence"
   }
   ## Change variable name based off time point specified for extraction
   varname <- prep_varname(varname, t, t.varname)
