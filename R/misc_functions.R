@@ -93,7 +93,6 @@ add_to_database <- function(filepath,
     RSQLite::dbWriteTable(db, tablename, ext.dat, ...)
   }
 
-
 }
 
 
