@@ -20,38 +20,105 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/alexpate30/rAURUM/branch/main/graph/badge.svg)](https://app.codecov.io/gh/alexpate30/rAURUM?branch=main)
 <!-- badges: end -->
 
-The goal of rAURUM is to ...
+The goal of rAURUM is to simplify the process of converting raw CPRD Aurum data, stored in large .txt files, into a 'analysis-ready' dataset which can be used for statistical analyses. This process is somewhat difficult in R, as the raw data is very large and cannot be read into the R workspace. rAURUM utilises [RSQLite](https://cran.r-project.org/web/packages/RSQLite/index.html) to create SQLite databases which are stored on the hard disk. These are then queried to extract the required information for a cohort of interest.
+
+For a detailed guide on how to use **rAURUM** please see the [user-guide vignette](https://alexpate30.github.io/rAURUM/articles/user-guide.html).
 
 ## Installation
 
-You can install the development version of rAURUM from [GitHub](https://github.com/) with:
+You can install the development version of rAURUM from [GitHub](https://github.com/alexpate30/rAURUM) with:
 
-``` r
+```{r, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("alexpate30/rAURUM")
 ```
 
+The package is not yet available on CRAN.
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to create a dataset containing age. All data provided with package and utilised in this example is simulated.
 
-```{r example}
+Load rAURUM:
+
+```{r}
 library(rAURUM)
-## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+Read in patient file:
 
-```{r cars}
-summary(cars)
+```{r}
+pat <- extract_txt_pat(system.file("aurum_data", "aurum_allpatid_set1_extract_patient_001.txt", package = "rAURUM"))
+pat
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+Connect to an SQLite database (in this example, we create a temporary file):
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
+```{r}
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+Add some raw medical data (from the observation file) to the SQLite database.
+
+```{r}
+add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_observation_001.txt", package = "rAURUM"), 
+                filetype = "observation", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, db = aurum_extract, overwrite = TRUE)
+```
+          
+View the first three rows of the observation table in the SQLite database with an RSQLite query:
+TO DO XXXX: TURN THIS INTO A GENERIC "VIEW" OR SIMILAR
+
+```{r}
+RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM observation', n = 3)
+```
+
+Query the database for specific codes and store in an R object using the `db_query` function:
+
+```{r}
+### Create codelist
+codelist <- "187341000000114"
+
+### Query for observations with this code
+db_query(db.open = aurum_extract,
+         tab ="observation",
+         codelist.vector = codelist)
+```
+
+Add an index date to the patient file, which we will extract variables relative to:
+
+```{r}
+### Add an index date to pat
+pat$fup_start <- as.Date("01/01/2020", format = "%d/%m/%Y")
+```
+
+Extract a 'history of' type variable, which will be equal to 1 if an individual has a record with the specified *medcodeid* prior to the index date, and equal 0 otherwise.
+
+```{r}
+### Extract a history of type variable using extract_ho
+ho <- extract_ho(pat, 
+                 codelist.vector = codelist, 
+                 indexdt = "fup_start", 
+                 db.open = aurum_extract, 
+                 tab = "observation",
+                 return.output = TRUE)
+str(ho)
+```
+Merge the patient file with the 'history of' variable:
+
+```{r}
+### Recursive merge
+analysis.ready.pat <- merge(pat[,c("patid", "fup_start", "gender")], ho, by.x = "patid", by.y = "patid", all.x = TRUE) 
+analysis.ready.pat
+```
+
+Currently functionality exists in rAURUM to extract medical data from the observation file (including specific functions for extracting test data) and medication data from the drugissue file. Low level functions exist to allow the user to query the RSQLite database and write their own functions to define variables of interest. There are mid-level functions which allow users to extract variables of certain types ('history of', 'time to event', and 'most recent test result'). There are then very high level functions which allow users to extract specific variables, such as body mass index, systolic blood pressure, smoking status, diabetes status, etc. There are all functions where decisions have been made over how to define variables. Be sure to check the code to make sure it matches with your definition. For example, `extract_diabetes` will return a categorical variable with three categories, `Absent`, `type1` and `type2`. If an individual has a record for both type 1 and type 2 diabetes (according to the users code lists), `extract_diabetes` will assign the individual to the group `type1`.
+
+## Package maintainence
+
+This parts of this package which create the SQLite database are somewhat dependent on the structure of the raw CPRD Aurum data. For example, the functions to read in the raw text files (e.g. `extract_txt_obs`) are hard coded to format variables with specific names in a certain way (e.g. convert `obsdate` from a character variable to a date variable). Over time, the structure of the CPRD Aurum data may change, which could impact the utility of this package. We will endeavor to keep rAURUM updated with new releases of CPRD Aurum. However, where possible, we have tried to protect against this by giving the user flexible options as well as the defaults. For example, `add_to_database` defaults to using `extract_txt_obs` to read in the raw text data when `filetype = "observation"` is specified. However, there is also an option `extract.txt.func`, which allows the users to specify their own function to read in the text data, and will override the use of `extract_txt_obs`.
+
+Despite this, there may have been breaking points we haven't thought of, in which case please let us know.
+
+## Getting help
+
+If you encounter a bug, please file an issue with a minimal reproducible example on [GitHub](https://github.com/alexpate30/rAURUM).

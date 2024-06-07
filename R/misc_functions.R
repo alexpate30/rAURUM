@@ -492,6 +492,8 @@ combine_query <- function(cohort,
 #' @param indexdt Name of the variable specified to be the index date.
 #' @param t Number of days after index date at which to extract data.
 #' @param reduce Reduce to `patid` and `indexdt`.
+#'
+#' @noRd
 prep_cohort <- function(cohort, indexdt, t, reduce = TRUE){
 
   ### Change name of indexdt variable to "indexdt" so we can easily refer to it
@@ -516,6 +518,8 @@ prep_cohort <- function(cohort, indexdt, t, reduce = TRUE){
 #'
 #' @description
 #' Adds the value of `t` to variable name is `t.varname = TRUE`. May be of use if landmarking and extracting cohort at various intervals post baseline.
+#'
+#' @noRd
 prep_varname <- function(varname, t, t.varname){
   if (!is.null(t)){
     if (t.varname == TRUE){
@@ -529,6 +533,8 @@ prep_varname <- function(varname, t, t.varname){
 #'
 #' @description
 #' If out.subdir has been specified, check if it exists. If not, create directory.
+#'
+#' @noRd
 prep_subdir <- function(out.subdir){
   if (!is.null(out.subdir)){
     if (file.exists(paste("data/extraction/", out.subdir, sep = "")) == FALSE){
@@ -544,6 +550,8 @@ prep_subdir <- function(out.subdir){
 #' @description
 #' Will save extracted variable to disk if `out.save.disk = TRUE`. Note it relies on correct underlying structure
 #' of directories. Will output extracted variable into R workspace if `return.output = TRUE`.
+#'
+#' @noRd
 implement_output <- function(variable.dat, varname, out.save.disk, out.subdir, out.filepath, return.output){
   ### We now have the final variable file, we just need to decide how and where to save it
   ### Save data frame to disc

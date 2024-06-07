@@ -7,7 +7,16 @@ extract_txt <- function(filepath, ...){
 
 }
 
-### Extract txt file with all colClasses = "character"
+#' Read in txt file with all colClasses = "character"
+#'
+#' @description
+#' Read in txt file with all colClasses = "character"
+#'
+#' @param filepath File path to raw .txt file
+#' @param ... Arguments to pass onto utils::read.table
+#' @param select Character vector of variable names to select
+#'
+#' @export
 extract_txt_char <- function(filepath, ..., select = NULL){
 
   out <- utils::read.table(filepath, sep = "\t", ..., colClasses = "character", header = TRUE)
@@ -21,7 +30,8 @@ extract_txt_char <- function(filepath, ..., select = NULL){
 
 }
 
-### Extract linkage eligibility file
+
+### Read in linkage eligibility file
 extract_txt_linkage <- function(filepath, ...){
 
   utils::read.table(filepath, sep = "\t", ..., colClasses = c("character", "integer", "character", "integer", "integer", "integer",
@@ -29,7 +39,16 @@ extract_txt_linkage <- function(filepath, ...){
                                                               "integer", "integer", "integer","integer"))
 }
 
-### Extract patient file
+#' Read in raw .txt patient file
+#'
+#' @description
+#' Read in raw .txt patient file
+#'
+#' @param filepath File path to raw .txt file
+#' @param ... Arguments to pass onto utils::read.table
+#' @param set If `TRUE` will create a variable called `set` which will contain the number that comes after the word 'set' in the file name.
+#'
+#' @export
 extract_txt_pat <- function(filepath, ..., set = FALSE){
 
   ## Extract data
@@ -55,7 +74,16 @@ extract_txt_pat <- function(filepath, ..., set = FALSE){
   return(out)
 }
 
-### Extract Observation file
+#' Read in raw .txt observation file
+#'
+#' @description
+#' Read in raw .txt observation file
+#'
+#' @param filepath File path to raw .txt file
+#' @param ... Arguments to pass onto utils::read.table
+#' @param select Character vector of variable names to select
+#'
+#' @export
 extract_txt_obs <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -74,7 +102,16 @@ extract_txt_obs <- function(filepath, ..., select = NULL){
   return(out)
 }
 
-### Extract Problem file
+#' Read in raw .txt problem file
+#'
+#' @description
+#' Read in raw .txt problem file
+#'
+#' @param filepath File path to raw .txt file
+#' @param ... Arguments to pass onto utils::read.table
+#' @param select Character vector of variable names to select
+#'
+#' @export
 extract_txt_prob <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -93,8 +130,16 @@ extract_txt_prob <- function(filepath, ..., select = NULL){
   return(out)
 }
 
-
-### Extract Referral file
+#' Read in raw .txt referral file
+#'
+#' @description
+#' Read in raw .txt referral file
+#'
+#' @param filepath File path to raw .txt file
+#' @param ... Arguments to pass onto utils::read.table
+#' @param select Character vector of variable names to select
+#'
+#' @export
 extract_txt_ref <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -109,7 +154,16 @@ extract_txt_ref <- function(filepath, ..., select = NULL){
   return(out)
 }
 
-### Extract DrugIssue file
+#' Read in raw .txt drugissue file
+#'
+#' @description
+#' Read in raw .txt drugissue file
+#'
+#' @param filepath File path to raw .txt file
+#' @param ... Arguments to pass onto utils::read.table
+#' @param select Character vector of variable names to select
+#'
+#' @export
 extract_txt_drug <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -128,7 +182,16 @@ extract_txt_drug <- function(filepath, ..., select = NULL){
   return(out)
 }
 
-### Extract consultation file
+#' Read in raw .txt consultation file
+#'
+#' @description
+#' Read in raw .txt consultation file
+#'
+#' @param filepath File path to raw .txt file
+#' @param ... Arguments to pass onto utils::read.table
+#' @param select Character vector of variable names to select
+#'
+#' @export
 extract_txt_cons <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -148,7 +211,16 @@ extract_txt_cons <- function(filepath, ..., select = NULL){
 
 }
 
-### Extract hes primary diagnoses file
+#' Read in raw HES primary diagnoses file
+#'
+#' @description
+#' Read in raw HES primary diagnoses file
+#'
+#' @param filepath File path to raw .txt file
+#' @param ... Arguments to pass onto utils::read.table
+#' @param select Character vector of variable names to select
+#'
+#' @export
 extract_txt_hes_primary <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -168,7 +240,16 @@ extract_txt_hes_primary <- function(filepath, ..., select = NULL){
 }
 
 
-### Extract hes primary diagnoses file
+#' Read in raw ONS death data file
+#'
+#' @description
+#' Read in raw ONS death data file
+#'
+#' @param filepath File path to raw .txt file
+#' @param ... Arguments to pass onto utils::read.table
+#' @param select Character vector of variable names to select
+#'
+#' @export
 extract_txt_death <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes

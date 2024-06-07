@@ -1,3 +1,7 @@
 # rAURUM (development version)
 
-* Initial CRAN submission.
+* Created NEWS.md file.
+
+# rAURUM 0.0.0.9000
+
+* Preparing for CRAN submission.
