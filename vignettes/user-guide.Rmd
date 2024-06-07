@@ -37,7 +37,6 @@ A few key pieces of terminology that will be used in this vignette:
 
 ```{r setup}
 library(rAURUM)
-devtools::load_all()
 ```
 
 # CPRD AURUM Data structure
