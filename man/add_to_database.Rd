@@ -25,7 +25,7 @@ add_to_database(
 
 \item{nrows}{Number of rows to read in from .txt file.}
 
-\item{select}{Vector of column names to select before adding to the SQLite database.}
+\item{select}{Character vector of column names to select before adding to the SQLite database.}
 
 \item{subset.patids}{Patient id's to subset the .txt file on before adding to the SQLite database.}
 
