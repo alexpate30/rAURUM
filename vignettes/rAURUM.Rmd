@@ -125,11 +125,11 @@ Next we add the prescription data from the drugissue files to a table called `dr
 
 ```{r}
 add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_drugissue_001.txt", package = "rAURUM"), 
-                filetype = "drugissue", subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, overwrite = TRUE)
+                filetype = "drugissue", subset.patids = c(1,3,4,6), db = aurum_extract, overwrite = TRUE)
 add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_drugissue_001.txt", package = "rAURUM"), 
-                filetype = "drugissue", subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, append = TRUE)
+                filetype = "drugissue", subset.patids = c(1,3,4,6), db = aurum_extract, append = TRUE)
 add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_drugissue_001.txt", package = "rAURUM"), 
-                filetype = "drugissue", subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, append = TRUE)
+                filetype = "drugissue", subset.patids = c(1,3,4,6), db = aurum_extract, append = TRUE)
 ```
 
 Again we can then query this table, by selecting all rows from the *drugissue* table, and only printing the first 3.
@@ -194,22 +194,17 @@ The string to match on and the name of the table in the SQLite database can be a
 
 ### Add all relevant files to SQLite database in a comptationally efficient manner using the `set` functionality.
 
-When the number of patients in your cohort is very large (say 20,000,000, which we recently encountered), the `add_to_database` function may perform very slowly. This is because for each observation in the file being added to the SQLite database, `add_to_database` checks to see whether the patid is contained in the vector `subset.patids` (a vector of length 20,000,000 in our case). We can utilise the structure of the CPRD AURUM data to speed up this process. If data has the *set* naming convention (see section XXXX), we know that we only need to search for patids from `subset.patids`, that are in the corresponding patient file. For example, when reading in file *aurum_allpatid_set1_extract_observation_00Y.txt* (for any *Y*), we only need to search whether patid is in the vector of patids from `subset.patid`, that are also in *aurum_allpatid_set1_extract_patient_001.txt*, which is much smaller vector. This may seem excessive, but in our case this reduced the time that `add_to_database` took to run from hours to minutes. When running `cprd_extract` on hundreds on files, this reduced months of computation time to days.
+When the number of patients in your cohort is very large (say 20,000,000, which we recently encountered), the `add_to_database` function may perform very slowly. This is because for each observation in the file being added to the SQLite database, `add_to_database` checks to see whether the patid is contained in the vector `subset.patids` (a vector of length 20,000,000 in our case). We can utilise the structure of the CPRD AURUM data to speed up this process. If data has the *set* naming convention (see section XXXX), we know that we only need to search for patids from `subset.patids`, that are in the corresponding patient file. For example, when reading in file *aurum_allpatid_set1_extract_observation_00Y.txt* (for any *Y*), we only need to search whether patid is in the vector of patids from `subset.patid`, that are also in *aurum_allpatid_set1_extract_patient_001.txt*, which is much smaller vector. This can reduce the time `add_to_database` takes to run from hours to minutes. When running `cprd_extract` on hundreds on files, this could reduce months of computation time to days.
 
-To achieve this, the `subset.patids` object should be a data frame with two required columns. The first column should be `patid`, the second should be `set`, reporting the corresponding value of set which the patient belongs to. The first step is therefore to create a patient file, which has an extra variable `set`, which indicates the number following the text string *set* in the patient file containing data for that patient. When reading in the patient files to create your cohort, this can be done using the function `extract_txt_pat`, and specifying `set = TRUE`. Note that in this example there is only one patient file, with `set = 1`, but in practice there would be numerous patient files that would need to be read in and concatenated to create your cohort.
+To achieve this, the `subset.patids` object should be a data frame with two required columns. The first column should be `patid`, the second should be `set`, reporting the corresponding value of set which the patient belongs to. The first step is therefore to create a patient file, which has an extra variable `set`, the number following the text string *set* in the patient file containing data for that patient. When reading in the patient files to create a cohort, this can be done by specifying `set = TRUE`. In this example, all individuals in our cohort come from the file with string *set1*, and therefore this variable is the same for all individuals in this cohort, however this will not be the case in practice.
 
 ```{r}
-pat <- extract_txt_pat(system.file("aurum_data", "aurum_allpatid_set1_extract_patient_001.txt", package = "rAURUM"), set = TRUE)
-pat
+pat <- extract_patients(filepath = system.file("aurum_data", package = "rAURUM"), patids = as.character(c(1,3,4,6)), set = TRUE)
+str(pat)
 ```
-
 The patient file read in is the same as previously, with the addition of the `set` column. This file can be reduced to just the `patid` and `set` columsn, and used as the input to `subset.patids` when running the `add_to_database` and `cprd_extract` functions. When extracting data from observation files with *set1* in the name, it will only search for patient id's with `set == 1` in the data.frame provided to `subset.patids`.
 
 ```{r}
-### Reduce patient cohort to just variables "patid" and "set", and where patid = 1, 3, 4 and 6.
-pat <- subset(pat, patid %in% c(1,3,4,6))
-pat
-
 ### Create connection to SQLite database
 aurum_extract <- connect_database(tempfile("temp.sqlite"))
 
