@@ -94,11 +94,11 @@ Once the cohort has been defined, the next step is to extract medical/prescripti
 
 ## Step 2: Reading in data and creating an SQLite database
 
-Data for individuals in the cohort of interest is extracted from the .txt files and put into a SQLite database. This SQLite database is stored on the hard disk and can be queried when defining an analysis-ready dataset.
+Data for individuals in the cohort of interest is extracted from the .txt files and put into a SQLite database. This SQLite database is stored on the hard disk and can be queried when defining an analysis-ready dataset. A single SQLite database may contain more than one table.
 
 ### Add individual files to SQLite database using `add_to_database`
 
-The function `add_to_database` can be used to add individuals files to the SQLite database. Start by defining and connecting to your SQLite database. In this article we create a temporary database, but in practice this would be a permanent location the hard disk. Specifically, `tempfile("temp.sqlite")` would be replaced by the desired file path and SQLite database name.
+The function `add_to_database` can be used to add individual files to the SQLite database. Start by defining and connecting to your SQLite database. In this article we create a temporary database, but in practice this would be a permanent location the hard disk. Specifically, `tempfile("temp.sqlite")` would be replaced by the desired file path and SQLite database name.
 
 ```{r}
 aurum_extract <- connect_database(tempfile("temp.sqlite"))
@@ -108,28 +108,28 @@ Next we add medical diagnoses data from the observation files to a table within 
 
 ```{r}
 add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_observation_001.txt", package = "rAURUM"), 
-                filetype = "observation", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, db = aurum_extract, overwrite = TRUE)
+                filetype = "observation", subset.patids = c(1,3,4,6), db = aurum_extract, overwrite = TRUE)
 add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_observation_001.txt", package = "rAURUM"), 
                 filetype = "observation", subset.patids = c(1,3,4,6), db = aurum_extract, append = TRUE)
 add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_observation_001.txt", package = "rAURUM"), 
                 filetype = "observation", subset.patids = c(1,3,4,6), db = aurum_extract, append = TRUE)
 ```
 
-We can then query this database, by selecting all rows from the *observation* table, and only printing the first 3. More details on how to query an SQLite database using \pkg{RSQLite} is available **HERE XXXX REF**. Note that when reading the .txt data into R, the dates are converted into date formats, with a underlying numeric value where day 0 is 01/01/1970. When saved to the SQLite database, it is the underlying numeric values which is saved, hence the dates now appearing as numeric values.
+We can then query this database, by selecting all rows from the *observation* table, and only printing the first 3. More details on how to query an SQLite database using \pkg{RSQLite} is available **HERE XXXX REF**. Note that when reading the raw data into R, the dates are converted into date formats, with a underlying numeric value where day 0 is 01/01/1970. When saved to the SQLite database, it is the underlying numeric values which is saved, hence the dates now appearing as numeric values.
 
 ```{r}
 RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM observation', n = 3)
 ```
 
-Next we add the prescription data from the DrugIssue files to a table called `drugissue`.
+Next we add the prescription data from the drugissue files to a table called `drugissue`.
 
 ```{r}
 add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_drugissue_001.txt", package = "rAURUM"), 
-                filetype = "drugissue", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, overwrite = TRUE)
+                filetype = "drugissue", subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, overwrite = TRUE)
 add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_drugissue_001.txt", package = "rAURUM"), 
-                filetype = "drugissue", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, append = TRUE)
+                filetype = "drugissue", subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, append = TRUE)
 add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_drugissue_001.txt", package = "rAURUM"), 
-                filetype = "drugissue", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, append = TRUE)
+                filetype = "drugissue", subset.patids = c(1,3,4,6), use.set = FALSE, aurum_extract, append = TRUE)
 ```
 
 Again we can then query this table, by selecting all rows from the *drugissue* table, and only printing the first 3.
@@ -154,9 +154,7 @@ RSQLite::dbDisconnect(aurum_extract)
 
 ### Add all relevant files to SQLite database using `cprd_extract`
 
-In practice, there will be a high number of files to add to the SQLite database and adding each one using `add_to_database` would be cumbersome. We now we repeat the extraction but using the cprd_extract function, which is a wrapper for `add_to_database`, and will add all the files in a specified directory.
-
-Start by creating a connection to a new database (again, we use a temporary database, but this would be a permanent file on the hard disk in practice).
+In practice, there will be a high number of files to add to the SQLite database and adding each one using `add_to_database` would be cumbersome. We now we repeat the extraction but using the `cprd_extract` function, which is a wrapper for `add_to_database`, and will add all the files in a specified directory that contain a string matching the specified file type. Start by creating a connection to a new database:
 
 ```{r}
 aurum_extract <- connect_database(tempfile("temp.sqlite"))
