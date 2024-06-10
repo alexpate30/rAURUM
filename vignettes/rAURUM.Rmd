@@ -98,7 +98,7 @@ Data for individuals in the cohort of interest is extracted from the .txt files 
 
 ### Add individual files to SQLite database using `add_to_database`
 
-In the most basic application of \pkg{rAURUM}, the function `add_to_database` can be used to add data from a text file to the SQLite database. Start by defining and connecting to your SQLite database. In this vignette we create a temporary database, but in practice this would be a permanent location the hard disk.
+The function `add_to_database` can be used to add individuals files to the SQLite database. Start by defining and connecting to your SQLite database. In this article we create a temporary database, but in practice this would be a permanent location the hard disk. Specifically, `tempfile("temp.sqlite")` would be replaced by the desired file path and SQLite database name.
 
 ```{r}
 aurum_extract <- connect_database(tempfile("temp.sqlite"))
