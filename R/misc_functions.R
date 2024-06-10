@@ -6,7 +6,7 @@
 #' @param filepath Path to .txt file on your system.
 #' @param filetype Type of CPRD Aurum file (observation, drugissue, referral, problem, consultation, hes_primary, death)
 #' @param nrows Number of rows to read in from .txt file.
-#' @param select Vector of column names to select before adding to the SQLite database.
+#' @param select Character vector of column names to select before adding to the SQLite database.
 #' @param subset.patids Patient id's to subset the .txt file on before adding to the SQLite database.
 #' @param use.set Reduce subset.patids to just those with a corresponding set value to the .txt file being read in. Can greatly improve computational efficiency when subset.patids is large. See vignette XXXX for more details.
 #' @param db  An open SQLite database connection created using RSQLite::dbConnect.
@@ -79,10 +79,13 @@ add_to_database <- function(filepath,
       ### Extract the 'set' from the filepath
       set.filepath <- as.numeric(stringr::str_match(filepath, "set\\s*(.*?)\\s*_")[,2])
       ### Apply subsetting
-      subset.patids <- subset.patids[set == set.filepath, patid]
+      subset.patids <- subset.patids[!is.na(fastmatch::fmatch(subset.patids$set, set.filepath)), ]
+      subset.patids <- subset.patids$patid
+      #subset.patids <- subset.patids[set == set.filepath, patid]
     }
-    ### Apply subsettings
-    ext.dat <- ext.dat[patid %in% subset.patids]
+    ### Subset the data to those observations with patid in subset.patids
+    ext.dat <- ext.dat[!is.na(fastmatch::fmatch(ext.dat$patid, subset.patids)), ]
+    #ext.dat <- ext.dat[patid %in% subset.patids]
     #ext.dat <- subset(ext.dat, patid %in% subset.patids)
   }
 
@@ -577,3 +580,70 @@ implement_output <- function(variable.dat, varname, out.save.disk, out.subdir, o
 
 }
 
+
+#' Create cohort from patient files
+#'
+#' @description
+#' Create cohort from patient files
+#'
+#' @param filepath Path to directory containing .txt files.
+#' @param patids Patids of patients to retain in the cohort. Character vector. Numeric values should not be used.
+#' @param select Character vector of column names to select.
+#' @param set If `TRUE` will create a variable called `set` which will contain the number that comes after the word 'set' in the file name.
+#'
+#' @returns Data frame with patient information
+#'
+#' @export
+extract_patients <- function(filepath,
+                           patids = NULL,
+                           select = NULL,
+                           set = FALSE){
+
+  ### Ensure patids isn't numeric
+  if (!is.null(patids)){
+    if (is.numeric(patids) == TRUE){
+      stop("All elements of patids must be character")
+    }
+  }
+
+  ### Get filenames of patient files
+  filenames <- list.files(filepath, pattern = ".txt", full.names = TRUE)
+
+  ### Reduce to those with "patient" in the filename
+  filenames <- filenames[stringr::str_detect(filenames, "patient")]
+
+  ### Read in all patient files and concatenate
+  if (length(filenames) >= 1){
+    pat <-  extract_txt_pat(filenames[1], set = set)
+    if (length(filenames) > 1){
+      ## Append for all subsequent files
+      for (filename in filenames[-1]){
+        pat.temp <-  extract_txt_pat(filename, set = set)
+        pat <- rbind(pat, pat.temp)
+      }
+    }
+  } else if (length(filenames) == 0){
+    stop("No files to import")
+  }
+
+  ### Select variables
+  if(!is.null(select)){
+    ## If set == TRUE, add set to variables to select
+    if(set == TRUE){
+      if (!("set" %in% names(select))){
+        select <- c(select, "set")
+      }
+    }
+    ## Apply selection
+    pat <- pat[,select]
+  }
+
+  ### Reduce to patients in patids vector
+  if (!is.null(patids)){
+    pat <- pat[!is.na(fastmatch::fmatch(pat$patid, patids)), ]
+  }
+
+  ### return pat
+  return(pat)
+
+}

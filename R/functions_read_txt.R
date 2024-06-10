@@ -16,7 +16,6 @@ extract_txt <- function(filepath, ...){
 #' @param ... Arguments to pass onto utils::read.table
 #' @param select Character vector of variable names to select
 #'
-#' @export
 extract_txt_char <- function(filepath, ..., select = NULL){
 
   out <- utils::read.table(filepath, sep = "\t", ..., colClasses = "character", header = TRUE)
@@ -48,7 +47,6 @@ extract_txt_linkage <- function(filepath, ...){
 #' @param ... Arguments to pass onto utils::read.table
 #' @param set If `TRUE` will create a variable called `set` which will contain the number that comes after the word 'set' in the file name.
 #'
-#' @export
 extract_txt_pat <- function(filepath, ..., set = FALSE){
 
   ## Extract data
@@ -83,7 +81,6 @@ extract_txt_pat <- function(filepath, ..., set = FALSE){
 #' @param ... Arguments to pass onto utils::read.table
 #' @param select Character vector of variable names to select
 #'
-#' @export
 extract_txt_obs <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -111,7 +108,6 @@ extract_txt_obs <- function(filepath, ..., select = NULL){
 #' @param ... Arguments to pass onto utils::read.table
 #' @param select Character vector of variable names to select
 #'
-#' @export
 extract_txt_prob <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -139,7 +135,6 @@ extract_txt_prob <- function(filepath, ..., select = NULL){
 #' @param ... Arguments to pass onto utils::read.table
 #' @param select Character vector of variable names to select
 #'
-#' @export
 extract_txt_ref <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -163,7 +158,6 @@ extract_txt_ref <- function(filepath, ..., select = NULL){
 #' @param ... Arguments to pass onto utils::read.table
 #' @param select Character vector of variable names to select
 #'
-#' @export
 extract_txt_drug <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -191,7 +185,6 @@ extract_txt_drug <- function(filepath, ..., select = NULL){
 #' @param ... Arguments to pass onto utils::read.table
 #' @param select Character vector of variable names to select
 #'
-#' @export
 extract_txt_cons <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -220,7 +213,6 @@ extract_txt_cons <- function(filepath, ..., select = NULL){
 #' @param ... Arguments to pass onto utils::read.table
 #' @param select Character vector of variable names to select
 #'
-#' @export
 extract_txt_hes_primary <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes
@@ -249,7 +241,6 @@ extract_txt_hes_primary <- function(filepath, ..., select = NULL){
 #' @param ... Arguments to pass onto utils::read.table
 #' @param select Character vector of variable names to select
 #'
-#' @export
 extract_txt_death <- function(filepath, ..., select = NULL){
 
   ## Extract and apply classes

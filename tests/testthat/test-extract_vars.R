@@ -80,12 +80,13 @@ testthat::test_that("Test extract_ho, extract_time_until and extract_test_data, 
   ### Disconnect
   RSQLite::dbDisconnect(aurum_extract)
 
-  ###
+
   ###
   ### Create a temporary directory to re-run these functions and save to disk automatically, and automatically look for SQLite database in data/sql
   ### Will recreate variables for ho and compare with ho created for previous test
   ###
-  ###
+
+  ### Create tempdir and setwd
   tempdir <- tempdir()
   setwd(tempdir)
 

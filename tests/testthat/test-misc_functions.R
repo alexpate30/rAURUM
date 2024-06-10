@@ -170,5 +170,45 @@ testthat::test_that("Test low-level db query functions", {
 })
 
 
+###
+### Tests for creating patient file
+###
+testthat::test_that("Test creation of cohort", {
+
+  ### Create a number of different ways
+  cohort1 <- extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"))
+  testthat::expect_equal(cohort1$patid, as.character(1:12))
+  testthat::expect_equal(nrow(cohort1), 12)
+  testthat::expect_equal(ncol(cohort1), 12)
+
+  ### Create a number of different ways
+  cohort2 <- extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"),
+                            set = TRUE)
+  testthat::expect_equal(cohort2$patid, as.character(1:12))
+  testthat::expect_true("set" %in% colnames(cohort2))
+  testthat::expect_equal(nrow(cohort2), 12)
+  testthat::expect_equal(ncol(cohort2), 13)
+
+  ### Create a number of different ways
+  cohort3 <- extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"),
+                            patids = as.character(c(1,2,3)),
+                            set = TRUE)
+  testthat::expect_equal(cohort3$patid, as.character(1:3))
+  testthat::expect_true("set" %in% colnames(cohort3))
+  testthat::expect_equal(nrow(cohort3), 3)
+  testthat::expect_equal(ncol(cohort3), 13)
+
+  ### Create a number of different ways
+  cohort4 <- extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"),
+                            patids = as.character(c(1,2,3)),
+                            select = c("patid", "yob"))
+  testthat::expect_equal(cohort4$patid, as.character(1:3))
+  testthat::expect_equal(nrow(cohort4), 3)
+  testthat::expect_equal(ncol(cohort4), 2)
+
+})
+
+
+
 
 
