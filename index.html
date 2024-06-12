@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="rAURUM simplifies the process of converting raw CPRD Aurum data, stored in large .txt files, into an analysis-ready dataset which can be used for statistical analyses. This process is somewhat difficult in R, as the raw data is very large and cannot be read into the R workspace. rAURUM utilises RSQLite to create SQLite databases which are stored on the hard disk. These are then queried to extract the required information for a cohort of interest. The processes follow closely that from the rEHR package, see Springate et al., (2017) &lt;doi:10.1371/journal.pone.0171784&gt; which was designed for extractin CPRD GOLD data, and is no longer available on CRAN.">
-<title>Extract raw CPRD Aurum data and convert into an analysis-ready dataset • rAURUM</title>
+<title>Extract and Manage CPRD Aurum Data and Create Analysis-Ready Datasets • rAURUM</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Extract raw CPRD Aurum data and convert into an analysis-ready dataset">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Extract and Manage CPRD Aurum Data and Create Analysis-Ready Datasets">
 <meta property="og:description" content="rAURUM simplifies the process of converting raw CPRD Aurum data, stored in large .txt files, into an analysis-ready dataset which can be used for statistical analyses. This process is somewhat difficult in R, as the raw data is very large and cannot be read into the R workspace. rAURUM utilises RSQLite to create SQLite databases which are stored on the hard disk. These are then queried to extract the required information for a cohort of interest. The processes follow closely that from the rEHR package, see Springate et al., (2017) &lt;doi:10.1371/journal.pone.0171784&gt; which was designed for extractin CPRD GOLD data, and is no longer available on CRAN.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -61,8 +61,8 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of rAURUM is to simplify the process of converting raw CPRD Aurum data, stored in large .txt files, into a ‘analysis-ready’ dataset which can be used for statistical analyses. This process is somewhat difficult in R, as the raw data is very large and cannot be read into the R workspace. rAURUM utilises <a href="https://cran.r-project.org/web/packages/RSQLite/index.html" class="external-link">RSQLite</a> to create SQLite databases which are stored on the hard disk. These are then queried to extract the required information for a cohort of interest. The processes follow closely that from the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5323003/" class="external-link">rEHR</a> package, which was designed for extractin CPRD GOLD data, and is no longer available on CRAN.</p>
-<p>For a detailed guide on how to use <strong>rAURUM</strong> please see the <a href="https://alexpate30.github.io/rAURUM/articles/user-guide.html">user-guide vignette</a>.</p>
+<p>The goal of rAURUM is to simplify the process of converting raw CPRD Aurum data, stored in large .txt files, into a ‘analysis-ready’ dataset which can be used for statistical analyses. This process is somewhat difficult in R, as the raw data is very large and cannot be read into the R workspace. rAURUM utilises <a href="%5Curl%7Bhttps://CRAN.R-project.org/package=RSQLite%7D" class="external-link">RSQLite</a> to create SQLite databases which are stored on the hard disk. These are then queried to extract the required information for a cohort of interest. The processes follow closely that from the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5323003/" class="external-link">rEHR</a> package, which was designed for extractin CPRD GOLD data, and is no longer available on CRAN.</p>
+<p>For a detailed guide on how to use <strong>rAURUM</strong> please see the <a href="https://alexpate30.github.io/rAURUM/articles/rAURUM.html">user-guide vignette</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -80,48 +80,39 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://alexpate30.github.io/rAURUM/">rAURUM</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: data.table</span></span></code></pre></div>
-<p>Read in patient file:</p>
+<p>Create cohort based on patient files:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_txt_pat.html">extract_txt_pat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, <span class="st">"aurum_allpatid_set1_extract_patient_001.txt"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">pat</span></span>
-<span><span class="co">#&gt;   patid pracid usualgpstaffid gender  yob mob emis_ddate regstartdate</span></span>
-<span><span class="co">#&gt; 1     1     49              6      2 1984  NA 1976-11-21   1940-07-24</span></span>
-<span><span class="co">#&gt; 2     2     79             11      1 1932  NA 1979-02-14   1929-02-23</span></span>
-<span><span class="co">#&gt; 3     3     98             43      1 1930  NA 1972-06-01   1913-07-02</span></span>
-<span><span class="co">#&gt; 4     4     53             72      2 1915  NA 1989-04-24   1969-07-11</span></span>
-<span><span class="co">#&gt; 5     5     62             16      2 1916  NA 1951-09-23   1919-11-07</span></span>
-<span><span class="co">#&gt; 6     6     54             11      1 1914  NA 1926-09-09   1970-08-28</span></span>
-<span><span class="co">#&gt;   patienttypeid regenddate acceptable cprd_ddate</span></span>
-<span><span class="co">#&gt; 1            58 1996-08-25          1 1935-03-17</span></span>
-<span><span class="co">#&gt; 2            21 1945-03-19          0 1932-02-05</span></span>
-<span><span class="co">#&gt; 3            81 1997-04-24          1 1912-04-27</span></span>
-<span><span class="co">#&gt; 4            10 1951-09-05          0 1921-02-13</span></span>
-<span><span class="co">#&gt; 5            45 1998-11-25          0 1903-08-26</span></span>
-<span><span class="co">#&gt; 6            85 1983-03-14          1 1963-08-27</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_cohort.html">extract_cohort</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">pat</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 'data.frame':    12 obs. of  12 variables:</span></span>
+<span><span class="co">#&gt;  $ patid         : chr  "1" "2" "3" "4" ...</span></span>
+<span><span class="co">#&gt;  $ pracid        : int  49 79 98 53 62 54 49 79 98 53 ...</span></span>
+<span><span class="co">#&gt;  $ usualgpstaffid: chr  "6" "11" "43" "72" ...</span></span>
+<span><span class="co">#&gt;  $ gender        : int  2 1 1 2 2 1 2 1 1 2 ...</span></span>
+<span><span class="co">#&gt;  $ yob           : int  1984 1932 1930 1915 1916 1914 1984 1932 1930 1915 ...</span></span>
+<span><span class="co">#&gt;  $ mob           : int  NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  $ emis_ddate    : Date, format: "1976-11-21" "1979-02-14" ...</span></span>
+<span><span class="co">#&gt;  $ regstartdate  : Date, format: "1940-07-24" "1929-02-23" ...</span></span>
+<span><span class="co">#&gt;  $ patienttypeid : int  58 21 81 10 45 85 58 21 81 10 ...</span></span>
+<span><span class="co">#&gt;  $ regenddate    : Date, format: "1996-08-25" "1945-03-19" ...</span></span>
+<span><span class="co">#&gt;  $ acceptable    : int  1 0 1 0 0 1 1 0 1 0 ...</span></span>
+<span><span class="co">#&gt;  $ cprd_ddate    : Date, format: "1935-03-17" "1932-02-05" ...</span></span></code></pre></div>
 <p>Connect to an SQLite database (in this example, we create a temporary file):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aurum_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/connect_database.html">connect_database</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"temp.sqlite"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Add some raw medical data (from the observation file) to the SQLite database.</p>
+<p>Read in medical data (from the observation files) and add to the SQLite database.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/add_to_database.html">add_to_database</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, <span class="st">"aurum_allpatid_set1_extract_observation_001.txt"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
-<span>                filetype <span class="op">=</span> <span class="st">"observation"</span>, nrows <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, select <span class="op">=</span> <span class="cn">NULL</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span>, db <span class="op">=</span> <span class="va">aurum_extract</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>View the first three rows of the observation table in the SQLite database with an RSQLite query: TO DO XXXX: TURN THIS INTO A GENERIC “VIEW” OR SIMILAR</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">aurum_extract</span>, <span class="st">'SELECT * FROM observation'</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   patid consid pracid obsid obsdate enterdate staffid parentobsid</span></span>
-<span><span class="co">#&gt; 1     1     33      1   100  -15931      -994      79          95</span></span>
-<span><span class="co">#&gt; 2     1     66      1    46  -13782    -15232      34          17</span></span>
-<span><span class="co">#&gt; 3     1     41      1    53  -20002      8845      35          79</span></span>
-<span><span class="co">#&gt;           medcodeid value numunitid obstypeid numrangelow numrangehigh</span></span>
-<span><span class="co">#&gt; 1   498521000006119    48        16        20          28           86</span></span>
-<span><span class="co">#&gt; 2         401539014    22         1         2          27            8</span></span>
-<span><span class="co">#&gt; 3 13483031000006114    17        78        13          87           41</span></span>
-<span><span class="co">#&gt;   probobsid</span></span>
-<span><span class="co">#&gt; 1        54</span></span>
-<span><span class="co">#&gt; 2        35</span></span>
-<span><span class="co">#&gt; 3        74</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
+<span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
+<span>             filetype <span class="op">=</span> <span class="st">"observation"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "nrows -1"</span></span>
+<span><span class="co">#&gt; [1] "select "</span></span>
+<span><span class="co">#&gt; [1] "use.set FALSE"</span></span>
+<span><span class="co">#&gt; [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 14:37:37.743185"</span></span>
+<span><span class="co">#&gt; [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 14:37:37.857885"</span></span>
+<span><span class="co">#&gt; [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 14:37:37.927155"</span></span></code></pre></div>
 <p>Query the database for specific codes and store in an R object using the <code>db_query</code> function:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Create codelist</span></span>
 <span><span class="va">codelist</span> <span class="op">&lt;-</span> <span class="st">"187341000000114"</span></span>
 <span></span>
@@ -132,38 +123,46 @@
 <span><span class="co">#&gt;     patid consid pracid  obsid obsdate enterdate staffid parentobsid</span></span>
 <span><span class="co">#&gt;    &lt;char&gt; &lt;char&gt;  &lt;int&gt; &lt;char&gt;   &lt;num&gt;     &lt;num&gt;  &lt;char&gt;      &lt;char&gt;</span></span>
 <span><span class="co">#&gt; 1:      1     42      1     81   -5373      4302      85          35</span></span>
+<span><span class="co">#&gt; 2:      2     56      1     77   -5769    -13828      24           4</span></span>
+<span><span class="co">#&gt; 3:      6     40      1     41  -14727     -6929      98          80</span></span>
 <span><span class="co">#&gt;          medcodeid value numunitid obstypeid numrangelow numrangehigh probobsid</span></span>
 <span><span class="co">#&gt;             &lt;char&gt; &lt;num&gt;     &lt;int&gt;     &lt;int&gt;       &lt;num&gt;        &lt;num&gt;    &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1: 187341000000114    84        79        67          24           22         5</span></span></code></pre></div>
+<span><span class="co">#&gt; 1: 187341000000114    84        79        67          24           22         5</span></span>
+<span><span class="co">#&gt; 2: 187341000000114    46        92        81          56           30        18</span></span>
+<span><span class="co">#&gt; 3: 187341000000114    28        20         5          41           97        92</span></span></code></pre></div>
 <p>Add an index date to the patient file, which we will extract variables relative to:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">### Add an index date to pat</span></span>
-<span><span class="va">pat</span><span class="op">$</span><span class="va">fup_start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"01/01/2020"</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pat</span><span class="op">$</span><span class="va">fup_start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"01/01/2020"</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span></span></code></pre></div>
 <p>Extract a ‘history of’ type variable, which will be equal to 1 if an individual has a record with the specified <em>medcodeid</em> prior to the index date, and equal 0 otherwise.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">### Extract a history of type variable using extract_ho</span></span>
-<span><span class="va">ho</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_ho.html">extract_ho</a></span><span class="op">(</span><span class="va">pat</span>, </span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ho</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extract_ho.html">extract_ho</a></span><span class="op">(</span><span class="va">pat</span>, </span>
 <span>                 codelist.vector <span class="op">=</span> <span class="va">codelist</span>, </span>
 <span>                 indexdt <span class="op">=</span> <span class="st">"fup_start"</span>, </span>
 <span>                 db.open <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>                 tab <span class="op">=</span> <span class="st">"observation"</span>,</span>
 <span>                 return.output <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">ho</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 'data.frame':    6 obs. of  2 variables:</span></span>
+<span><span class="co">#&gt; 'data.frame':    12 obs. of  2 variables:</span></span>
 <span><span class="co">#&gt;  $ patid: chr  "1" "2" "3" "4" ...</span></span>
-<span><span class="co">#&gt;  $ ho   : int  1 0 0 0 0 0</span></span></code></pre></div>
-<p>Merge the patient file with the ‘history of’ variable:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt;  $ ho   : int  1 1 0 0 0 1 0 0 0 0 ...</span></span></code></pre></div>
+<p>Merge the patient file with the ‘history of’ variable to create an analysis-ready dataset:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Recursive merge</span></span>
 <span><span class="va">analysis.ready.pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">pat</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patid"</span>, <span class="st">"fup_start"</span>, <span class="st">"gender"</span><span class="op">)</span><span class="op">]</span>, <span class="va">ho</span>, by.x <span class="op">=</span> <span class="st">"patid"</span>, by.y <span class="op">=</span> <span class="st">"patid"</span>, all.x <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span>
 <span><span class="va">analysis.ready.pat</span></span>
-<span><span class="co">#&gt;   patid  fup_start gender ho</span></span>
-<span><span class="co">#&gt; 1     1 2020-01-01      2  1</span></span>
-<span><span class="co">#&gt; 2     2 2020-01-01      1  0</span></span>
-<span><span class="co">#&gt; 3     3 2020-01-01      1  0</span></span>
-<span><span class="co">#&gt; 4     4 2020-01-01      2  0</span></span>
-<span><span class="co">#&gt; 5     5 2020-01-01      2  0</span></span>
-<span><span class="co">#&gt; 6     6 2020-01-01      1  0</span></span></code></pre></div>
+<span><span class="co">#&gt;    patid  fup_start gender ho</span></span>
+<span><span class="co">#&gt; 1      1 2020-01-01      2  1</span></span>
+<span><span class="co">#&gt; 2     10 2020-01-01      2  0</span></span>
+<span><span class="co">#&gt; 3     11 2020-01-01      2  0</span></span>
+<span><span class="co">#&gt; 4     12 2020-01-01      1  0</span></span>
+<span><span class="co">#&gt; 5      2 2020-01-01      1  1</span></span>
+<span><span class="co">#&gt; 6      3 2020-01-01      1  0</span></span>
+<span><span class="co">#&gt; 7      4 2020-01-01      2  0</span></span>
+<span><span class="co">#&gt; 8      5 2020-01-01      2  0</span></span>
+<span><span class="co">#&gt; 9      6 2020-01-01      1  1</span></span>
+<span><span class="co">#&gt; 10     7 2020-01-01      2  0</span></span>
+<span><span class="co">#&gt; 11     8 2020-01-01      1  0</span></span>
+<span><span class="co">#&gt; 12     9 2020-01-01      1  0</span></span></code></pre></div>
 <p>Currently functionality exists in rAURUM to extract medical data from the observation file (including specific functions for extracting test data) and medication data from the drugissue file. Low level functions exist to allow the user to query the RSQLite database and write their own functions to define variables of interest. There are mid-level functions which allow users to extract variables of certain types (‘history of’, ‘time to event’, and ‘most recent test result’). There are then very high level functions which allow users to extract specific variables, such as body mass index, systolic blood pressure, smoking status, diabetes status, etc. There are all functions where decisions have been made over how to define variables. Be sure to check the code to make sure it matches with your definition. For example, <code>extract_diabetes</code> will return a categorical variable with three categories, <code>Absent</code>, <code>type1</code> and <code>type2</code>. If an individual has a record for both type 1 and type 2 diabetes (according to the users code lists), <code>extract_diabetes</code> will assign the individual to the group <code>type1</code>.</p>
 </div>
 <div class="section level2">
