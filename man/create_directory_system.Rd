@@ -14,6 +14,7 @@ Create the appropriate root directory system to be able to run functions with sp
 }
 \examples{
 
+\dontrun{
 ## Print current working directory
 getwd()
 
@@ -44,5 +45,7 @@ out.save.disk = TRUE)
 
 ## Read file from disk into R workspace
 readRDS("data/extraction/var_ho.rds")
+}
+
 
 }

@@ -7,6 +7,7 @@
 #'
 #' @examples
 #'
+#' \dontrun{
 #' ## Print current working directory
 #' getwd()
 #'
@@ -37,6 +38,8 @@
 #'
 #' ## Read file from disk into R workspace
 #' readRDS("data/extraction/var_ho.rds")
+#' }
+#'
 #'
 #' @export
 create_directory_system <- function(rootdir = NULL){
