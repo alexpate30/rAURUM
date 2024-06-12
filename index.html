@@ -61,7 +61,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of rAURUM is to simplify the process of converting raw CPRD Aurum data, stored in large .txt files, into a ‘analysis-ready’ dataset which can be used for statistical analyses. This process is somewhat difficult in R, as the raw data is very large and cannot be read into the R workspace. rAURUM utilises <a href="%5Curl%7Bhttps://CRAN.R-project.org/package=RSQLite%7D" class="external-link">RSQLite</a> to create SQLite databases which are stored on the hard disk. These are then queried to extract the required information for a cohort of interest. The processes follow closely that from the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5323003/" class="external-link">rEHR</a> package, which was designed for extractin CPRD GOLD data, and is no longer available on CRAN.</p>
+<p>The goal of rAURUM is to simplify the process of extracting and processing CPRD Aurum data into an ‘analysis-ready’ dataset which can be used for statistical analyses. This process is somewhat difficult in R, as the raw data is very large, provided in a large number of .txt files, which cannot all be read into the R workspace. rAURUM utilises <a href="%5Curl%7Bhttps://CRAN.R-project.org/package=RSQLite%7D" class="external-link">RSQLite</a> to create SQLite databases which are stored on the hard disk. These are then queried to extract the required information for a cohort of interest. The processes follow closely that from the <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5323003/" class="external-link">rEHR</a> package, which was designed for extractin CPRD GOLD data, and is no longer available on CRAN.</p>
 <p>For a detailed guide on how to use <strong>rAURUM</strong> please see the <a href="https://alexpate30.github.io/rAURUM/articles/rAURUM.html">user-guide vignette</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -105,12 +105,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>             filetype <span class="op">=</span> <span class="st">"observation"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "nrows -1"</span></span>
-<span><span class="co">#&gt; [1] "select "</span></span>
-<span><span class="co">#&gt; [1] "use.set FALSE"</span></span>
-<span><span class="co">#&gt; [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 14:37:37.743185"</span></span>
-<span><span class="co">#&gt; [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 14:37:37.857885"</span></span>
-<span><span class="co">#&gt; [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 14:37:37.927155"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 16:01:24.008187"</span></span>
+<span><span class="co">#&gt; [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 16:01:24.244836"</span></span>
+<span><span class="co">#&gt; [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 16:01:24.427172"</span></span></code></pre></div>
 <p>Query the database for specific codes and store in an R object using the <code>db_query</code> function:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Create codelist</span></span>
