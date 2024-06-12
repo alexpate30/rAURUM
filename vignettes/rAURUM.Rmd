@@ -1,13 +1,13 @@
 ---
-title: "rAURUM: An R package to simplify the processing of CPRD Aurum data and convert into an analysis-ready dataset"
+title: "rAURUM: An R package to simplify the extraction and processing of CPRD Aurum data, and creating analysis-ready datasets"
 output: 
   rmarkdown::html_vignette:
     number_sections: true
 vignette: >
-  %\VignetteIndexEntry{user-guide}
+%\VignetteIndexEntry{rAURUM}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-bibliography: refs.bib
+  bibliography: refs.bib
 ---
 
 ```{r, include = FALSE}
@@ -167,7 +167,7 @@ We then use `cprd_extract` to add all the observation files into the SQLite data
 
 ```{r}
 ### Extract data
-cprd_extract(aurum_extract, 
+cprd_extract(db = aurum_extract, 
              filepath = system.file("aurum_data", package = "rAURUM"), 
              filetype = "observation", subset.patids = c(1,3,4,6), use.set = FALSE)
 
@@ -179,7 +179,7 @@ The process is then repeated for the drugissue files.
 
 ```{r}
 ### Extract data
-cprd_extract(aurum_extract, 
+cprd_extract(db = aurum_extract, 
              filepath = system.file("aurum_data", package = "rAURUM"), 
              filetype = "drugissue", subset.patids = c(1,3,4,6), use.set = FALSE)
 
@@ -213,12 +213,12 @@ The patient file read in is the same as previously, with the addition of the `se
 aurum_extract <- connect_database(tempfile("temp.sqlite"))
 
 ### Add observation files
-cprd_extract(aurum_extract, 
+cprd_extract(db = aurum_extract, 
              filepath = system.file("aurum_data", package = "rAURUM"), 
              filetype = "observation", nrows = -1, select = NULL, subset.patids = pat, use.set = TRUE)
 
 ### Add drugissue files
-cprd_extract(aurum_extract, 
+cprd_extract(db = aurum_extract, 
              filepath = system.file("aurum_data", package = "rAURUM"), 
              filetype = "drugissue", nrows = -1, select = NULL, subset.patids = pat, use.set = TRUE)
 
@@ -255,7 +255,7 @@ pat$indexdt <- as.Date("01/01/2020", format = "%d/%m/%Y")
 combine.query.boolean <- combine_query_boolean(cohort = pat,
                                                db.query = db.query,
                                                query.type = "observation")
-  
+
 combine.query.boolean
 ```
 
@@ -267,7 +267,7 @@ combine.query <- combine_query(cohort = pat,
                                db.query = db.query,
                                query.type = "med",
                                numobs = 3)
-  
+
 combine.query
 ```
 
@@ -279,7 +279,7 @@ combine.query <- combine_query(cohort = pat,
                                db.query = db.query,
                                query.type = "test",
                                numobs = 3)
-  
+
 combine.query
 ```
 
@@ -390,9 +390,9 @@ An SQLite database called "mydb.sqlite" is then created in the "data/sql" direct
 aurum_extract <- connect_database("data/sql/mydb.sqlite")
 
 ## Add data to SQLite database using cprd_extract
-cprd_extract(aurum_extract,
-filepath = system.file("aurum_data", package = "rAURUM"),
-filetype = "observation", use.set = FALSE)
+cprd_extract(db = aurum_extract,
+             filepath = system.file("aurum_data", package = "rAURUM"),
+             filetype = "observation", use.set = FALSE)
 
 ## Disconnect
 RSQLite::dbDisconnect(aurum_extract)
@@ -430,7 +430,7 @@ All of the mid and high level functions have the option to extract data at a giv
 
 # Discussion
 
-**rAURUM** is an R package which allows users to process CPRD Aurum data in a consistent and computationally efficiency manner. It avoids messy for loops, reducing the chance of coding errors, and enables querying of large databases that could not be handled in the R workspace. Functions are also provided to extract common variable types (history of a specified condition, time until event occurs, or most recent test result), and some common variables which require extract processing (body mass index, cholesterol-high density lipoprotein ratio, smoking status, diabetes category). The component **rAURUM** which extracts the raw eletronic health record and stores in an SQLite database has been written with flexibility in mind. The user can define their own functions for reading in the raw data, allowing these functions to be applied to other electronic health records, or future versions of CPRD Aurum which have different data structures. The main goal of this package is to reduce the duplication of efforts among those using CPRD data for their research, allowing more time to be focused on other aspects of research projects.
+**rAURUM** is an R package which allows users to process CPRD Aurum data in a consistent and computationally efficiency manner. It avoids messy for loops, reducing the chance of coding errors, and enables querying of large databases that could not be handled in the R workspace. Functions are also provided to extract common variable types (history of a specified condition, time until event occurs, or most recent test result), and some common variables which require extract processing (body mass index, cholesterol-high density lipoprotein ratio, smoking status, diabetes category). The component of **rAURUM** which extracts the raw eletronic health record and stores it in an SQLite database has been written with flexibility in mind. The user can define their own functions for reading in the raw data, allowing these functions to be applied to other electronic health records, or future versions of CPRD Aurum which have different data structures. The main goal of this package is to reduce the duplication of efforts among those using CPRD data for their research, allowing more time to be focused on other aspects of research projects.
 
 # References
 

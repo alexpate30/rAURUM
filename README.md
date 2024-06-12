@@ -15,7 +15,7 @@ Aurum data, stored in large .txt files, into a ‘analysis-ready’ dataset
 which can be used for statistical analyses. This process is somewhat
 difficult in R, as the raw data is very large and cannot be read into
 the R workspace. rAURUM utilises
-[RSQLite](https://cran.r-project.org/web/packages/RSQLite/index.html) to
+[RSQLite](\url%7Bhttps://CRAN.R-project.org/package=RSQLite%7D) to
 create SQLite databases which are stored on the hard disk. These are
 then queried to extract the required information for a cohort of
 interest. The processes follow closely that from the
@@ -24,7 +24,7 @@ which was designed for extractin CPRD GOLD data, and is no longer
 available on CRAN.
 
 For a detailed guide on how to use **rAURUM** please see the [user-guide
-vignette](https://alexpate30.github.io/rAURUM/articles/user-guide.html).
+vignette](https://alexpate30.github.io/rAURUM/articles/rAURUM.html).
 
 ## Installation
 
@@ -51,25 +51,24 @@ library(rAURUM)
 #> Loading required package: data.table
 ```
 
-Read in patient file:
+Create cohort based on patient files:
 
 ``` r
-pat <- extract_txt_pat(system.file("aurum_data", "aurum_allpatid_set1_extract_patient_001.txt", package = "rAURUM"))
-pat
-#>   patid pracid usualgpstaffid gender  yob mob emis_ddate regstartdate
-#> 1     1     49              6      2 1984  NA 1976-11-21   1940-07-24
-#> 2     2     79             11      1 1932  NA 1979-02-14   1929-02-23
-#> 3     3     98             43      1 1930  NA 1972-06-01   1913-07-02
-#> 4     4     53             72      2 1915  NA 1989-04-24   1969-07-11
-#> 5     5     62             16      2 1916  NA 1951-09-23   1919-11-07
-#> 6     6     54             11      1 1914  NA 1926-09-09   1970-08-28
-#>   patienttypeid regenddate acceptable cprd_ddate
-#> 1            58 1996-08-25          1 1935-03-17
-#> 2            21 1945-03-19          0 1932-02-05
-#> 3            81 1997-04-24          1 1912-04-27
-#> 4            10 1951-09-05          0 1921-02-13
-#> 5            45 1998-11-25          0 1903-08-26
-#> 6            85 1983-03-14          1 1963-08-27
+pat <- extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"))
+str(pat)
+#> 'data.frame':    12 obs. of  12 variables:
+#>  $ patid         : chr  "1" "2" "3" "4" ...
+#>  $ pracid        : int  49 79 98 53 62 54 49 79 98 53 ...
+#>  $ usualgpstaffid: chr  "6" "11" "43" "72" ...
+#>  $ gender        : int  2 1 1 2 2 1 2 1 1 2 ...
+#>  $ yob           : int  1984 1932 1930 1915 1916 1914 1984 1932 1930 1915 ...
+#>  $ mob           : int  NA NA NA NA NA NA NA NA NA NA ...
+#>  $ emis_ddate    : Date, format: "1976-11-21" "1979-02-14" ...
+#>  $ regstartdate  : Date, format: "1940-07-24" "1929-02-23" ...
+#>  $ patienttypeid : int  58 21 81 10 45 85 58 21 81 10 ...
+#>  $ regenddate    : Date, format: "1996-08-25" "1945-03-19" ...
+#>  $ acceptable    : int  1 0 1 0 0 1 1 0 1 0 ...
+#>  $ cprd_ddate    : Date, format: "1935-03-17" "1932-02-05" ...
 ```
 
 Connect to an SQLite database (in this example, we create a temporary
@@ -79,32 +78,19 @@ file):
 aurum_extract <- connect_database(tempfile("temp.sqlite"))
 ```
 
-Add some raw medical data (from the observation file) to the SQLite
+Read in medical data (from the observation files) and add to the SQLite
 database.
 
 ``` r
-add_to_database(filepath = system.file("aurum_data", "aurum_allpatid_set1_extract_observation_001.txt", package = "rAURUM"), 
-                filetype = "observation", nrows = -1, select = NULL, subset.patids = c(1,3,4,6), use.set = FALSE, db = aurum_extract, overwrite = TRUE)
-```
-
-View the first three rows of the observation table in the SQLite
-database with an RSQLite query: TO DO XXXX: TURN THIS INTO A GENERIC
-“VIEW” OR SIMILAR
-
-``` r
-RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM observation', n = 3)
-#>   patid consid pracid obsid obsdate enterdate staffid parentobsid
-#> 1     1     33      1   100  -15931      -994      79          95
-#> 2     1     66      1    46  -13782    -15232      34          17
-#> 3     1     41      1    53  -20002      8845      35          79
-#>           medcodeid value numunitid obstypeid numrangelow numrangehigh
-#> 1   498521000006119    48        16        20          28           86
-#> 2         401539014    22         1         2          27            8
-#> 3 13483031000006114    17        78        13          87           41
-#>   probobsid
-#> 1        54
-#> 2        35
-#> 3        74
+cprd_extract(db = aurum_extract, 
+             filepath = system.file("aurum_data", package = "rAURUM"), 
+             filetype = "observation")
+#> [1] "nrows -1"
+#> [1] "select "
+#> [1] "use.set FALSE"
+#> [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 14:37:37.743185"
+#> [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 14:37:37.857885"
+#> [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 14:37:37.927155"
 ```
 
 Query the database for specific codes and store in an R object using the
@@ -121,16 +107,19 @@ db_query(db.open = aurum_extract,
 #>     patid consid pracid  obsid obsdate enterdate staffid parentobsid
 #>    <char> <char>  <int> <char>   <num>     <num>  <char>      <char>
 #> 1:      1     42      1     81   -5373      4302      85          35
+#> 2:      2     56      1     77   -5769    -13828      24           4
+#> 3:      6     40      1     41  -14727     -6929      98          80
 #>          medcodeid value numunitid obstypeid numrangelow numrangehigh probobsid
 #>             <char> <num>     <int>     <int>       <num>        <num>    <char>
 #> 1: 187341000000114    84        79        67          24           22         5
+#> 2: 187341000000114    46        92        81          56           30        18
+#> 3: 187341000000114    28        20         5          41           97        92
 ```
 
 Add an index date to the patient file, which we will extract variables
 relative to:
 
 ``` r
-### Add an index date to pat
 pat$fup_start <- as.Date("01/01/2020", format = "%d/%m/%Y")
 ```
 
@@ -139,7 +128,6 @@ individual has a record with the specified *medcodeid* prior to the
 index date, and equal 0 otherwise.
 
 ``` r
-### Extract a history of type variable using extract_ho
 ho <- extract_ho(pat, 
                  codelist.vector = codelist, 
                  indexdt = "fup_start", 
@@ -147,24 +135,31 @@ ho <- extract_ho(pat,
                  tab = "observation",
                  return.output = TRUE)
 str(ho)
-#> 'data.frame':    6 obs. of  2 variables:
+#> 'data.frame':    12 obs. of  2 variables:
 #>  $ patid: chr  "1" "2" "3" "4" ...
-#>  $ ho   : int  1 0 0 0 0 0
+#>  $ ho   : int  1 1 0 0 0 1 0 0 0 0 ...
 ```
 
-Merge the patient file with the ‘history of’ variable:
+Merge the patient file with the ‘history of’ variable to create an
+analysis-ready dataset:
 
 ``` r
 ### Recursive merge
 analysis.ready.pat <- merge(pat[,c("patid", "fup_start", "gender")], ho, by.x = "patid", by.y = "patid", all.x = TRUE) 
 analysis.ready.pat
-#>   patid  fup_start gender ho
-#> 1     1 2020-01-01      2  1
-#> 2     2 2020-01-01      1  0
-#> 3     3 2020-01-01      1  0
-#> 4     4 2020-01-01      2  0
-#> 5     5 2020-01-01      2  0
-#> 6     6 2020-01-01      1  0
+#>    patid  fup_start gender ho
+#> 1      1 2020-01-01      2  1
+#> 2     10 2020-01-01      2  0
+#> 3     11 2020-01-01      2  0
+#> 4     12 2020-01-01      1  0
+#> 5      2 2020-01-01      1  1
+#> 6      3 2020-01-01      1  0
+#> 7      4 2020-01-01      2  0
+#> 8      5 2020-01-01      2  0
+#> 9      6 2020-01-01      1  1
+#> 10     7 2020-01-01      2  0
+#> 11     8 2020-01-01      1  0
+#> 12     9 2020-01-01      1  0
 ```
 
 Currently functionality exists in rAURUM to extract medical data from
