@@ -10,9 +10,6 @@
     <loc>https://alexpate30.github.io/rAURUM/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://alexpate30.github.io/rAURUM/articles/extracting-and-saving-data-without-hard-filepaths.html</loc>
-  </url>
-  <url>
     <loc>https://alexpate30.github.io/rAURUM/articles/index.html</loc>
   </url>
   <url>
@@ -58,6 +55,9 @@
     <loc>https://alexpate30.github.io/rAURUM/reference/extract_cholhdl_ratio.html</loc>
   </url>
   <url>
+    <loc>https://alexpate30.github.io/rAURUM/reference/extract_cohort.html</loc>
+  </url>
+  <url>
     <loc>https://alexpate30.github.io/rAURUM/reference/extract_diabetes.html</loc>
   </url>
   <url>
@@ -68,9 +68,6 @@
   </url>
   <url>
     <loc>https://alexpate30.github.io/rAURUM/reference/extract_impotence.html</loc>
-  </url>
-  <url>
-    <loc>https://alexpate30.github.io/rAURUM/reference/extract_patients.html</loc>
   </url>
   <url>
     <loc>https://alexpate30.github.io/rAURUM/reference/extract_smoking.html</loc>
@@ -98,6 +95,9 @@
   </url>
   <url>
     <loc>https://alexpate30.github.io/rAURUM/reference/extract_txt_hes_primary.html</loc>
+  </url>
+  <url>
+    <loc>https://alexpate30.github.io/rAURUM/reference/extract_txt_linkage.html</loc>
   </url>
   <url>
     <loc>https://alexpate30.github.io/rAURUM/reference/extract_txt_obs.html</loc>

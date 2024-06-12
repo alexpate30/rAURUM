@@ -24,12 +24,6 @@
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/extracting-and-saving-data-without-hard-filepaths.html">extracting-and-saving-data-without-hard-filepaths</a>
-  </div>
-</li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
@@ -107,6 +101,39 @@ to the working directory, must be a .csv file, and contain a column "medcodeid",
 also be read in manually, and supplied as a character vector to <code>codelist.vector</code>. If <code>codelist.vector</code> is defined, this will take precedence over <code>codelist</code>.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Create connection to a temporary database</span></span></span>
+<span class="r-in"><span><span class="va">aurum_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="connect_database.html">connect_database</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"temp.sqlite"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Add observation data from all observation files in specified directory</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>,</span></span>
+<span class="r-in"><span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>filetype <span class="op">=</span> <span class="st">"observation"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "nrows -1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "select "</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "use.set FALSE"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 10:57:10.717839"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 10:57:10.730167"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 10:57:10.740776"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Query database for a specific medcode</span></span></span>
+<span class="r-in"><span><span class="fu">db_query</span><span class="op">(</span>db.open <span class="op">=</span> <span class="va">aurum_extract</span>,</span></span>
+<span class="r-in"><span>tab <span class="op">=</span><span class="st">"observation"</span>,</span></span>
+<span class="r-in"><span>codelist.vector <span class="op">=</span> <span class="st">"187341000000114"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     patid consid pracid  obsid obsdate enterdate staffid parentobsid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;char&gt; &lt;char&gt;  &lt;int&gt; &lt;char&gt;   &lt;num&gt;     &lt;num&gt;  &lt;char&gt;      &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:      1     42      1     81   -5373      4302      85          35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:      2     56      1     77   -5769    -13828      24           4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:      6     40      1     41  -14727     -6929      98          80</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          medcodeid value numunitid obstypeid numrangelow numrangehigh probobsid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;char&gt; &lt;num&gt;     &lt;int&gt;     &lt;int&gt;       &lt;num&gt;        &lt;num&gt;    &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 187341000000114    84        79        67          24           22         5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 187341000000114    46        92        81          56           30        18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 187341000000114    28        20         5          41           97        92</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -2,9 +2,8 @@ pandoc: 3.1.11
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
-  extracting-and-saving-data-without-hard-filepaths: extracting-and-saving-data-without-hard-filepaths.html
   rAURUM: rAURUM.html
-last_built: 2024-06-10T17:14Z
+last_built: 2024-06-12T10:57Z
 urls:
   reference: https://alexpate30.github.io/rAURUM/reference
   article: https://alexpate30.github.io/rAURUM/articles
