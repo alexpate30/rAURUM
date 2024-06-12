@@ -10,11 +10,11 @@
 coverage](https://codecov.io/gh/alexpate30/rAURUM/branch/main/graph/badge.svg)](https://app.codecov.io/gh/alexpate30/rAURUM?branch=main)
 <!-- badges: end -->
 
-The goal of rAURUM is to simplify the process of converting raw CPRD
-Aurum data, stored in large .txt files, into a ‘analysis-ready’ dataset
-which can be used for statistical analyses. This process is somewhat
-difficult in R, as the raw data is very large and cannot be read into
-the R workspace. rAURUM utilises
+The goal of rAURUM is to simplify the process of extracting and
+processing CPRD Aurum data into an ‘analysis-ready’ dataset which can be
+used for statistical analyses. This process is somewhat difficult in R,
+as the raw data is very large, provided in a large number of .txt files,
+which cannot all be read into the R workspace. rAURUM utilises
 [RSQLite](\url%7Bhttps://CRAN.R-project.org/package=RSQLite%7D) to
 create SQLite databases which are stored on the hard disk. These are
 then queried to extract the required information for a cohort of
@@ -85,12 +85,9 @@ database.
 cprd_extract(db = aurum_extract, 
              filepath = system.file("aurum_data", package = "rAURUM"), 
              filetype = "observation")
-#> [1] "nrows -1"
-#> [1] "select "
-#> [1] "use.set FALSE"
-#> [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 14:37:37.743185"
-#> [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 14:37:37.857885"
-#> [1] "C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 14:37:37.927155"
+#> [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 16:01:24.008187"
+#> [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 16:01:24.244836"
+#> [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 16:01:24.427172"
 ```
 
 Query the database for specific codes and store in an R object using the
