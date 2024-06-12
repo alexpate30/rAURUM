@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
   c(person(given = "Alexander", family = "Pate", email = "alexander.pate@manchester.ac.uk", role = c("aut", "cre", "cph"),
          comment = c(ORCID = "0000-0002-0849-3458")))
-Description: rAURUM simplifies the process of converting raw CPRD Aurum data, stored in large text files, 
+Description: Simplify the process of converting raw CPRD Aurum data, stored in large text files, 
   into an 'analysis-ready' dataset which can be used for statistical analyses. 
   This process is somewhat difficult in R, as the raw data is very large and cannot be read into the R workspace. 
   rAURUM utilises RSQLite to create SQLite databases which are stored on the hard disk. 
