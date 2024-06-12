@@ -1,13 +1,13 @@
 ---
-title: "rAURUM: An R package to simplify the extraction and processing of CPRD Aurum data, and creating analysis-ready datasets"
+title: "rAURUM: An R package to simplify the extraction and processing of CPRD Aurum data, and creating analysis-ready dataset"
 output: 
   rmarkdown::html_vignette:
     number_sections: true
 vignette: >
-%\VignetteIndexEntry{rAURUM}
+  %\VignetteIndexEntry{user-guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  bibliography: refs.bib
+bibliography: refs.bib
 ---
 
 ```{r, include = FALSE}
@@ -255,7 +255,7 @@ pat$indexdt <- as.Date("01/01/2020", format = "%d/%m/%Y")
 combine.query.boolean <- combine_query_boolean(cohort = pat,
                                                db.query = db.query,
                                                query.type = "observation")
-
+  
 combine.query.boolean
 ```
 
@@ -267,7 +267,7 @@ combine.query <- combine_query(cohort = pat,
                                db.query = db.query,
                                query.type = "med",
                                numobs = 3)
-
+  
 combine.query
 ```
 
@@ -279,7 +279,7 @@ combine.query <- combine_query(cohort = pat,
                                db.query = db.query,
                                query.type = "test",
                                numobs = 3)
-
+  
 combine.query
 ```
 

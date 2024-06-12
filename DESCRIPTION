@@ -1,5 +1,5 @@
 Package: rAURUM
-Title: Extract and Manage CPRD Aurum Data and Create an Analysis-Ready Datasets
+Title: Extract and Manage CPRD Aurum Data and Create Analysis-Ready Datasets
 Version: 0.0.0.9000
 Authors@R: 
   c(person(given = "Alexander", family = "Pate", email = "alexander.pate@manchester.ac.uk", role = c("aut", "cre", "cph"),
