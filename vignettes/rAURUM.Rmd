@@ -215,12 +215,16 @@ aurum_extract <- connect_database(tempfile("temp.sqlite"))
 ### Add observation files
 cprd_extract(db = aurum_extract, 
              filepath = system.file("aurum_data", package = "rAURUM"), 
-             filetype = "observation", nrows = -1, select = NULL, subset.patids = pat, use.set = TRUE)
+             filetype = "observation", 
+             subset.patids = pat, 
+             use.set = TRUE)
 
 ### Add drugissue files
 cprd_extract(db = aurum_extract, 
              filepath = system.file("aurum_data", package = "rAURUM"), 
-             filetype = "drugissue", nrows = -1, select = NULL, subset.patids = pat, use.set = TRUE)
+             filetype = "drugissue", 
+             subset.patids = pat, 
+             use.set = TRUE)
 
 ### Query first three rows of each table
 RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM observation', n = 3)
@@ -229,13 +233,13 @@ RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM drugissue', n = 3)
 
 Note that there is no difference compared to the previously extracted SQLite databases. The computational gains from applying the subsetting in this manner will not be realised in this example. We do not close the connection, as we will now move onto querying the database to extract variables for creating an analysis-ready dataset.
 
-## Querying the SQLite dataabase to extract variables
+## Querying the SQLite database to extract variables
 
-Once the data has been extracted and stored in an SQLite database, it can now be queried to create variables of interest. The normal process for extracting variables from electronic health records is to create codelists, a group of codes which denote the same condition. The database would then be queried for observations with medical codes matching those in the codelist. A `variable` would then be defined based on this query. Whether this is a binary variable, indicating whether an individual has any record of a given code, or the most recent test result with the given code, or something much more complex. In CPRD Aurum, medical diagnoses and tests are identified from the *observation* file using *medcodeids*, and prescription data is identified from the drugissue file using *prodcodeids*. Creation of codelists is an important step of data extraction, and we refer elsewhere for details on best practice for developing codelists, and the limitations of working with codelists [@Williams2019, @Williams2017, @Watson2017, @Gulliford2009]. 
+Once the data has been extracted and stored in an SQLite database, it can now be queried to create variables of interest. The normal process for extracting variables from electronic health records is to create codelists, a group of codes which denote the same condition. The database would then be queried for observations with medical codes matching those in the codelist. A `variable` would then be defined based on this query. Whether this is a binary variable, indicating whether an individual has any record of a given code, or the most recent test result with the given code, or something much more complex. In CPRD Aurum, medical diagnoses and tests are identified from the *observation* file using *medcodeids*, and prescription data is identified from the drugissue file using *prodcodeids*. Creation of codelists is an important step of data extraction, and we refer elsewhere for details on best practice for developing codelists, and the limitations of working with codelists [@Williams2019; @Williams2017; @Watson2017; @Gulliford2009]. 
 
 ### Low level functions
 
-The `db_query` function will query the SQLite database for observations where *medcodeid* is in a specified codelist. For example, we can query the *observation* table for all codes with *medcodeid* of 187341000000114.
+The `db_query` function will query the SQLite database for observations where the *medcodeid* or *prodcodeid* is in a specified codelist. For example, we can query the *observation* table for all codes with *medcodeid* of 187341000000114.
 
 ```{r}
 db.query <- db_query(db.open = aurum_extract,
@@ -245,7 +249,7 @@ db.query <- db_query(db.open = aurum_extract,
 db.query
 ```
 
-The `combine_query_boolean` function will assess whether each individual in a specified cohort has an observation in the queried data (obtained using `db_query`) within a specified time frame from the index date, returning a 0/1 vector. The `cohort` must contain a variable called `indexdt` containing the index date. This function is useful when defining 'history of' type variables, where we want to know if there is any record of a given condition prior to the index date. 
+The `combine_query_boolean` function will assess whether each individual in a specified cohort (`pat`) has an observation in the queried data (obtained using `db_query`) within a specified time frame from the index date, returning a 0/1 vector. The `cohort` must contain a variable called `indexdt` containing the index date. This function is useful when defining 'history of' type variables, where we want to know if there is any record of a given condition prior to the index date. 
 
 ```{r}
 ### Add an index date to pat
@@ -259,7 +263,7 @@ combine.query.boolean <- combine_query_boolean(cohort = pat,
 combine.query.boolean
 ```
 
-The `combine_query` function will merge a cohort with the queried data (obtained using `db_query`), returning a specified number of observations (`numobs`) within a specified time frame from the index date. This is useful when extracting test data and requiring access to the values of the tests, or when specifying variables that require > 1 observation within a certain time frame (i.e. two prescriptions within a month prior to index date). For queries from the `observation` table, the query type can be specified as `"med"` or `"test"`. Inputting `query.type = "med"` will just return the date of the observations and the *medcodeid*.
+The `combine_query` function will merge a cohort with the queried data and return a specified number of observations (`numobs`) within a specified time frame from the index date. This is useful when extracting test data and requiring access to the values of the tests, or when specifying variables that require > 1 observation within a certain time frame (i.e. two prescriptions within a month prior to index date). For queries from the `observation` table, the query type can be specified as `"med"` or `"test"`. Inputting `query.type = "med"` will just return the date of the observations and the *medcodeid*.
 
 ```{r}
 ### Combine query with cohort retaining most recent three records

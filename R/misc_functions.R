@@ -183,10 +183,10 @@ cprd_extract <- function(db,
   ### Check filetype
   filetype <- match.arg(filetype)
 
-  print(paste("nrows", nrows))
-  print(paste("select", select))
-  #   print(paste("subset.patids", subset.patids))
-  print(paste("use.set", use.set))
+  # print(paste("nrows", nrows))
+  # print(paste("select", select))
+  # print(paste("subset.patids", subset.patids))
+  # print(paste("use.set", use.set))
 
   ### Spit error out if subset.patids not in correct form
   if (!is.null(subset.patids)){
@@ -201,14 +201,7 @@ cprd_extract <- function(db,
     }
   }
 
-  # ### Start by creating/joining a database
-  # mydb <- RSQLite::dbConnect(RSQLite::SQLite(), paste("data/sql/", dbname, ".sqlite", sep = ""))
-
-  # ### Get filenames
-  # directory <- c("cons" = "Consultation", "obs" = "Observation", "drug" = "DrugIssue", "ref" = "Referral", "prob" = "Problem")
-  # filenames <- list.files(paste("data/unzip/", directory[filetype], sep = ""), pattern = ".txt", full.names = TRUE)
-  # filepath <- "C:/Users/mbrxsap3/OneDrive - The University of Manchester/GitRepos/rAURUM/inst/aurum_data/"
-
+  ### Get file names of files to be added
   filenames <- list.files(filepath, pattern = ".txt", full.names = TRUE)
   if (is.null(str.match)){
     filenames <- filenames[stringr::str_detect(filenames, filetype)]
@@ -220,7 +213,7 @@ cprd_extract <- function(db,
   }
 
   if (length(filenames) >= 1){
-    print(paste(filenames[1], Sys.time()))
+    print(paste("Adding", filenames[1], Sys.time()))
     ### Apply the add_to_database function to each file
     ## Overwrite for first file
     add_to_database(filenames[1],
@@ -236,7 +229,7 @@ cprd_extract <- function(db,
     if (length(filenames) > 1){
       ## Append for all subsequent files
       for (filename in filenames[-1]){
-        print(paste(filename, Sys.time()))
+        print(paste("Adding", filename, Sys.time()))
         add_to_database(filename,
                         filetype = filetype,
                         nrows = nrows,
