@@ -461,12 +461,9 @@ the same as previously.</p>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "nrows -1"</span></span>
-<span><span class="co">#&gt; [1] "select "</span></span>
-<span><span class="co">#&gt; [1] "use.set FALSE"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 13:44:54.003515"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 13:44:54.016046"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 13:44:54.02681"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 14:02:27.471658"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 14:02:27.484528"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 14:02:27.495511"</span></span></code></pre></div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">### Query first three rows</span></span>
@@ -489,12 +486,9 @@ the same as previously.</p>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>             filetype <span class="op">=</span> <span class="st">"drugissue"</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "nrows -1"</span></span>
-<span><span class="co">#&gt; [1] "select "</span></span>
-<span><span class="co">#&gt; [1] "use.set FALSE"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-12 13:44:54.109687"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-12 13:44:54.122463"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-12 13:44:54.133417"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-12 14:02:27.578235"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-12 14:02:27.590943"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-12 14:02:27.601948"</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">### List tables</span></span>
@@ -593,25 +587,23 @@ the data.frame provided to <code>subset.patids</code>.</p>
 <span><span class="co">### Add observation files</span></span>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
-<span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, nrows <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, select <span class="op">=</span> <span class="cn">NULL</span>, subset.patids <span class="op">=</span> <span class="va">pat</span>, use.set <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "nrows -1"</span></span>
-<span><span class="co">#&gt; [1] "select "</span></span>
-<span><span class="co">#&gt; [1] "use.set TRUE"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 13:44:54.290018"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 13:44:54.305384"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 13:44:54.31655"</span></span></code></pre></div>
+<span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, </span>
+<span>             subset.patids <span class="op">=</span> <span class="va">pat</span>, </span>
+<span>             use.set <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 14:02:27.76113"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 14:02:27.777236"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 14:02:27.788804"</span></span></code></pre></div>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">### Add drugissue files</span></span>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
-<span>             filetype <span class="op">=</span> <span class="st">"drugissue"</span>, nrows <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>, select <span class="op">=</span> <span class="cn">NULL</span>, subset.patids <span class="op">=</span> <span class="va">pat</span>, use.set <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "nrows -1"</span></span>
-<span><span class="co">#&gt; [1] "select "</span></span>
-<span><span class="co">#&gt; [1] "use.set TRUE"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-12 13:44:54.32882"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-12 13:44:54.340933"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-12 13:44:54.354781"</span></span></code></pre></div>
+<span>             filetype <span class="op">=</span> <span class="st">"drugissue"</span>, </span>
+<span>             subset.patids <span class="op">=</span> <span class="va">pat</span>, </span>
+<span>             use.set <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-12 14:02:27.801496"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-12 14:02:27.814083"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-12 14:02:27.828605"</span></span></code></pre></div>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">### Query first three rows of each table</span></span>
@@ -646,7 +638,7 @@ variables for creating an analysis-ready dataset.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="querying-the-sqlite-dataabase-to-extract-variables">Querying the SQLite dataabase to extract variables<a class="anchor" aria-label="anchor" href="#querying-the-sqlite-dataabase-to-extract-variables"></a>
+<h3 id="querying-the-sqlite-database-to-extract-variables">Querying the SQLite database to extract variables<a class="anchor" aria-label="anchor" href="#querying-the-sqlite-database-to-extract-variables"></a>
 </h3>
 <p>Once the data has been extracted and stored in an SQLite database, it
 can now be queried to create variables of interest. The normal process
@@ -663,14 +655,15 @@ prescription data is identified from the drugissue file using
 <em>prodcodeids</em>. Creation of codelists is an important step of data
 extraction, and we refer elsewhere for details on best practice for
 developing codelists, and the limitations of working with codelists
-<span class="citation">Gulliford et al. (2009)</span>.</p>
+<span class="citation">(Williams et al. 2019, 2017; Watson et al. 2017;
+Gulliford et al. 2009)</span>.</p>
 <div class="section level4">
 <h4 id="low-level-functions">Low level functions<a class="anchor" aria-label="anchor" href="#low-level-functions"></a>
 </h4>
 <p>The <code>db_query</code> function will query the SQLite database for
-observations where <em>medcodeid</em> is in a specified codelist. For
-example, we can query the <em>observation</em> table for all codes with
-<em>medcodeid</em> of 187341000000114.</p>
+observations where the <em>medcodeid</em> or <em>prodcodeid</em> is in a
+specified codelist. For example, we can query the <em>observation</em>
+table for all codes with <em>medcodeid</em> of 187341000000114.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db.query</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/db_query.html">db_query</a></span><span class="op">(</span>db.open <span class="op">=</span> <span class="va">aurum_extract</span>,</span>
 <span>                     tab <span class="op">=</span><span class="st">"observation"</span>,</span>
@@ -686,13 +679,13 @@ example, we can query the <em>observation</em> table for all codes with
 <span><span class="co">#&gt; 1: 187341000000114    84        79        67          24           22         5</span></span>
 <span><span class="co">#&gt; 2: 187341000000114    28        20         5          41           97        92</span></span></code></pre></div>
 <p>The <code>combine_query_boolean</code> function will assess whether
-each individual in a specified cohort has an observation in the queried
-data (obtained using <code>db_query</code>) within a specified time
-frame from the index date, returning a 0/1 vector. The
-<code>cohort</code> must contain a variable called <code>indexdt</code>
-containing the index date. This function is useful when defining
-‘history of’ type variables, where we want to know if there is any
-record of a given condition prior to the index date.</p>
+each individual in a specified cohort (<code>pat</code>) has an
+observation in the queried data (obtained using <code>db_query</code>)
+within a specified time frame from the index date, returning a 0/1
+vector. The <code>cohort</code> must contain a variable called
+<code>indexdt</code> containing the index date. This function is useful
+when defining ‘history of’ type variables, where we want to know if
+there is any record of a given condition prior to the index date.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Add an index date to pat</span></span>
 <span><span class="va">pat</span><span class="op">$</span><span class="va">indexdt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"01/01/2020"</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span></span>
@@ -705,14 +698,14 @@ record of a given condition prior to the index date.</p>
 <span><span class="va">combine.query.boolean</span></span>
 <span><span class="co">#&gt; [1] 1 0 0 1</span></span></code></pre></div>
 <p>The <code>combine_query</code> function will merge a cohort with the
-queried data (obtained using <code>db_query</code>), returning a
-specified number of observations (<code>numobs</code>) within a
-specified time frame from the index date. This is useful when extracting
-test data and requiring access to the values of the tests, or when
-specifying variables that require &gt; 1 observation within a certain
-time frame (i.e. two prescriptions within a month prior to index date).
-For queries from the <code>observation</code> table, the query type can
-be specified as <code>"med"</code> or <code>"test"</code>. Inputting
+queried data and return a specified number of observations
+(<code>numobs</code>) within a specified time frame from the index date.
+This is useful when extracting test data and requiring access to the
+values of the tests, or when specifying variables that require &gt; 1
+observation within a certain time frame (i.e. two prescriptions within a
+month prior to index date). For queries from the
+<code>observation</code> table, the query type can be specified as
+<code>"med"</code> or <code>"test"</code>. Inputting
 <code>query.type = "med"</code> will just return the date of the
 observations and the <em>medcodeid</em>.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
@@ -941,12 +934,9 @@ examples:</p>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>,</span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>,</span>
 <span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "nrows -1"</span></span>
-<span><span class="co">#&gt; [1] "select "</span></span>
-<span><span class="co">#&gt; [1] "use.set FALSE"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 13:44:55.407329"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 13:44:55.419578"</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 13:44:55.430291"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 14:02:28.903111"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 14:02:28.915605"</span></span>
+<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 14:02:28.92665"</span></span></code></pre></div>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## Disconnect</span></span>
