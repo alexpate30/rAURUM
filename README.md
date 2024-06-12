@@ -15,10 +15,10 @@ processing CPRD Aurum data into an ‘analysis-ready’ dataset which can be
 used for statistical analyses. This process is somewhat difficult in R,
 as the raw data is very large, provided in a large number of .txt files,
 which cannot all be read into the R workspace. rAURUM utilises
-[RSQLite](\url%7Bhttps://CRAN.R-project.org/package=RSQLite%7D) to
-create SQLite databases which are stored on the hard disk. These are
-then queried to extract the required information for a cohort of
-interest. The processes follow closely that from the
+[RSQLite](https://CRAN.R-project.org/package=RSQLite) to create SQLite
+databases which are stored on the hard disk. These are then queried to
+extract the required information for a cohort of interest. The processes
+follow closely that from the
 [rEHR](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5323003/) package,
 which was designed for extractin CPRD GOLD data, and is no longer
 available on CRAN.
@@ -85,9 +85,9 @@ database.
 cprd_extract(db = aurum_extract, 
              filepath = system.file("aurum_data", package = "rAURUM"), 
              filetype = "observation")
-#> [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 16:01:24.008187"
-#> [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 16:01:24.244836"
-#> [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 16:01:24.427172"
+#> [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-12 16:31:32.306484"
+#> [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-12 16:31:33.039292"
+#> [1] "Adding C:/Program Files/R/R-4.4.0/library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-12 16:31:34.068722"
 ```
 
 Query the database for specific codes and store in an R object using the
