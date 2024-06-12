@@ -24,8 +24,6 @@
 #' and then save onto the hard disk manually.
 #'
 #' @returns A data frame with variable age
-#'
-#' @export
 extract_age <- function(cohort,
                         varname = NULL,
                         indexdt,

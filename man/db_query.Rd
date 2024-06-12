@@ -42,3 +42,18 @@ Specifying \code{codelist} requires a specific underlying directory structure. T
 to the working directory, must be a .csv file, and contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the chosen \code{tab}. The codelist can
 also be read in manually, and supplied as a character vector to \code{codelist.vector}. If \code{codelist.vector} is defined, this will take precedence over \code{codelist}.
 }
+\examples{
+## Create connection to a temporary database
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+## Add observation data from all observation files in specified directory
+cprd_extract(db = aurum_extract,
+filepath = system.file("aurum_data", package = "rAURUM"),
+filetype = "observation")
+
+## Query database for a specific medcode
+db_query(db.open = aurum_extract,
+tab ="observation",
+codelist.vector = "187341000000114")
+
+}

@@ -86,3 +86,26 @@ The codelist on the hard disk must be stored in a directory called "codelists/an
 contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the input for argument \code{tab}. The input to argument \code{codelist} should just be a character string of
 the name of the files (excluding the suffix '.csv'). The \code{codelist.vector} option will take precedence over the \code{codelist} argument if both are specified.
 }
+\examples{
+
+## Connect
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+## Create SQLite database using cprd_extract
+cprd_extract(aurum_extract,
+filepath = system.file("aurum_data", package = "rAURUM"),
+filetype = "observation", use.set = FALSE)
+
+## Define cohort and add index date
+pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+pat$indexdt <- as.Date("01/01/1955", format = "\%d/\%m/\%Y")
+
+## Extract a history of type variable prior to index date
+extract_ho(pat,
+codelist.vector = "187341000000114",
+indexdt = "fup_start",
+db.open = aurum_extract,
+tab = "observation",
+return.output = TRUE)
+
+}

@@ -43,6 +43,30 @@
 #'
 #' @returns A data frame with variable total cholesterol/high-density lipoprotein ratio.
 #'
+#' @examples
+#'
+#' ## Connect
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Create SQLite database using cprd_extract
+#' cprd_extract(aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation", use.set = FALSE)
+#'
+#' ## Define cohort and add index date
+#' pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+#' pat$indexdt <- as.Date("01/01/1955", format = "%d/%m/%Y")
+#'
+#' ## Extract most recent cholhdl_ratio prior to index date
+#' extract_cholhdl_ratio(cohort = pat,
+#' codelist.ratio.vector = "498521000006119",
+#' codelist.chol.vector = "401539014",
+#' codelist.hdl.vector = "13483031000006114",
+#' indexdt = "indexdt",
+#' time.prev = Inf,
+#' db.open = aurum_extract,
+#' return.output = TRUE)
+#'
 #' @export
 extract_cholhdl_ratio <- function(cohort,
                                   varname = NULL,

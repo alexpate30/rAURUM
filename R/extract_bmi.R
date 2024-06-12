@@ -43,6 +43,30 @@
 #'
 #' @returns A data frame with variable BMI.
 #'
+#' @examples
+#'
+#' ## Connect
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Create SQLite database using cprd_extract
+#' cprd_extract(aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation", use.set = FALSE)
+#'
+#' ## Define cohort and add index date
+#' pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+#' pat$indexdt <- as.Date("01/01/1955", format = "%d/%m/%Y")
+#'
+#' ## Extract most recent BMI prior to index date
+#' extract_bmi(cohort = pat,
+#' codelist.bmi.vector = "498521000006119",
+#' codelist.weight.vector = "401539014",
+#' codelist.height.vector = "13483031000006114",
+#' indexdt = "indexdt",
+#' time.prev = Inf,
+#' db.open = aurum_extract,
+#' return.output = TRUE)
+#'
 #' @export
 extract_bmi <- function(cohort,
                         varname = NULL,

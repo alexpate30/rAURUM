@@ -46,7 +46,31 @@
 #'
 #' @returns A data frame with variable smoking status.
 #'
+#' @examples
+#'
+#' ## Connect
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Create SQLite database using cprd_extract
+#' cprd_extract(aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation", use.set = FALSE)
+#'
+#' ## Define cohort and add index date
+#' pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+#' pat$indexdt <- as.Date("01/01/1955", format = "%d/%m/%Y")
+#'
+#' ## Extract smoking status prior to index date
+#' extract_smoking(cohort = pat,
+#' codelist.non.vector = "498521000006119",
+#' codelist.ex.vector = "401539014",
+#' codelist.light.vector = "128011000000115",
+#' codelist.mod.vector = "380389013",
+#' codelist.heavy.vector = "13483031000006114",
+#' indexdt = "indexdt",
+#' db.open = aurum_extract)
 #' @export
+#'
 extract_smoking <- function(cohort,
                             varname = NULL,
                             codelist.non,

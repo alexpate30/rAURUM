@@ -12,3 +12,12 @@ connect_database(dbname)
 \description{
 Open connection to SQLite database
 }
+\examples{
+
+## Connect to a database
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+## Check connection is open
+inherits(aurum_extract, "DBIConnection")
+
+}

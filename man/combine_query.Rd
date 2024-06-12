@@ -54,3 +54,30 @@ interested in medical diagnoses from the observation file, and \code{type = test
 \code{value.na.rm = FALSE} may be of use when extracting variables like smoking status, where we want test data for number of cigarettes per day,
 but do not want to remove all observations with NA in the \code{value} column, because the medcodeid itself may indicate smoking status.
 }
+\examples{
+## Create connection to a temporary database
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+## Add observation data from all observation files in specified directory
+cprd_extract(db = aurum_extract,
+filepath = system.file("aurum_data", package = "rAURUM"),
+filetype = "observation")
+
+## Query database for a specific medcode
+db.query <- db_query(db.open = aurum_extract,
+tab ="observation",
+codelist.vector = "187341000000114")
+
+## Define cohort
+pat<-extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"))
+
+### Add an index date to pat
+pat$indexdt <- as.Date("01/01/2020", format = "\%d/\%m/\%Y")
+
+## Combine query with cohort retaining most recent three records
+combine_query(cohort = pat,
+db.query = db.query,
+query.type = "med",
+numobs = 3)
+
+}

@@ -36,6 +36,18 @@
 #' `extract.txt.func` does not need to be specified unless wanting to manually define the function for doing this. This may be beneficial if wanting to
 #' change variable formats, or if the variables in the .txt files change in future releases of CPRD AURUM.
 #'
+#' @examples
+#' ## Create connection to a temporary database
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Add observation data
+#' add_to_database(filepath = system.file("aurum_data",
+#' "aurum_allpatid_set1_extract_observation_001.txt", package = "rAURUM"),
+#' filetype = "observation", db = aurum_extract, overwrite = TRUE)
+#'
+#' ## Query database
+#' RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM observation', n = 3)
+#'
 #' @export
 add_to_database <- function(filepath,
                             filetype = c("observation", "drugissue", "referral", "problem", "consultation", "hes_primary","death"),
@@ -143,6 +155,18 @@ add_to_database <- function(filepath,
 #' The function for reading in the .txt file will be chosen from a set of functions provided with rAURUM, based on  the filetype (`filetype`).
 #' `extract.txt.func` does not need to be specified unless wanting to manually define the function for doing this. This may be beneficial if wanting to
 #' change variable formats, or if the variables in the .txt files change in future releases of CPRD AURUM and rAURUM has not been updated.
+#'
+#' @examples
+#' ## Create connection to a temporary database
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Add observation data from all observation files in specified directory
+#' cprd_extract(db = aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation")
+#'
+#' ## Query database
+#' RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM observation', n = 3)
 #'
 #' @export
 cprd_extract <- function(db,
@@ -256,6 +280,20 @@ cprd_extract <- function(db,
 #'
 #' @returns A data.table with observations contained in the specified codelist.
 #'
+#' @examples
+#' ## Create connection to a temporary database
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Add observation data from all observation files in specified directory
+#' cprd_extract(db = aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation")
+#'
+#' ## Query database for a specific medcode
+#' db_query(db.open = aurum_extract,
+#' tab ="observation",
+#' codelist.vector = "187341000000114")
+#'
 #' @export
 db_query <- function(codelist,
                      db.open = NULL,
@@ -337,6 +375,31 @@ db_query <- function(codelist,
 #'
 #' @returns A 0/1 vector.
 #'
+#' @examples
+#' ## Create connection to a temporary database
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Add observation data from all observation files in specified directory
+#' cprd_extract(db = aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation")
+#'
+#' ## Query database for a specific medcode
+#' db.query <- db_query(db.open = aurum_extract,
+#' tab ="observation",
+#' codelist.vector = "187341000000114")
+#'
+#' ## Define cohort
+#' pat<-extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"))
+#'
+#' ### Add an index date to pat
+#' pat$indexdt <- as.Date("01/01/2020", format = "%d/%m/%Y")
+#'
+#' ## Combine query with cohort creating a 'history of' boolean variable
+#' combine_query_boolean(cohort = pat,
+#' db.query = db.query,
+#' query.type = "observation")
+#'
 #' @export
 combine_query_boolean <- function(cohort,
                                   db.query,
@@ -405,6 +468,32 @@ combine_query_boolean <- function(cohort,
 #' but do not want to remove all observations with NA in the \code{value} column, because the medcodeid itself may indicate smoking status.
 #'
 #' @returns A data.table with observations that meet specified criteria.
+#'
+#' @examples
+#' ## Create connection to a temporary database
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Add observation data from all observation files in specified directory
+#' cprd_extract(db = aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation")
+#'
+#' ## Query database for a specific medcode
+#' db.query <- db_query(db.open = aurum_extract,
+#' tab ="observation",
+#' codelist.vector = "187341000000114")
+#'
+#' ## Define cohort
+#' pat<-extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"))
+#'
+#' ### Add an index date to pat
+#' pat$indexdt <- as.Date("01/01/2020", format = "%d/%m/%Y")
+#'
+#' ## Combine query with cohort retaining most recent three records
+#' combine_query(cohort = pat,
+#' db.query = db.query,
+#' query.type = "med",
+#' numobs = 3)
 #'
 #' @export
 combine_query <- function(cohort,
@@ -593,8 +682,14 @@ implement_output <- function(variable.dat, varname, out.save.disk, out.subdir, o
 #'
 #' @returns Data frame with patient information
 #'
+#' @examples
+#'
+#' ## Extract cohort data
+#' pat<-extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"))
+#' pat
+#'
 #' @export
-extract_patients <- function(filepath,
+extract_cohort <- function(filepath,
                            patids = NULL,
                            select = NULL,
                            set = FALSE){

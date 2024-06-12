@@ -37,6 +37,27 @@
 #'
 #' @returns A data frame with variable diabetes status.
 #'
+#' @examples
+#'
+#' ## Connect
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Create SQLite database using cprd_extract
+#' cprd_extract(aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation", use.set = FALSE)
+#'
+#' ## Define cohort and add index date
+#' pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+#' pat$indexdt <- as.Date("01/01/1955", format = "%d/%m/%Y")
+#'
+#' ## Extract diabetes prior to index date
+#' extract_diabetes(cohort = pat,
+#' codelist.type1.vector = "498521000006119",
+#' codelist.type2.vector = "401539014",
+#' indexdt = "indexdt",
+#' db.open = aurum_extract)
+#'
 #' @export
 extract_diabetes <- function(cohort,
                              varname = NULL,

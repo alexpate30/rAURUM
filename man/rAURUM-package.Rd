@@ -4,9 +4,9 @@
 \name{rAURUM-package}
 \alias{rAURUM}
 \alias{rAURUM-package}
-\title{rAURUM: Extract raw CPRD Aurum data and convert into an analysis-ready dataset.}
+\title{rAURUM: Extract raw CPRD Aurum data and convert into an analysis-ready dataset}
 \description{
-rAURUM is to simplifies the process of converting raw CPRD Aurum data, stored in large .txt files, into a 'analysis-ready' dataset which can be used for statistical analyses. This process is somewhat difficult in R, as the raw data is very large and cannot be read into the R workspace. rAURUM utilises \code{\link[RSQLite]} to create SQLite databases which are stored on the hard disk. These are then queried to extract the required information for a cohort of interest. The processes follow closely that from the rEHR package (Springate et al., 2017 \doi{10.1371/journal.pone.0171784}), which was designed for extractin CPRD GOLD data, and is no longer available on CRAN.
+rAURUM simplifies the process of converting raw CPRD Aurum data, stored in large .txt files, into an 'analysis-ready' dataset which can be used for statistical analyses. This process is somewhat difficult in R, as the raw data is very large and cannot be read into the R workspace. rAURUM utilises RSQLite to create SQLite databases which are stored on the hard disk. These are then queried to extract the required information for a cohort of interest. The processes follow closely that from the rEHR package, see Springate et al., (2017) \doi{10.1371/journal.pone.0171784} which was designed for extractin CPRD GOLD data, and is no longer available on CRAN.
 }
 \seealso{
 Useful links:

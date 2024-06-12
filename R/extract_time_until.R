@@ -38,9 +38,35 @@
 #' contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the input for argument `tab`. The input to argument `codelist` should just be a character string of
 #' the name of the files (excluding the suffix '.csv'). The `codelist.vector` option will take precedence over the `codelist` argument if both are specified.
 #'
+#' If the time until event is the same as time until censored, this will be considered an event (var_indicator = 1)
+#'
 #' If `dtcens.lag > 0`, then the time until the event of interest will be the time until the minimum of the event of interest, and date of censoring.
 #'
 #' @returns A data frame with variable patid, a variable containing the time until event/censoring, and a variable containing event/censoring indicator.
+#'
+#' @examples
+#'
+#' ## Connect
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Create SQLite database using cprd_extract
+#' cprd_extract(aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation", use.set = FALSE)
+#'
+#' ## Define cohort and add index date and censoring date
+#' pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+#' pat$indexdt <- as.Date("01/01/1955", format = "%d/%m/%Y")
+#' pat$fup_end <- as.Date("01/01/2000", format = "%d/%m/%Y")
+#'
+#' ## Extract time until event/censoring
+#' extract_time_until(pat,
+#' codelist.vector = "187341000000114",
+#' indexdt = "fup_start",
+#' censdt = "fup_end",
+#' db.open = aurum_extract,
+#' tab = "observation",
+#' return.output = TRUE)
 #'
 #' @export
 extract_time_until <- function(cohort,
@@ -153,7 +179,7 @@ extract_time_until <- function(cohort,
   ### Merge back with cohort
   variable.dat <- merge(dplyr::select(cohort, patid, indexdt, censdt), variable.dat, by.x = "patid", by.y = "patid", all.x = TRUE)
 
-  ### If the event has NA, se the time to censdt, and indicator to 0
+  ### If the event has NA, set the time to censdt, and indicator to 0
   variable.dat <- dplyr::mutate(variable.dat,
                                 var_indicator = dplyr::case_when(!is.na(var_time) ~ var_indicator,
                                                                  is.na(var_time) ~ 0),

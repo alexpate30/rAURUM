@@ -72,3 +72,16 @@ The function for reading in the .txt file will be chosen from a set of functions
 \code{extract.txt.func} does not need to be specified unless wanting to manually define the function for doing this. This may be beneficial if wanting to
 change variable formats, or if the variables in the .txt files change in future releases of CPRD AURUM and rAURUM has not been updated.
 }
+\examples{
+## Create connection to a temporary database
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+## Add observation data from all observation files in specified directory
+cprd_extract(db = aurum_extract,
+filepath = system.file("aurum_data", package = "rAURUM"),
+filetype = "observation")
+
+## Query database
+RSQLite::dbGetQuery(aurum_extract, 'SELECT * FROM observation', n = 3)
+
+}

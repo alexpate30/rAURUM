@@ -85,5 +85,32 @@ The codelist on the hard disk must be stored in a directory called "codelists/an
 contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the input for argument \code{tab}. The input to argument \code{codelist} should just be a character string of
 the name of the files (excluding the suffix '.csv'). The \code{codelist.vector} option will take precedence over the \code{codelist} argument if both are specified.
 
+If the time until event is the same as time until censored, this will be considered an event (var_indicator = 1)
+
 If \code{dtcens.lag > 0}, then the time until the event of interest will be the time until the minimum of the event of interest, and date of censoring.
+}
+\examples{
+
+## Connect
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+## Create SQLite database using cprd_extract
+cprd_extract(aurum_extract,
+filepath = system.file("aurum_data", package = "rAURUM"),
+filetype = "observation", use.set = FALSE)
+
+## Define cohort and add index date and censoring date
+pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+pat$indexdt <- as.Date("01/01/1955", format = "\%d/\%m/\%Y")
+pat$fup_end <- as.Date("01/01/2000", format = "\%d/\%m/\%Y")
+
+## Extract time until event/censoring
+extract_time_until(pat,
+codelist.vector = "187341000000114",
+indexdt = "fup_start",
+censdt = "fup_end",
+db.open = aurum_extract,
+tab = "observation",
+return.output = TRUE)
+
 }

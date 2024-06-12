@@ -1,0 +1,1 @@
+This directory will be used to showcase running rAURUM functions with hard filepaths.

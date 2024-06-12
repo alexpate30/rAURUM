@@ -41,6 +41,28 @@
 #'
 #' @returns A data frame with a 0/1 vector and patid.
 #'
+#' @examples
+#'
+#' ## Connect
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Create SQLite database using cprd_extract
+#' cprd_extract(aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation", use.set = FALSE)
+#'
+#' ## Define cohort and add index date
+#' pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+#' pat$indexdt <- as.Date("01/01/1955", format = "%d/%m/%Y")
+#'
+#' ## Extract a history of type variable prior to index date
+#' extract_ho(pat,
+#' codelist.vector = "187341000000114",
+#' indexdt = "fup_start",
+#' db.open = aurum_extract,
+#' tab = "observation",
+#' return.output = TRUE)
+#'
 #' @export
 extract_ho <- function(cohort,
                        varname = NULL,

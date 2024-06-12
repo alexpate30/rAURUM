@@ -35,3 +35,29 @@ Combine a database query with a cohort returning a 0/1 vector depending on wheth
 If an individual has at least \code{numobs} observations between \code{time.prev} days prior to \code{indexdt}, and \code{time.post} days after
 \code{indexdt}, a 1 will be returned, 0 otherwise. The \code{type} of query must be specified for appropriate data manipulation.
 }
+\examples{
+## Create connection to a temporary database
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+## Add observation data from all observation files in specified directory
+cprd_extract(db = aurum_extract,
+filepath = system.file("aurum_data", package = "rAURUM"),
+filetype = "observation")
+
+## Query database for a specific medcode
+db.query <- db_query(db.open = aurum_extract,
+tab ="observation",
+codelist.vector = "187341000000114")
+
+## Define cohort
+pat<-extract_cohort(filepath = system.file("aurum_data", package = "rAURUM"))
+
+### Add an index date to pat
+pat$indexdt <- as.Date("01/01/2020", format = "\%d/\%m/\%Y")
+
+## Combine query with cohort creating a 'history of' boolean variable
+combine_query_boolean(cohort = pat,
+db.query = db.query,
+query.type = "observation")
+
+}

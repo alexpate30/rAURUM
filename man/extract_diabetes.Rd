@@ -78,3 +78,25 @@ to the working directory, must be a .csv file, and contain a column "medcodeid",
 to these variables should just be the name of the files (excluding the suffix .csv). The codelists can also be read in manually, and supplied as a
 character vector. This option will take precedence over the codelists stored on the hard disk if both are specified.
 }
+\examples{
+
+## Connect
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+## Create SQLite database using cprd_extract
+cprd_extract(aurum_extract,
+filepath = system.file("aurum_data", package = "rAURUM"),
+filetype = "observation", use.set = FALSE)
+
+## Define cohort and add index date
+pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+pat$indexdt <- as.Date("01/01/1955", format = "\%d/\%m/\%Y")
+
+## Extract diabetes prior to index date
+extract_diabetes(cohort = pat,
+codelist.type1.vector = "498521000006119",
+codelist.type2.vector = "401539014",
+indexdt = "indexdt",
+db.open = aurum_extract)
+
+}

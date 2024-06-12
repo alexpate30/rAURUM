@@ -36,6 +36,28 @@
 #'
 #' @returns A data frame containing standard deviation of test results.
 #'
+#' @examples
+#'
+#' ## Connect
+#' aurum_extract <- connect_database(tempfile("temp.sqlite"))
+#'
+#' ## Create SQLite database using cprd_extract
+#' cprd_extract(aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation", use.set = FALSE)
+#'
+#' ## Define cohort and add index date
+#' pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+#' pat$indexdt <- as.Date("01/01/1955", format = "%d/%m/%Y")
+#'
+#' ## Extract standard deviation of previous test scores prior to index date
+#' extract_test_data_var(pat,
+#' codelist.vector = "187341000000114",
+#' indexdt = "fup_start",
+#' db.open = aurum_extract,
+#' time.prev = Inf,
+#' return.output = TRUE)
+#'
 #' @export
 extract_test_data_var <- function(cohort,
                                   varname = NULL,
@@ -51,7 +73,7 @@ extract_test_data_var <- function(cohort,
                                   db.open = NULL,
                                   db = NULL,
                                   db.filepath = NULL,
-                                  out.save.disk = TRUE,
+                                  out.save.disk = FALSE,
                                   out.subdir = NULL,
                                   out.filepath = NULL,
                                   return.output = FALSE){

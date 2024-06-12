@@ -5,6 +5,39 @@
 #'
 #' @param rootdir Directory within which to create the directory system
 #'
+#' @examples
+#'
+#' ## Print current working directory
+#' getwd()
+#'
+#' ## Create directory system compatible with rAURUM's automatic saving of
+#' ## output
+#' create_directory_system()
+#'
+#' ## Connect
+#' aurum_extract <- connect_database("data/sql/temp.sqlite")
+#'
+#' ## Create SQLite database using cprd_extract
+#' cprd_extract(aurum_extract,
+#' filepath = system.file("aurum_data", package = "rAURUM"),
+#' filetype = "observation", use.set = FALSE)
+#'
+#' ## Define cohort and add index date
+#' pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+#' pat$indexdt <- as.Date("01/01/1955", format = "%d/%m/%Y")
+#'
+#' ## Extract a history of type variable and save to disc automatically,
+#' ## by just specifying name of database
+#' extract_ho(pat,
+#' codelist.vector = "187341000000114",
+#' indexdt = "fup_start",
+#' db = "temp",
+#' tab = "observation",
+#' out.save.disk = TRUE)
+#'
+#' ## Read file from disk into R workspace
+#' readRDS("data/extraction/var_ho.rds")
+#'
 #' @export
 create_directory_system <- function(rootdir = NULL){
 

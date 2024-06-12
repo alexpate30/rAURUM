@@ -87,3 +87,26 @@ the name of the files (excluding the suffix '.csv'). The \code{codelist.vector} 
 
 Currently only returns most recent test result. This will be updated to return more than one most recent test result if specified.
 }
+\examples{
+
+## Connect
+aurum_extract <- connect_database(tempfile("temp.sqlite"))
+
+## Create SQLite database using cprd_extract
+cprd_extract(aurum_extract,
+filepath = system.file("aurum_data", package = "rAURUM"),
+filetype = "observation", use.set = FALSE)
+
+## Define cohort and add index date
+pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
+pat$indexdt <- as.Date("01/01/1955", format = "\%d/\%m/\%Y")
+
+## Extract most recent test value prior to index date
+extract_test_data(pat,
+codelist.vector = "187341000000114",
+indexdt = "fup_start",
+db.open = aurum_extract,
+time.prev = Inf,
+return.output = TRUE)
+
+}
