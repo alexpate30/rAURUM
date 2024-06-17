@@ -1,7 +1,7 @@
 ---
 title: "rAURUM: An R package to simplify the extraction and processing of CPRD Aurum data, and creating analysis-ready dataset"
 output: 
-  rmarkdown::html_document:
+  rmarkdown::pdf_document:
     number_sections: true
     toc: yes
 vignette: >
