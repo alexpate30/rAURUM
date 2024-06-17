@@ -3,7 +3,7 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   rAURUM: rAURUM.html
-last_built: 2024-06-17T09:45Z
+last_built: 2024-06-17T09:47Z
 urls:
   reference: https://alexpate30.github.io/rAURUM/reference
   article: https://alexpate30.github.io/rAURUM/articles
