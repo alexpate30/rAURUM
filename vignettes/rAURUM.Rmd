@@ -3,6 +3,7 @@ title: "rAURUM: An R package to simplify the extraction and processing of CPRD A
 output: 
   rmarkdown::html_vignette:
     number_sections: true
+    toc: yes
 vignette: >
   %\VignetteIndexEntry{user-guide}
   %\VignetteEngine{knitr::rmarkdown}
