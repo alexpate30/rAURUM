@@ -70,6 +70,9 @@
     <loc>https://alexpate30.github.io/rAURUM/reference/extract_impotence.html</loc>
   </url>
   <url>
+    <loc>https://alexpate30.github.io/rAURUM/reference/extract_patients.html</loc>
+  </url>
+  <url>
     <loc>https://alexpate30.github.io/rAURUM/reference/extract_smoking.html</loc>
   </url>
   <url>
@@ -112,7 +115,19 @@
     <loc>https://alexpate30.github.io/rAURUM/reference/extract_txt_ref.html</loc>
   </url>
   <url>
+    <loc>https://alexpate30.github.io/rAURUM/reference/implement_output.html</loc>
+  </url>
+  <url>
     <loc>https://alexpate30.github.io/rAURUM/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://alexpate30.github.io/rAURUM/reference/prep_cohort.html</loc>
+  </url>
+  <url>
+    <loc>https://alexpate30.github.io/rAURUM/reference/prep_subdir.html</loc>
+  </url>
+  <url>
+    <loc>https://alexpate30.github.io/rAURUM/reference/prep_varname.html</loc>
   </url>
   <url>
     <loc>https://alexpate30.github.io/rAURUM/reference/rAURUM-package.html</loc>
