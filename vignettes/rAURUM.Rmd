@@ -5,7 +5,7 @@ output:
     number_sections: true
     toc: yes
 vignette: >
-  %\VignetteIndexEntry{user-guide}
+  %\VignetteIndexEntry{rAURUM}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: refs.bib

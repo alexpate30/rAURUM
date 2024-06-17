@@ -635,7 +635,12 @@ prep_subdir <- function(out.subdir){
 #' Will save extracted variable to disk if `out.save.disk = TRUE`. Note it relies on correct underlying structure
 #' of directories. Will output extracted variable into R workspace if `return.output = TRUE`.
 #'
-#' @noRd
+#' @param variable.dat Dataset containing variable
+#' @param varname Name of variable to use in filename
+#' @param out.save.disk If TRUE will save output to disk
+#' @param out.subdir Sub-directory of data/ to save output into
+#' @param out.filepath Full fiilepath to save dat onto
+#' @param return.output If TRUE returns output into R workspace
 implement_output <- function(variable.dat, varname, out.save.disk, out.subdir, out.filepath, return.output){
   ### We now have the final variable file, we just need to decide how and where to save it
   ### Save data frame to disc
