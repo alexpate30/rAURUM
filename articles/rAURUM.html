@@ -5,54 +5,49 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="rAURUM">
 <title>rAURUM: An R package to simplify the extraction and processing of CPRD Aurum data, and creating analysis-ready dataset • rAURUM</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="rAURUM: An R package to simplify the extraction and processing of CPRD Aurum data, and creating analysis-ready dataset">
-<meta property="og:description" content="rAURUM">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="rAURUM: An R package to simplify the extraction and processing of CPRD Aurum data, and creating analysis-ready dataset">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">rAURUM</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/rAURUM.html">Get started</a>
+<li class="active nav-item"><a class="nav-link" href="../articles/rAURUM.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/Details-on-algorithms-for-extracting-specific-functions.html">Details-on-algorithms-for-extracting-specific-functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Details-on-algorithms-for-extracting-specific-variables.html">Details-on-algorithms-for-extracting-specific-variables</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav"></ul>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+      </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -61,10 +56,11 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>rAURUM: An R package to simplify the extraction and processing of CPRD Aurum data, and creating analysis-ready dataset</h1>
+
+      <h1>rAURUM: An R package to simplify the extraction and processing of CPRD Aurum data, and creating analysis-ready dataset</h1>
             
       
-      
+
       <div class="d-none name"><code>rAURUM.Rmd</code></div>
     </div>
 
@@ -235,9 +231,8 @@ files (all <em>set1</em>):</p>
 <code class="sourceCode R"><span><span class="co">#devtools::install_github("alexpate30/rAURUM")</span></span>
 <span><span class="co">#install.packages("rAURUM") NOT YET ON CRAN</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://alexpate30.github.io/rAURUM/">rAURUM</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: data.table</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">".txt"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: data.table</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">".txt"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "aurum_allpatid_set1_extract_drugissue_001.txt"  </span></span>
 <span><span class="co">#&gt; [2] "aurum_allpatid_set1_extract_drugissue_002.txt"  </span></span>
 <span><span class="co">#&gt; [3] "aurum_allpatid_set1_extract_drugissue_003.txt"  </span></span>
@@ -258,7 +253,7 @@ inclusion/exclusion criteria. In this case, these can be specified
 through the <code>patids</code> argument (which requires a character
 vector). Suppose the individuals meeting the exclusion criteria are
 those with patid = 1, 3, 4 and 6. We would then specify:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_cohort.html">extract_cohort</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">pat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; 'data.frame':    4 obs. of  12 variables:</span></span>
@@ -277,7 +272,7 @@ those with patid = 1, 3, 4 and 6. We would then specify:</p>
 <p>In other circumstances, a user may need to apply the inclusion and
 exclusion criteria themselves. In this case, one would initially create
 a patient file for all individuals.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_cohort.html">extract_cohort</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">pat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; 'data.frame':    12 obs. of  12 variables:</span></span>
@@ -299,7 +294,7 @@ specific inclusion/exclusion criteria. For example, all individuals with
 criteria can be applied solely using the information available in
 patient files. In this example, we define the individuals that met the
 inclusion criteria to be those with patid = 1, 3, 4 and 6.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">pat</span>, <span class="va">patid</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Once the cohort has been defined, the next step is to extract
 medical/prescription data for these individuals. However, it is also
@@ -345,7 +340,7 @@ connecting to your SQLite database. In this article we create a
 temporary database, but in practice this would be a permanent location
 the hard disk. Specifically, <code>tempfile("temp.sqlite")</code> would
 be replaced by the desired file path and SQLite database name.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aurum_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/connect_database.html">connect_database</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"temp.sqlite"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Next we add medical diagnoses data from the observation files to this
 database using the <code>add_to_database</code> function. The simulated
@@ -360,7 +355,7 @@ Note that for the first file, <code>overwrite = TRUE</code> is specified
 to create a new table. For the second and third file,
 <code>append = TRUE</code> is specified to append to an existing
 table.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/add_to_database.html">add_to_database</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, <span class="st">"aurum_allpatid_set1_extract_observation_001.txt"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>                filetype <span class="op">=</span> <span class="st">"observation"</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, db <span class="op">=</span> <span class="va">aurum_extract</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/add_to_database.html">add_to_database</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, <span class="st">"aurum_allpatid_set1_extract_observation_001.txt"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
@@ -372,7 +367,7 @@ table.</p>
 on how to query an SQLite database from within R is available in the
 documentation for R package RSQLite <span class="citation">(Müller et
 al. 2024)</span>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">aurum_extract</span>, <span class="st">'SELECT * FROM observation'</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patid consid pracid obsid obsdate enterdate staffid parentobsid</span></span>
 <span><span class="co">#&gt; 1     1     33      1   100  -15931      -994      79          95</span></span>
@@ -394,7 +389,7 @@ values. Next, the prescription data from the drugissue files is added to
 a table called <code>drugissue</code>. A single SQLite database may
 contain more than one table, so this data is added to a different table
 within the same SQLite database.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/add_to_database.html">add_to_database</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, <span class="st">"aurum_allpatid_set1_extract_drugissue_001.txt"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>                filetype <span class="op">=</span> <span class="st">"drugissue"</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, db <span class="op">=</span> <span class="va">aurum_extract</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/add_to_database.html">add_to_database</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, <span class="st">"aurum_allpatid_set1_extract_drugissue_001.txt"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
@@ -403,7 +398,7 @@ within the same SQLite database.</p>
 <span>                filetype <span class="op">=</span> <span class="st">"drugissue"</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, db <span class="op">=</span> <span class="va">aurum_extract</span>, append <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>Again this table can be queried, by selecting all rows from the
 <em>drugissue</em> table, and only printing the first 3.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">aurum_extract</span>, <span class="st">'SELECT * FROM drugissue'</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patid issueid pracid probobsid drugrecid issuedate enterdate staffid</span></span>
 <span><span class="co">#&gt; 1     1      93      1        88        83    -16118     -1013      98</span></span>
@@ -415,7 +410,7 @@ within the same SQLite database.</p>
 <span><span class="co">#&gt; 3  971241000033111       87       43          83       88         65         92</span></span></code></pre></div>
 <p>Listing the tables in the SQLite database shows there are now two,
 named <em>observation</em> and <em>drugissue</em>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbListTables</span><span class="op">(</span><span class="va">aurum_extract</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "drugissue"   "observation"</span></span></code></pre></div>
 <p>The <code>add_to_database</code> function allows specification of
@@ -432,7 +427,7 @@ the user to add any .txt file to their SQLite database.</p>
 <p>Finally, when manually adding files in this manner, it is good
 practice to close the connection to the SQLite database once
 finished.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbDisconnect</span><span class="op">(</span><span class="va">aurum_extract</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -446,7 +441,7 @@ would be cumbersome. We now we repeat the extraction but using the
 <code>add_to_database</code>, and will add all the files in a specified
 directory that contain a string matching the specified file type. Start
 by creating a connection to a new database:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aurum_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/connect_database.html">connect_database</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"temp.sqlite"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>We then use <code>cprd_extract</code> to add all the observation
 files into the SQLite database. The directory containing the files
@@ -456,16 +451,16 @@ which takes values in
 <code>c("observation", "drugissue", "referral", "problem", "consultation")</code>.
 We then query the first three rows of this database, and note they are
 the same as previously.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Extract data</span></span>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-17 10:08:12.921578"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-17 10:08:12.935155"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-17 10:08:12.946621"</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-07-15 15:28:16.872125"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-07-15 15:28:16.884792"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-07-15 15:28:16.898375"</span></span>
+<span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
+<span></span>
 <span><span class="co">### Query first three rows</span></span>
 <span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">aurum_extract</span>, <span class="st">'SELECT * FROM observation'</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patid consid pracid obsid obsdate enterdate staffid parentobsid</span></span>
@@ -481,21 +476,20 @@ the same as previously.</p>
 <span><span class="co">#&gt; 2        35</span></span>
 <span><span class="co">#&gt; 3        74</span></span></code></pre></div>
 <p>The process is then repeated for the drugissue files.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Extract data</span></span>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>             filetype <span class="op">=</span> <span class="st">"drugissue"</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-17 10:08:13.031224"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-17 10:08:13.044346"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-17 10:08:13.055838"</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-07-15 15:28:16.977979"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-07-15 15:28:16.990457"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-07-15 15:28:17.003947"</span></span>
+<span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
+<span></span>
 <span><span class="co">### List tables</span></span>
 <span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbListTables</span><span class="op">(</span><span class="va">aurum_extract</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "drugissue"   "observation"</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; [1] "drugissue"   "observation"</span></span>
+<span></span>
 <span><span class="co">### Query first three rows</span></span>
 <span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">aurum_extract</span>, <span class="st">'SELECT * FROM drugissue'</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patid issueid pracid probobsid drugrecid issuedate enterdate staffid</span></span>
@@ -505,9 +499,8 @@ the same as previously.</p>
 <span><span class="co">#&gt;         prodcodeid dosageid quantity quantunitid duration estnhscost quanunitid</span></span>
 <span><span class="co">#&gt; 1 3092241000033113       58       18          33       27         12          6</span></span>
 <span><span class="co">#&gt; 2   92041000033111       62       93          83       59         11         25</span></span>
-<span><span class="co">#&gt; 3  971241000033111       87       43          83       88         65         92</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; 3  971241000033111       87       43          83       88         65         92</span></span>
+<span></span>
 <span><span class="co">### Disconnect</span></span>
 <span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbDisconnect</span><span class="op">(</span><span class="va">aurum_extract</span><span class="op">)</span></span></code></pre></div>
 <p>The string to match on, function to read in the raw data, and the
@@ -555,7 +548,7 @@ patient files to create a cohort, this can be done by specifying
 come from the file with string <em>set1</em>, and therefore this
 variable is the same for all individuals in this cohort, however this
 will not be the case in practice.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_cohort.html">extract_cohort</a></span><span class="op">(</span>filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span><span class="op">)</span>, set <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">pat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; 'data.frame':    4 obs. of  13 variables:</span></span>
@@ -580,7 +573,7 @@ to <code>subset.patids</code> when running the
 When extracting data from observation files with <em>set1</em> in the
 name, it will only search for patient id’s with <code>set == 1</code> in
 the data.frame provided to <code>subset.patids</code>.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Create connection to SQLite database</span></span>
 <span><span class="va">aurum_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/connect_database.html">connect_database</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"temp.sqlite"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -590,22 +583,22 @@ the data.frame provided to <code>subset.patids</code>.</p>
 <span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, </span>
 <span>             subset.patids <span class="op">=</span> <span class="va">pat</span>, </span>
 <span>             use.set <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-17 10:08:13.219274"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-17 10:08:13.232671"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-17 10:08:13.248222"</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-07-15 15:28:17.160207"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-07-15 15:28:17.175872"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-07-15 15:28:17.187101"</span></span>
+<span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
+<span></span>
 <span><span class="co">### Add drugissue files</span></span>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>             filetype <span class="op">=</span> <span class="st">"drugissue"</span>, </span>
 <span>             subset.patids <span class="op">=</span> <span class="va">pat</span>, </span>
 <span>             use.set <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-06-17 10:08:13.261639"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-06-17 10:08:13.27489"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-06-17 10:08:13.290156"</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-07-15 15:28:17.199627"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-07-15 15:28:17.214092"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-07-15 15:28:17.225296"</span></span>
+<span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
+<span></span>
 <span><span class="co">### Query first three rows of each table</span></span>
 <span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">aurum_extract</span>, <span class="st">'SELECT * FROM observation'</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patid consid pracid obsid obsdate enterdate staffid parentobsid</span></span>
@@ -619,9 +612,8 @@ the data.frame provided to <code>subset.patids</code>.</p>
 <span><span class="co">#&gt;   probobsid</span></span>
 <span><span class="co">#&gt; 1        54</span></span>
 <span><span class="co">#&gt; 2        35</span></span>
-<span><span class="co">#&gt; 3        74</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">aurum_extract</span>, <span class="st">'SELECT * FROM drugissue'</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 3        74</span></span>
+<span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">aurum_extract</span>, <span class="st">'SELECT * FROM drugissue'</span>, n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patid issueid pracid probobsid drugrecid issuedate enterdate staffid</span></span>
 <span><span class="co">#&gt; 1     1      93      1        88        83    -16118     -1013      98</span></span>
 <span><span class="co">#&gt; 2     1      93      1        55        59    -13322    -12900      88</span></span>
@@ -664,7 +656,7 @@ Gulliford et al. 2009)</span>.</p>
 observations where the <em>medcodeid</em> or <em>prodcodeid</em> is in a
 specified codelist. For example, we can query the <em>observation</em>
 table for all codes with <em>medcodeid</em> of 187341000000114.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db.query</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/db_query.html">db_query</a></span><span class="op">(</span>db.open <span class="op">=</span> <span class="va">aurum_extract</span>,</span>
 <span>                     tab <span class="op">=</span><span class="st">"observation"</span>,</span>
 <span>                     codelist.vector <span class="op">=</span> <span class="st">"187341000000114"</span><span class="op">)</span></span>
@@ -686,7 +678,7 @@ vector. The <code>cohort</code> must contain a variable called
 <code>indexdt</code> containing the index date. This function is useful
 when defining ‘history of’ type variables, where we want to know if
 there is any record of a given condition prior to the index date.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Add an index date to pat</span></span>
 <span><span class="va">pat</span><span class="op">$</span><span class="va">indexdt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"01/01/2020"</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span></span>
 <span></span>
@@ -708,7 +700,7 @@ month prior to index date). For queries from the
 <code>"med"</code> or <code>"test"</code>. Inputting
 <code>query.type = "med"</code> will just return the date of the
 observations and the <em>medcodeid</em>.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Combine query with cohort retaining most recent three records</span></span>
 <span><span class="va">combine.query</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combine_query.html">combine_query</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">pat</span>,</span>
 <span>                               db.query <span class="op">=</span> <span class="va">db.query</span>,</span>
@@ -724,7 +716,7 @@ observations and the <em>medcodeid</em>.</p>
 other relevant information will also be returned, and those with NA
 values removed (although this can be altered through argument
 <code>value.na.rm</code>).</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Extract a history of type variable using extract_ho</span></span>
 <span><span class="va">combine.query</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combine_query.html">combine_query</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">pat</span>,</span>
 <span>                               db.query <span class="op">=</span> <span class="va">db.query</span>,</span>
@@ -754,7 +746,7 @@ variable whether individual has a specified code recorded prior to index
 date. This can be applied to search for history of medical diagnoses or
 prescriptions. The index date can be any variable in the cohort dataset,
 and is specified through the <code>indexdt</code> argument.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Define codelist</span></span>
 <span><span class="va">codelist</span> <span class="op">&lt;-</span> <span class="st">"187341000000114"</span></span>
 <span></span>
@@ -778,7 +770,7 @@ the first record of a specified code or censoring, and an indicator for
 whether event was observed or censored. To derive a variable of this
 type the cohort must also contain a time until censoring variable, which
 can be specified through <code>censdt</code>.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Add an censoring date to cohort</span></span>
 <span><span class="va">pat</span><span class="op">$</span><span class="va">fup_end</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"01/01/2024"</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span></span>
 <span></span>
@@ -802,7 +794,7 @@ after the index date to search for results are specified through
 results are identified from the observation file, using code lists.
 Lower and upper bounds can also be specified for the extracted data
 through <code>lower.bound</code> and <code>upper.bound</code>.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Extract test data using extract_test_data</span></span>
 <span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_test_data.html">extract_test_data</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">pat</span>, </span>
 <span>                               codelist.vector <span class="op">=</span> <span class="va">codelist</span>, </span>
@@ -814,14 +806,13 @@ through <code>lower.bound</code> and <code>upper.bound</code>.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; 'data.frame':    4 obs. of  2 variables:</span></span>
 <span><span class="co">#&gt;  $ patid: chr  "1" "3" "4" "6"</span></span>
-<span><span class="co">#&gt;  $ value: num  84 NA NA 28</span></span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt;  $ value: num  84 NA NA 28</span></span>
+<span></span>
 <span><span class="co">### Disconnect</span></span>
 <span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbDisconnect</span><span class="op">(</span><span class="va">aurum_extract</span><span class="op">)</span></span></code></pre></div>
 <p>Once all the variables of interest have been extracted, they can be
 merged into an analysis-ready dataset.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Recursive merge</span></span>
 <span><span class="va">analysis.ready.pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Reduce</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, by <span class="op">=</span> <span class="st">"patid"</span>, all.x <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pat</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patid"</span>, <span class="st">"gender"</span>, <span class="st">"yob"</span><span class="op">)</span><span class="op">]</span>, <span class="va">ho</span>, <span class="va">time_until</span>, <span class="va">test_data</span><span class="op">)</span><span class="op">)</span> </span>
 <span><span class="va">analysis.ready.pat</span></span>
@@ -920,13 +911,13 @@ the new working directory across multiple code chunks, we use
 step as usual using <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd()</a></code>:</p>
 <p>Next, the <code><a href="../reference/create_directory_system.html">create_directory_system()</a></code> function can be used
 to generate the required directory structure:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_directory_system.html">create_directory_system</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "The working directory is /home/runner/work/_temp/Library/rAURUM/example"</span></span></code></pre></div>
 <p>An SQLite database called “mydb.sqlite” is then created in the
 “data/sql” directory, using the same data from the previous
 examples:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Open connection</span></span>
 <span><span class="va">aurum_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/connect_database.html">connect_database</a></span><span class="op">(</span><span class="st">"data/sql/mydb.sqlite"</span><span class="op">)</span></span>
 <span></span>
@@ -934,16 +925,16 @@ examples:</p>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>,</span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>,</span>
 <span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-06-17 10:08:14.388742"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-06-17 10:08:14.401517"</span></span>
-<span><span class="co">#&gt; [1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-06-17 10:08:14.412794"</span></span></code></pre></div>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-07-15 15:28:18.280678"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-07-15 15:28:18.293059"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-07-15 15:28:18.303925"</span></span>
+<span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
+<span></span>
 <span><span class="co">## Disconnect</span></span>
 <span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbDisconnect</span><span class="op">(</span><span class="va">aurum_extract</span><span class="op">)</span></span></code></pre></div>
 <p>Finally, a code list called <em>mylist.csv</em> is created and saved
 into the <em>codelists/analysis/</em> directory.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Define codelist</span></span>
 <span><span class="va">codelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>medcodeid <span class="op">=</span> <span class="st">"187341000000114"</span><span class="op">)</span></span>
 <span></span>
@@ -952,7 +943,7 @@ into the <em>codelists/analysis/</em> directory.</p>
 <p>The <em>mydb.sqlite</em> database can now be queried to create a
 ‘history of’ type variable using the codelist <em>mylist.csv</em>, with
 the output saved directly onto the hard disk.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/extract_ho.html">extract_ho</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">pat</span>,</span>
 <span>           codelist <span class="op">=</span> <span class="st">"mylist"</span>,</span>
 <span>           indexdt <span class="op">=</span> <span class="st">"fup_start"</span>,</span>
@@ -967,7 +958,7 @@ the output saved directly onto the hard disk.</p>
 <p>Note there is no output from this function. Instead the extracted
 variable has been saved onto the hard disk in an .rds file, and can be
 read in using:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"data/extraction/var_ho.rds"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patid ho</span></span>
 <span><span class="co">#&gt; 1     1  1</span></span>
@@ -1080,7 +1071,7 @@ Exposure</span>.”</span> <a href="https://cran.r-project.org/package=drugprepr
 </div>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -1091,15 +1082,15 @@ Exposure</span>.”</span> <a href="https://cran.r-project.org/package=drugprepr
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

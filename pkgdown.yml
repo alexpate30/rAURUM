@@ -1,10 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
+  Details-on-algorithms-for-extracting-specific-functions: Details-on-algorithms-for-extracting-specific-functions.html
+  Details-on-algorithms-for-extracting-specific-variables: Details-on-algorithms-for-extracting-specific-variables.html
   rAURUM: rAURUM.html
-last_built: 2024-06-17T10:08Z
+last_built: 2024-07-15T15:28Z
 urls:
   reference: https://alexpate30.github.io/rAURUM/reference
   article: https://alexpate30.github.io/rAURUM/articles
-
