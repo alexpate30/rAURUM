@@ -63,7 +63,7 @@ extract_ho(
 \item{return.output}{If \code{TRUE} will return outputted data frame into R workspace.}
 }
 \value{
-A data frame with a 0/1 vector and patid.
+A data frame with a 0/1 vector and patid. 1 = presence of code within the specified time period.
 }
 \description{
 Query an RSQLite database and return a data frame with a 0/1 vector depending on whether each individual has at least one observation with relevant code between

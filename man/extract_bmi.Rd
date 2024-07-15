@@ -81,6 +81,10 @@ A data frame with variable BMI.
 Extract most recent BMI score relative to an index date.
 }
 \details{
+BMI can either be identified through a directly recorded BMI score, or calculated via height and weight scores.
+Full details on the algorithm for extracting BMI are given in the vignette: Details-on-algorithms-for-extracting-specific-variables.
+This vignette can be viewed by running \code{vignette("help", package = "rAURUM)}.
+
 Specifying \code{db} requires a specific underlying directory structure. The SQLite database must be stored in "data/sql/" relative to the working directory.
 If the SQLite database is accessed through \code{db}, the connection will be opened and then closed after the query is complete. The same is true if
 the database is accessed through \code{db.filepath}. A connection to the SQLite database can also be opened manually using \code{RSQLite::dbConnect}, and then
