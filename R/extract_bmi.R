@@ -26,7 +26,11 @@
 #' @param out.filepath Full filepath and filename to save outputted data frame into.
 #' @param return.output If `TRUE` will return outputted data frame into R workspace.
 #'
-#' @details Specifying `db` requires a specific underlying directory structure. The SQLite database must be stored in "data/sql/" relative to the working directory.
+#' @details BMI can either be identified through a directly recorded BMI score, or calculated via height and weight scores.
+#' Full details on the algorithm for extracting BMI are given in the vignette: Details-on-algorithms-for-extracting-specific-variables.
+#' This vignette can be viewed by running \code{vignette("help", package = "rAURUM)}.
+#'
+#' Specifying `db` requires a specific underlying directory structure. The SQLite database must be stored in "data/sql/" relative to the working directory.
 #' If the SQLite database is accessed through `db`, the connection will be opened and then closed after the query is complete. The same is true if
 #' the database is accessed through `db.filepath`. A connection to the SQLite database can also be opened manually using `RSQLite::dbConnect`, and then
 #' using the object as input to parameter `db.open`. After wards, the connection must be closed manually using `RSQLite::dbDisconnect`. If `db.open` is specified, this will take precedence over `db` or `db.filepath`.
@@ -170,8 +174,8 @@ extract_bmi <- function(cohort,
                                        time.post = time.post)
 
   ### For the height query, we need to rescale those with numunitid = 173, 432 or 3202 from metres to cm
-  db.qry.height <- dplyr::mutate(db.qry.height, value = dplyr::case_when(numunitid %in% c(173, 432, 3202) ~ 100*value,
-                                                                         !(numunitid %in% c(173, 432, 3202)) ~ value))
+  db.qry.height <- dplyr::mutate(db.qry.height, value = dplyr::case_when(numunitid %in% c(173, 432, 3202) ~ value,
+                                                                         !(numunitid %in% c(173, 432, 3202)) ~ value/100))
 
 
 
@@ -181,7 +185,7 @@ extract_bmi <- function(cohort,
   ## Merge height and weight datasets
   variable.dat.manual <- merge(variable.dat.weight, variable.dat.height, by.x = "patid", by.y = "patid")
   ## Calculate bmi
-  variable.dat.manual$value <- variable.dat.manual$value.x/(variable.dat.manual$value.y/100)^2
+  variable.dat.manual$value <- variable.dat.manual$value.x/(variable.dat.manual$value.y)^2
   ## Take furthest away date
   variable.dat.manual$obsdate <- pmin(variable.dat.manual$obsdate.x, variable.dat.manual$obsdate.y)
   ## Remove values outside of range

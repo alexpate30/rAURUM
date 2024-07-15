@@ -20,7 +20,11 @@
 #' @param out.filepath Full filepath and filename to save outputted data frame into.
 #' @param return.output If `TRUE` will return outputted data frame into R workspace.
 #'
-#' @details Specifying `db` requires a specific underlying directory structure. The SQLite database must be stored in "data/sql/" relative to the working directory.
+#' @details If an individual is found to have medical codes for both type 1 and type 2 diabetes, the returned value of diabetes status will be type 1 diabetes.
+#' Full details on the algorithm for extracting diabetes status are given in the vignette: Details-on-algorithms-for-extracting-specific-variables.
+#' This vignette can be viewed by running \code{vignette("help", package = "rAURUM)}.
+#'
+#' Specifying `db` requires a specific underlying directory structure. The SQLite database must be stored in "data/sql/" relative to the working directory.
 #' If the SQLite database is accessed through `db`, the connection will be opened and then closed after the query is complete. The same is true if
 #' the database is accessed through `db.filepath`. A connection to the SQLite database can also be opened manually using `RSQLite::dbConnect`, and then
 #' using the object as input to parameter `db.open`. After wards, the connection must be closed manually using `RSQLite::dbDisconnect`. If `db.open` is specified, this will take precedence over `db` or `db.filepath`.

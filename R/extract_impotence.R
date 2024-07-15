@@ -39,6 +39,7 @@
 #' character vector. This option will take precedence over the codelists stored on the hard disk if both are specified.
 #'
 #' @returns A data frame with variable impotence status.
+#'
 extract_impotence <- function(cohort,
                               varname = NULL,
                               codelist.med,

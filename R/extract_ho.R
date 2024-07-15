@@ -39,7 +39,7 @@
 #' contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the input for argument `tab`. The input to argument `codelist` should just be a character string of
 #' the name of the files (excluding the suffix '.csv'). The `codelist.vector` option will take precedence over the `codelist` argument if both are specified.
 #'
-#' @returns A data frame with a 0/1 vector and patid.
+#' @returns A data frame with a 0/1 vector and patid. 1 = presence of code within the specified time period.
 #'
 #' @examples
 #'

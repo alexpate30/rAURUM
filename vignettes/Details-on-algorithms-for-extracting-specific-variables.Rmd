@@ -1,0 +1,89 @@
+---
+title: "Details-on-algorithms-for-extracting-specific-variables"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Details-on-algorithms-for-extracting-specific-variables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rAURUM)
+```
+
+# Introduction
+
+**rAURUM** contains a number of functions which extract specific variables, namely:
+
+* BMI: `extract_BMI`
+* Cholesterol/high-density lipoprotein (HDL) ratio: `extract_cholhdl_ratio`
+* Diabetes status: `extract_diabetes`
+* Smoking status: `extract_smoking`
+
+The algorithms underpinning the extraction of these variables are given here.
+
+# BMI (`extract_BMI`)
+
+Extraction of BMI requires the user to specify three codelists. One for BMI scores (`codelist.BMI`), one for height measurements (`codelist.height`) and one for weight measurements (`codelist.weight`). All the BMI, height and weight measurements for each patient in the cohort of interest are then extracted. The algorithm is as follows:
+
+* Extract the most recent BMI, height and weight measurements (within the specified time period) according to the user inputted code lists. Observation dates identified using variable *obsdate*.
+  + The measurements must be non-missing
+  + The BMI measurements must be within the user-defined valid range.
+* Rescale height scores to metres. When numunitid is not $ \in {173, 432, 3202}$, which correspond to metres, the height measurement is divided by 100. All other measurements are assumed to be in centimetres. \textbf{LOOK AT THIS}.
+* All weight measurements are assumed to be in kilograms.
+* Merge height and weight measurements.
+  + Calculate BMI for every pair of height and weight measurements using $\frac{weight}{height^{2}}$.
+  + Remove BMI scores that are outside the specified range.
+  + Assign observation date to be the height or weight measurement which occurred first.
+* Merge the directly recorded BMI scores, with the BMI scores calculated from height and weight.
+* Take the most recent BMI score within the specified time period, whether it was a directly recorded BMI score, or calculated from height and weight. If both are recorded on the same date, the directly recorded BMI score takes preference. 
+
+# Cholesterol/HDL ratio (`extract_cholhdl_ratio`)
+
+Extraction of cholesterol/HDL ratio requires the user to specify three codelists. One for cholesterol/HDL ratio measurements (`codelist.ratio`), one for total cholesterol measurements (`codelist.chol`) and one for HDL measurements (`codelist.hdl`). All the cholesterol/HDL, total cholesterol and cholesterol/HDL measurements for each patient in the cohort of interest are then extracted. The algorithm is as follows:
+
+* Extract the most recent cholesterol/HDL, total cholesterol and cholesterol/HDL measurements (within the specified time period) according to the user inputted code lists. Observation dates identified using variable *obsdate*.
+  + The measurements must be non-missing
+  + The cholesterol/HDL ratio measurements must be within the user-defined valid range.
+* All measurements are assumed to be in the correct unit of measurement. \textbf{LOOK AT THIS}.
+* Merge total cholesterol and HDL measurements.
+  + Calculate cholesterol/HDL for every pair of total cholesterol and HDL measurements using $\frac{total cholesterol}{HDL}$.
+  + Remove cholesterol/HDL scores that are outside the specified range.
+  + Assign observation date to be the total cholesterol or HDL measurement which occurred first.
+* Merge the directly recorded cholesterol/HDL scores, with the cholesterol/HDL scores calculated from total cholesterol and HDL.
+* Take the most recent cholesterol/HDL score within the specified time period, whether it was a directly recorded cholesterol/HDL score, or calculated from total cholesterol and HDL. If both are recorded on the same date, the directly recorded cholesterol/HDL score takes preference.
+
+# Diabetes status (`extract_diabetes`)
+
+Extraction of diabetes status requires the user to specify two codelists. One for type 1 diabetes (`codelist.type1`), and another for type 2 diabetes (`codelist.type2`). The reason this variable is not treated as a `history of` type variable and extracted using `extract_ho` is because often individuals will have a generic code such as *diabetes mellitus*, which would be used to identify type 2 diabetes, but will also have a specific code such as *type 1 diabetes mellitus*. This algorithm treats the two as mutually exclusive, and assigns individuals with a code for both type 1 and type 1 diabetes, as having type 1 diabetes. The algorithm is as follows:
+
+* Extract type 1 diabetes and type 2 diabetes observations that occurred prior to the index date. Observation dates identified using variable *obsdate*.
+* Assign diabetes status.
+  + If an individual has a code for both type 1 and type 2 diabetes, assign diabetes type 1.
+
+# Smoking status (`extract_smoking`)
+
+Extraction of smoking status requires the user to specify five codelists. One for non-smoker (`codelist.non`), one for ex-smoker (`codelist.ex`), one for light smoker (`codelist.light`), one for moderate smoker (`codelist.moderate`) and one for heavy smoker (`codelist.heavy`). For records identified using the light, moderate or heavy smoker code lists, the *value* variable, which represents number of cigarettes smoker per day, is used to modify the outputted smoking status variable. This is to maximise the number of observations that are defined in the same way (< 10 day is light, 10 - 19 a day is moderate, > 19 is heavy). The *value* variable for observations recorded as ex-smoker are often denoting the number of cigarettes per day the individual used to smoke, therefore this data is not used to alter the smoking status. If an individuals most recent record is a non-smoker, but an individual has previous records which indicate a history of smoking, the smoking status is altered from non-smoker to ex-smoker. The algorithm is as follows:
+
+* Extract the 100 most recent non, ex, light, moderate and heavy smoker observations according to the user inputted code lists. Observation dates identified using variable *obsdate*.
+* If the *value* variable is non-missing for an observation identified using the light, moderate or heavy smoker code lists, re-define this to represent smoking status based on the following definition:
+  + 1 - 9 per day = light smoker.
+  + 10 - 19 per day = moderate smoker.
+  + 19 - 100 per day = heavy smoker.
+  + More than 100 per day, remove observation.
+* Define smoking status to be the most recent observation.
+* If there are multiple on the same date, use the most severe smoking status.
+* If the most recent observation is non-smoker, but there are codes for ex, light, moderate or heavy smoker prior to this, change to ex-smoker.
+
+
+
+
+
+

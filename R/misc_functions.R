@@ -212,9 +212,17 @@ cprd_extract <- function(db,
     }
   }
 
+  ### Initialise progress bar
+  pb <- utils::txtProgressBar(min = 0,
+                              max = length(filenames),
+                              style = 3,
+                              char = "=")
+
+  ### Apply the add_to_database function to each file
   if (length(filenames) >= 1){
     print(paste("Adding", filenames[1], Sys.time()))
-    ### Apply the add_to_database function to each file
+    ### Assign counter for progress bar
+    progress <- 1
     ## Overwrite for first file
     add_to_database(filenames[1],
                     filetype = filetype,
@@ -226,10 +234,13 @@ cprd_extract <- function(db,
                     extract.txt.func = extract.txt.func,
                     tablename = tablename,
                     overwrite = TRUE)
+    ### Print progress bar
+    setTxtProgressBar(pb, progress)
+    ### Loop through all subsequent files
     if (length(filenames) > 1){
-      ## Append for all subsequent files
       for (filename in filenames[-1]){
         print(paste("Adding", filename, Sys.time()))
+        ## Append for all subsequent files
         add_to_database(filename,
                         filetype = filetype,
                         nrows = nrows,
@@ -240,6 +251,9 @@ cprd_extract <- function(db,
                         extract.txt.func = extract.txt.func,
                         tablename = tablename,
                         append = TRUE)
+        ## Add progress to progress bar
+        progress <- progress + 1
+        setTxtProgressBar(pb, progress)
       }
     }
   } else if (length(filenames) == 0){
@@ -247,7 +261,6 @@ cprd_extract <- function(db,
   }
 
 }
-
 
 #' Query an RSQLite database.
 #'
