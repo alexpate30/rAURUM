@@ -84,7 +84,7 @@ Extract smoking status prior to index date.
 Returns the most recent value of smoking status. If the most recently recorded observation of smoking status is non-smoker, but the individual
 has a history of smoking identified through the medical record, the outputted value of smoking status will be ex-smoker.
 Full details on the algorithm for extracting smoking status are given in the vignette: Details-on-algorithms-for-extracting-specific-variables.
-This vignette can be viewed by running \code{vignette("help", package = "rAURUM)}.
+This vignette can be viewed by running \code{vignette("help", package = "rAURUM")}.
 
 Specifying \code{db} requires a specific underlying directory structure. The SQLite database must be stored in "data/sql/" relative to the working directory.
 If the SQLite database is accessed through \code{db}, the connection will be opened and then closed after the query is complete. The same is true if
