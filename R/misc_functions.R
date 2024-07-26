@@ -235,7 +235,7 @@ cprd_extract <- function(db,
                     tablename = tablename,
                     overwrite = TRUE)
     ### Print progress bar
-    setTxtProgressBar(pb, progress)
+    utils::setTxtProgressBar(pb, progress)
     ### Loop through all subsequent files
     if (length(filenames) > 1){
       for (filename in filenames[-1]){
@@ -253,7 +253,7 @@ cprd_extract <- function(db,
                         append = TRUE)
         ## Add progress to progress bar
         progress <- progress + 1
-        setTxtProgressBar(pb, progress)
+        utils::setTxtProgressBar(pb, progress)
       }
     }
   } else if (length(filenames) == 0){
