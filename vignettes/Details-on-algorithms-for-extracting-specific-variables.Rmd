@@ -36,7 +36,7 @@ Extraction of BMI requires the user to specify three codelists. One for BMI scor
 * Extract the most recent BMI, height and weight measurements (within the specified time period) according to the user inputted code lists. Observation dates identified using variable *obsdate*.
   + The measurements must be non-missing
   + The BMI measurements must be within the user-defined valid range.
-* Rescale height scores to metres. When numunitid is not $\in{173, 432, 3202}$, which correspond to metres, the height measurement is divided by 100. All other measurements are assumed to be in centimetres. \textbf{LOOK AT THIS}.
+* Rescale height scores to metres. When numunitid is not $\in{173, 432, 3202}$, which correspond to metres, the height measurement is divided by 100. All other measurements are assumed to be in centimetres. **LOOK AT THIS**.
 * All weight measurements are assumed to be in kilograms.
 * Merge height and weight measurements.
   + Calculate BMI for every pair of height and weight measurements using $\frac{weight}{height^{2}}$.
@@ -52,7 +52,7 @@ Extraction of cholesterol/HDL ratio requires the user to specify three codelists
 * Extract the most recent cholesterol/HDL, total cholesterol and cholesterol/HDL measurements (within the specified time period) according to the user inputted code lists. Observation dates identified using variable *obsdate*.
   + The measurements must be non-missing
   + The cholesterol/HDL ratio measurements must be within the user-defined valid range.
-* All measurements are assumed to be in the correct unit of measurement. \textbf{LOOK AT THIS}.
+* All measurements are assumed to be in the correct unit of measurement. **LOOK AT THIS**.
 * Merge total cholesterol and HDL measurements.
   + Calculate cholesterol/HDL for every pair of total cholesterol and HDL measurements using $\frac{total cholesterol}{HDL}$.
   + Remove cholesterol/HDL scores that are outside the specified range.
