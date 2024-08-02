@@ -35,7 +35,6 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/Details-on-algorithms-for-extracting-specific-variables.html">Details-on-algorithms-for-extracting-specific-variables</a></li>
-    <li><a class="dropdown-item" href="../articles/test.html">test</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -86,11 +85,15 @@ specific variables, namely:</p>
 </li>
 </ul>
 <p>The algorithms underpinning the extraction of these variables are
-given here.</p>
+given in section 2. A summary of the unit measurements recorded for
+these variables is given in section 3.</p>
 </div>
 <div class="section level2">
-<h2 id="bmi-extract_bmi">BMI (<code>extract_BMI</code>)<a class="anchor" aria-label="anchor" href="#bmi-extract_bmi"></a>
+<h2 id="algorithms-for-variable-extraction">Algorithms for variable extraction<a class="anchor" aria-label="anchor" href="#algorithms-for-variable-extraction"></a>
 </h2>
+<div class="section level3">
+<h3 id="bmi-extract_bmi">BMI (<code>extract_BMI</code>)<a class="anchor" aria-label="anchor" href="#bmi-extract_bmi"></a>
+</h3>
 <p>Extraction of BMI requires the user to specify three codelists. One
 for BMI scores (<code>codelist.BMI</code>), one for height measurements
 (<code>codelist.height</code>) and one for weight measurements
@@ -108,11 +111,14 @@ range.</li>
 </ul>
 </li>
 <li>Rescale height scores to metres. When numunitid is not
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><mrow><mn>173</mn><mo>,</mo><mn>432</mn><mo>,</mo><mn>3202</mn></mrow></mrow><annotation encoding="application/x-tex">\in{173, 432, 3202}</annotation></semantics></math>,
-which correspond to metres, the height measurement is divided by 100.
-All other measurements are assumed to be in centimetres. <strong>LOOK AT
-THIS</strong>.</li>
-<li>All weight measurements are assumed to be in kilograms.</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>173</mn><mo>,</mo><mn>432</mn><mo>,</mo><mn>3202</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\in \{173, 432, 3202\}</annotation></semantics></math>,
+which correspond to metres, the measurement is assumed to be
+centimetres, and the height measurement is divided by 100 (see section
+3).</li>
+<li>Rescale weight scores to kg. When numunitid is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>1691</mn><mo>,</mo><mn>2318</mn><mo>,</mo><mn>2997</mn><mo>,</mo><mn>6265</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\in \{1691, 2318, 2997, 6265\}</annotation></semantics></math>,
+which correspond to stone, the measurement is converted to kg. All other
+measurements are assumed to be kg (see section 3).</li>
 <li>Merge height and weight measurements.
 <ul>
 <li>Calculate BMI for every pair of height and weight measurements using
@@ -130,9 +136,9 @@ and weight. If both are recorded on the same date, the directly recorded
 BMI score takes preference.</li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="cholesterolhdl-ratio-extract_cholhdl_ratio">Cholesterol/HDL ratio (<code>extract_cholhdl_ratio</code>)<a class="anchor" aria-label="anchor" href="#cholesterolhdl-ratio-extract_cholhdl_ratio"></a>
-</h2>
+<div class="section level3">
+<h3 id="cholesterolhdl-ratio-extract_cholhdl_ratio">Cholesterol/HDL ratio (<code>extract_cholhdl_ratio</code>)<a class="anchor" aria-label="anchor" href="#cholesterolhdl-ratio-extract_cholhdl_ratio"></a>
+</h3>
 <p>Extraction of cholesterol/HDL ratio requires the user to specify
 three codelists. One for cholesterol/HDL ratio measurements
 (<code>codelist.ratio</code>), one for total cholesterol measurements
@@ -152,7 +158,7 @@ user-defined valid range.</li>
 </ul>
 </li>
 <li>All measurements are assumed to be in the correct unit of
-measurement. <strong>LOOK AT THIS</strong>.</li>
+measurement (see section 3).</li>
 <li>Merge total cholesterol and HDL measurements.
 <ul>
 <li>Calculate cholesterol/HDL for every pair of total cholesterol and
@@ -173,9 +179,9 @@ same date, the directly recorded cholesterol/HDL score takes
 preference.</li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="diabetes-status-extract_diabetes">Diabetes status (<code>extract_diabetes</code>)<a class="anchor" aria-label="anchor" href="#diabetes-status-extract_diabetes"></a>
-</h2>
+<div class="section level3">
+<h3 id="diabetes-status-extract_diabetes">Diabetes status (<code>extract_diabetes</code>)<a class="anchor" aria-label="anchor" href="#diabetes-status-extract_diabetes"></a>
+</h3>
 <p>Extraction of diabetes status requires the user to specify two
 codelists. One for type 1 diabetes (<code>codelist.type1</code>), and
 another for type 2 diabetes (<code>codelist.type2</code>). The reason
@@ -199,9 +205,9 @@ assign diabetes type 1.</li>
 </li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="smoking-status-extract_smoking">Smoking status (<code>extract_smoking</code>)<a class="anchor" aria-label="anchor" href="#smoking-status-extract_smoking"></a>
-</h2>
+<div class="section level3">
+<h3 id="smoking-status-extract_smoking">Smoking status (<code>extract_smoking</code>)<a class="anchor" aria-label="anchor" href="#smoking-status-extract_smoking"></a>
+</h3>
 <p>Extraction of smoking status requires the user to specify five
 codelists. One for non-smoker (<code>codelist.non</code>), one for
 ex-smoker (<code>codelist.ex</code>), one for light smoker
@@ -241,6 +247,361 @@ status.</li>
 for ex, light, moderate or heavy smoker prior to this, change to
 ex-smoker.</li>
 </ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="summary-of-units-of-measurement-for-test-data">Summary of units of measurement for test data<a class="anchor" aria-label="anchor" href="#summary-of-units-of-measurement-for-test-data"></a>
+</h2>
+<p>In this section we report the different units of measurement that the
+test data for the above variables may be recorded in. The unit of
+measurement is denoted with the <em>numunitid</em> variable in the
+observation file, which has a corresponding lookup file in the CPRD
+data. We queried the observation data for a large cohort of individuals
+aged 18 - 85 between 2005 - 2020 using the code lists provided within
+<em>inst/codelists</em> directory of <strong>rAURUM</strong>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"codelists"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "edh_bmi_medcodeid.csv"           "edh_chol_medcodeid.csv"         </span></span>
+<span><span class="co">#&gt; [3] "edh_cholhdl_ratio_medcodeid.csv" "edh_hdl_medcodeid.csv"          </span></span>
+<span><span class="co">#&gt; [5] "edh_sbp_medcodeid.csv"           "height_medcodeid.csv"           </span></span>
+<span><span class="co">#&gt; [7] "weight_medcodeid.csv"</span></span></code></pre></div>
+<p>The test data was searched separately using each code list, and the
+resulting unit measurements that were recorded in more than 0.01% of the
+query are presented. The results of this were fed into the programs for
+deriving each of those variables (see section 2). When defining a
+variable, the aim is to convert all measurements to be on the scame
+scale/unit of measurement. For example, height measurements in metres
+should be converted to the same scale as those recorded in centimeters.
+However, for some records, the unit of measurement might be something
+odd, or missing, meaning it is unclear how to convert onto the desired
+scale. For observations with such unit measurements, we do not exclude
+these observations, as they may be correct measurements with a
+mis-recorded unit measurement. Instead, when extracting variables, and
+converting relevant unit measurements, we define a minimum and maximum
+value, and exclude observations that do not fit into this range. As will
+be seen below, the proportion of observations with unclear unit
+measurement is small (with the exception of cholesterol/hdl ratio, which
+is a special case).</p>
+<table class="table">
+<caption>Unit measurements for cholesterol/high-density lipoprotein
+ratio</caption>
+<thead><tr class="header">
+<th align="right">numunitid</th>
+<th align="right">n</th>
+<th align="left">Description</th>
+<th align="right">prop</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">65</td>
+<td align="right">49</td>
+<td align="left">1/1</td>
+<td align="right">0.15</td>
+</tr>
+<tr class="even">
+<td align="right">218</td>
+<td align="right">47</td>
+<td align="left">mmol/L</td>
+<td align="right">0.14</td>
+</tr>
+<tr class="odd">
+<td align="right">219</td>
+<td align="right">429</td>
+<td align="left">mmol/mmol</td>
+<td align="right">1.32</td>
+</tr>
+<tr class="even">
+<td align="right">260</td>
+<td align="right">284</td>
+<td align="left">ratio</td>
+<td align="right">0.88</td>
+</tr>
+<tr class="odd">
+<td align="right">292</td>
+<td align="right">132</td>
+<td align="left">Unk UoM</td>
+<td align="right">0.41</td>
+</tr>
+<tr class="even">
+<td align="right">405</td>
+<td align="right">18</td>
+<td align="left">UNKNOWN UNITS</td>
+<td align="right">0.06</td>
+</tr>
+<tr class="odd">
+<td align="right">421</td>
+<td align="right">24</td>
+<td align="left">.</td>
+<td align="right">0.07</td>
+</tr>
+<tr class="even">
+<td align="right">986</td>
+<td align="right">154</td>
+<td align="left">Not given</td>
+<td align="right">0.47</td>
+</tr>
+<tr class="odd">
+<td align="right">4424</td>
+<td align="right">728</td>
+<td align="left">CHOL/HDL</td>
+<td align="right">2.24</td>
+</tr>
+<tr class="even">
+<td align="right">NA</td>
+<td align="right">30580</td>
+<td align="left">NA</td>
+<td align="right">94.24</td>
+</tr>
+</tbody>
+</table>
+<p>The most common is ‘NA’ (78.95%). The second most common is ‘ratio’
+(12.49%) then 1/1 (2.33%). The confusion about unit of measurement is
+likely due to the fact that this ratio has no unit of measurement,
+because total cholesterol and high-density lipoprotein have the same
+unit of measurement. All measurements are therefore assumed to be in the
+same unit of measurement (ratio).</p>
+<table class="table">
+<caption>Unit measurements for total cholesterol</caption>
+<thead><tr class="header">
+<th align="right">numunitid</th>
+<th align="right">n</th>
+<th align="left">Description</th>
+<th align="right">prop</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">218</td>
+<td align="right">67168</td>
+<td align="left">mmol/L</td>
+<td align="right">92.74</td>
+</tr>
+<tr class="even">
+<td align="right">NA</td>
+<td align="right">5256</td>
+<td align="left">NA</td>
+<td align="right">7.26</td>
+</tr>
+</tbody>
+</table>
+<p>The majority of unit measurements are mmol/L (96.35%) or NA (3.54%).
+All observations are therefore assumed to be recorded in mmol/L.</p>
+<table class="table">
+<caption>Unit measurements for high-density lipoprotein</caption>
+<thead><tr class="header">
+<th align="right">numunitid</th>
+<th align="right">n</th>
+<th align="left">Description</th>
+<th align="right">prop</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">182</td>
+<td align="right">80</td>
+<td align="left">MG/DL</td>
+<td align="right">0.16</td>
+</tr>
+<tr class="even">
+<td align="right">218</td>
+<td align="right">46573</td>
+<td align="left">mmol/L</td>
+<td align="right">92.04</td>
+</tr>
+<tr class="odd">
+<td align="right">288</td>
+<td align="right">12</td>
+<td align="left">units</td>
+<td align="right">0.02</td>
+</tr>
+<tr class="even">
+<td align="right">NA</td>
+<td align="right">3936</td>
+<td align="left">NA</td>
+<td align="right">7.78</td>
+</tr>
+</tbody>
+</table>
+<p>The majority of unit measurements are mmol/L (94.21%) or NA (5.67%).
+All observations are therefore assumed to be recorded in mmol/L.</p>
+<table class="table">
+<caption>Unit measurements for body mass index</caption>
+<thead><tr class="header">
+<th align="right">numunitid</th>
+<th align="right">n</th>
+<th align="left">Description</th>
+<th align="right">prop</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">108</td>
+<td align="right">21</td>
+<td align="left">Body Mass Index</td>
+<td align="right">0.02</td>
+</tr>
+<tr class="even">
+<td align="right">157</td>
+<td align="right">64943</td>
+<td align="left">kg/m2</td>
+<td align="right">52.02</td>
+</tr>
+<tr class="odd">
+<td align="right">288</td>
+<td align="right">21</td>
+<td align="left">units</td>
+<td align="right">0.02</td>
+</tr>
+<tr class="even">
+<td align="right">359</td>
+<td align="right">35</td>
+<td align="left">Kg/m?</td>
+<td align="right">0.03</td>
+</tr>
+<tr class="odd">
+<td align="right">568</td>
+<td align="right">99</td>
+<td align="left">BMI</td>
+<td align="right">0.08</td>
+</tr>
+<tr class="even">
+<td align="right">657</td>
+<td align="right">105</td>
+<td align="left">Kg/mÂ²</td>
+<td align="right">0.08</td>
+</tr>
+<tr class="odd">
+<td align="right">NA</td>
+<td align="right">59555</td>
+<td align="left">NA</td>
+<td align="right">47.70</td>
+</tr>
+</tbody>
+</table>
+<p>The majority of unit measurements are kg/m2 (39.58%), kg/mA2 (1.26%)
+or NA (58.08%). All observations are therefore assumed to be recorded in
+kg/m2.</p>
+<table class="table">
+<caption>Unit measurements for weight</caption>
+<thead><tr class="header">
+<th align="right">numunitid</th>
+<th align="right">n</th>
+<th align="left">Description</th>
+<th align="right">prop</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">156</td>
+<td align="right">148873</td>
+<td align="left">kg</td>
+<td align="right">99.42</td>
+</tr>
+<tr class="even">
+<td align="right">827</td>
+<td align="right">80</td>
+<td align="left">Kgs</td>
+<td align="right">0.05</td>
+</tr>
+<tr class="odd">
+<td align="right">NA</td>
+<td align="right">773</td>
+<td align="left">NA</td>
+<td align="right">0.52</td>
+</tr>
+</tbody>
+</table>
+<p>The majority of unit measurements are kg (98.67%) or NA (1.24%). Most
+observations are therefore assumed to be recorded in kg, however we also
+know from that for numunitid
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∈</mo><mrow><mn>1691</mn><mo>,</mo><mn>2318</mn><mo>,</mo><mn>2997</mn><mi>o</mi><mi>r</mi><mn>6265</mn></mrow></mrow><annotation encoding="application/x-tex">\in {1691, 2318, 2997 or 6265}</annotation></semantics></math>,
+this refers to stone. Observations with these units of measurements are
+therefore converted to kg.</p>
+<table class="table">
+<caption>Unit measurements for height</caption>
+<thead><tr class="header">
+<th align="right">numunitid</th>
+<th align="right">n</th>
+<th align="left">Description</th>
+<th align="right">prop</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">210</td>
+<td align="right">174602</td>
+<td align="left">mm Hg</td>
+<td align="right">53.44</td>
+</tr>
+<tr class="even">
+<td align="right">212</td>
+<td align="right">11013</td>
+<td align="left">mm/Hg</td>
+<td align="right">3.37</td>
+</tr>
+<tr class="odd">
+<td align="right">215</td>
+<td align="right">12296</td>
+<td align="left">mm[Hg]</td>
+<td align="right">3.76</td>
+</tr>
+<tr class="even">
+<td align="right">216</td>
+<td align="right">128757</td>
+<td align="left">mmHg</td>
+<td align="right">39.41</td>
+</tr>
+<tr class="odd">
+<td align="right">NA</td>
+<td align="right">66</td>
+<td align="left">NA</td>
+<td align="right">0.02</td>
+</tr>
+</tbody>
+</table>
+<p>The majority of unit measurements are cm (96.82%), m (1.7%), metres
+(0.02%) or NA (.37%). All observations with numunit not corresponding to
+metres, will be assumed to be in centimetres, and converted to metres to
+enable estimation of BMI.</p>
+<table class="table">
+<caption>Unit measurements for systolic blood pressure</caption>
+<thead><tr class="header">
+<th align="right">numunitid</th>
+<th align="right">n</th>
+<th align="left">Description</th>
+<th align="right">prop</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">210</td>
+<td align="right">174602</td>
+<td align="left">mm Hg</td>
+<td align="right">53.44</td>
+</tr>
+<tr class="even">
+<td align="right">212</td>
+<td align="right">11013</td>
+<td align="left">mm/Hg</td>
+<td align="right">3.37</td>
+</tr>
+<tr class="odd">
+<td align="right">215</td>
+<td align="right">12296</td>
+<td align="left">mm[Hg]</td>
+<td align="right">3.76</td>
+</tr>
+<tr class="even">
+<td align="right">216</td>
+<td align="right">128757</td>
+<td align="left">mmHg</td>
+<td align="right">39.41</td>
+</tr>
+<tr class="odd">
+<td align="right">NA</td>
+<td align="right">66</td>
+<td align="left">NA</td>
+<td align="right">0.02</td>
+</tr>
+</tbody>
+</table>
+<p>While there is not a unique algorithm for SBP, we still present the
+results from the database query for this variable. All measurement are
+in mm/Hg.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

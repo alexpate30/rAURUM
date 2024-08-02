@@ -35,7 +35,6 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/Details-on-algorithms-for-extracting-specific-variables.html">Details-on-algorithms-for-extracting-specific-variables</a></li>
-    <li><a class="dropdown-item" href="../articles/test.html">test</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -76,19 +75,27 @@ Aurum data.</em></p>
 Electronic Health Records from the UK, owned by the UK Medicines and
 Healthcare products Regulatory Agency (MHRA), and containing information
 on demography, medical history, test results and drug use of individuals
-registered with a GP. The MHRA maintain two databases, CPRD GOLD which
+registered with a general practice. The MHRA maintain two databases,
+CPRD GOLD <span class="citation">(Herrett et al. 2015)</span> which
 contains data from general practices using the Vision computer system,
-and CPRD Aurum, which contains data from general practices using the
-Egton Medical Information Systems (EMIS) computer system, EMIS Web. As
-of 2016, the EMIS Web computer system is used by 4199 (56%) of the
-general practices in England. As of June 2024, CPRD Aurum contained data
-on 47 million (16 million currently registered) <span class="citation">(CPRD 2024)</span> individuals respectively. CPRD is a
-widely used resource. Since 2019, using the PubMed library, there have
-been 540 studies published which contain “CPRD” in the title or
-abstract. Extraction and transformation of CPRD data into an analysable
-format is a computationally demanding process and requires a significant
-amount of work. Despite this, there is little software available to aid
-researchers in the extraction and processing of CPRD data.</p>
+and CPRD Aurum <span class="citation">(Wolf et al. 2019)</span>, which
+contains data from general practices using the Egton Medical Information
+Systems (EMIS) computer system, EMIS Web. The primary care data is
+linked to hospital data, death registration data, cancer registry data,
+deprivation data and mental health services data, enabled by NHS
+digital.<span class="citation">(Padmanabhan et al. 2019)</span> As of
+2016, the EMIS Web computer system was used by 4199 (56%) of the general
+practices in England.<span class="citation">(Kontopantelis et al.
+2018)</span> As of June 2024, CPRD Aurum contained data on 47 million
+(16 million currently registered) individuals from 1,784 (1,596
+currently contributing) general practices across the United
+Kingdom.<span class="citation">(CPRD 2024)</span> CPRD is a widely used
+resource. Since 2019, using the PubMed library, there have been 540
+studies published which contain “CPRD” in the title or abstract.
+Extraction and transformation of CPRD data into an analysable format is
+a computationally demanding process and requires a significant amount of
+work. Despite this, there is only a few pieces of software available to
+aid researchers in the extraction and processing of CPRD data.<span class="citation">Yimer et al. (2021)</span></p>
 <p><strong>rEHR</strong> <span class="citation">(Springate et al.
 2017)</span> is an R package for manipulating and analysing electronic
 health record data, which works by creating an SQLite database on a
@@ -98,16 +105,15 @@ statistical analysis software. <strong>rEHR</strong> was designed to be
 database agnostic, and contains functionality for longitudinal data
 extraction, cutting data by time-varying covariates, matching controls
 to cases, converting the units of test data, and creating clinical code
-lists. <strong>rEHR</strong> is, however, no longer maintained, is not
-available on CRAN (because it creates temporary files that are not
-deleted after execution) and only works with an older version of R
-(3.3.2). The <strong>aurumpipeline</strong> package <span class="citation">(The Health Foundation Analytics Lab 2021)</span>
-contains functions to clean and process CPRD Aurum data, which works by
-storing the data as parquet files on the disk drive, which are then
-subsequently queried to extract relevant data. However,
-<strong>aurumpipeline</strong> is not available on CRAN and is not
-provided with any reproducible examples. The R package
-<strong>drugprepr</strong> <span class="citation">(Yimer et al.
+lists. <strong>rEHR</strong> is however no longer maintained. It works
+with an older version of R (3.3.2) and has been archived on CRAN. The
+<strong>aurumpipeline</strong> package <span class="citation">(The
+Health Foundation Analytics Lab 2021)</span> contains functions to clean
+and process CPRD Aurum data, which works by storing the data as parquet
+files on the disk drive, which are then subsequently queried to extract
+relevant data. However, <strong>aurumpipeline</strong> is not available
+on CRAN and is not provided with any reproducible examples. The R
+package <strong>drugprepr</strong> <span class="citation">(Yimer et al.
 2021)</span> implements the algorithm of <span class="citation">Pye et
 al. (2018)</span> for preparing drug exposure data extracted from CPRD,
 however it does not deal with the initial data extraction and storing of
@@ -118,32 +124,33 @@ amount of research time is being spent duplicating the work of others in
 order to extract CPRD data. This study introduces
 <strong>rAURUM</strong>, an R package designed to assist researchers in
 working with CPRD Aurum data and creating datasets which are
-analysis-ready, in most cases. The main problem when working with CPRD
-Aurum data is the size of the raw data. Data on over 47 million
-individuals results in thousands of raw .txt files, and Terabytes of
-data, which can be cumbersome to work with. This is a particular issue
-for R users, as its unfeasible to read all this data into the R
-workspace simultaneously, as R operates using physical memory (RAM). As
-suggested by <span class="citation">Springate et al. (2017)</span>,
-<strong>rAURUM</strong> bypassess this problem by creating an SQLite
-database which can be saved onto a fixed storage device. This SQLite
-database can then be queried for data of interest in order to build an
-analysis-ready dataset.</p>
+‘analysis-ready’. The main problem when working with CPRD Aurum data is
+the size of the raw data. Data on over 47 million individuals results in
+thousands of raw .txt files, and Terabytes of data, which can be
+cumbersome to work with. This is a particular issue for R users, as its
+unfeasible to read all this data into the R workspace simultaneously, as
+R operates using physical memory (RAM). As suggested by <span class="citation">Springate et al. (2017)</span>, <strong>rAURUM</strong>
+bypassess this problem by creating an SQLite database which can be saved
+onto a fixed storage device. This SQLite database can then be queried
+for data of interest in order to build an analysis-ready dataset.
+<strong>rAURUM</strong> then simplifies the process of querying the
+SQLite database with functions to extract variables such as “most recent
+test result”, “time until first event”, or “history of a specified
+condition”.</p>
 <p>We start by discussing the structure of CPRD Aurum data and the
 approach taken by <strong>rAURUM</strong> for processing this data,
 which draws heavily on the work of <span class="citation">Springate et
-al. (2017)</span>. <strong>rAURUM</strong> has two main groups of
-functions. The first are to extract and store data in a consistent
-manner. The second set is to query this data to extract patient level
-data. We then run through a worked example to showcase the functionality
-of <strong>rAURUM</strong>. We focus on CPRD Aurum, as opposed to CPRD
-GOLD, given there has been a considerable drop in the number of
-practices utilising Vision software in the last 10 years, limiting the
-research utility of the CPRD GOLD database. However, this package can
-also be used to manage linked secondary care (HES) and ONS death data,
-and is flexible to the point that it could be used to extract and store
-data from any electronic health record, which will be touched on in the
-discussion.</p>
+al. (2017)</span>. We then run through a worked example to showcase the
+functionality of <strong>rAURUM</strong>, which has two main groups of
+functions. The first are to extract and store the data in a consistent
+manner. The second group is to query this data to extract patient level
+variables. We focus on CPRD Aurum, as opposed to CPRD GOLD, given there
+has been a considerable drop in the number of practices utilising Vision
+software in the last 10 years, limiting the research utility of the CPRD
+GOLD database. However, this package can also be used to manage linked
+secondary care (HES) and ONS death data, and is flexible to the point
+that it could be used to extract and store data from any electronic
+health record, which will be touched on in the discussion.</p>
 </div>
 <div class="section level2">
 <h2 id="data-structure-and-extraction-process">Data Structure and Extraction Process<a class="anchor" aria-label="anchor" href="#data-structure-and-extraction-process"></a>
@@ -185,16 +192,22 @@ example, the observation files for patients in <em>set1</em>, will have
 The same is true for the DrugIssue files. The naming structure for these
 is as follows:</p>
 <ul>
-<li>aurum_allpatid_set<em>X</em>_extract_patient_001.txt</li>
-<li>aurum_allpatid_set<em>X</em>_extract_observation_00<em>Y</em>.txt</li>
-<li>aurum_allpatid_set<em>X</em>_extract_drugissue_00<em>Y</em>.txt</li>
+<li>aurum_allpatid_set<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>_extract_patient_001.txt</li>
+<li>aurum_allpatid_set<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>_extract_observation_0<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>.txt</li>
+<li>aurum_allpatid_set<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>_extract_drugissue_0<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>.txt</li>
 </ul>
-<p>where <em>X</em> and <em>Y</em> take integer values. Note that prefix
-to the file names may vary (i.e. the <em>aurum_allpatid</em> part)
-however we expect the naming convention with regards to <em>setX</em>,
-file type, and <em>00Y</em> to remain consistent. If this changes in the
-future, we will endeavour to update the <strong>rAURUM</strong> as soon
-as possible.</p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>∈</mo><mrow><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi></mrow></mrow><annotation encoding="application/x-tex">X\in{1,2,3,...}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>∈</mo><mrow><mn>01</mn><mo>,</mo><mn>02</mn><mo>,</mo><mn>03</mn><mo>,</mo><mi>.</mi><mi>.</mi><mi>.</mi></mrow></mrow><annotation encoding="application/x-tex">Y\in{01,02,03,...}</annotation></semantics></math>.
+Note that the prefix to the file names may vary (i.e. the
+‘aurum_allpatid’ part) however we expect the naming convention with
+regards to
+‘set<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>’,
+file type, and
+‘0<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>’
+to remain consistent. If this changes in the future, we will endeavour
+to update the <strong>rAURUM</strong> as soon as possible.</p>
 </div>
 <div class="section level3">
 <h3 id="recommended-process-for-extraction">Recommended process for extraction<a class="anchor" aria-label="anchor" href="#recommended-process-for-extraction"></a>
@@ -213,8 +226,9 @@ create variables for each individual in the cohort. These are stored as
 also stored as an .rds object.</li>
 </ul>
 <div class="figure">
-<img src="FlowChart.png" alt="Figure 1: Flowchart for recommended data extraction process" width="100%"><p class="caption">
-Figure 1: Flowchart for recommended data extraction process
+<img src="FlowChart.png" alt="Figure 1: Flowchart for recommended data extraction process. Blue boxes denoate data files. Orange boxes denote application of rAURUM functions." width="100%"><p class="caption">
+Figure 1: Flowchart for recommended data extraction process. Blue boxes
+denoate data files. Orange boxes denote application of rAURUM functions.
 </p>
 </div>
 <p>The process can be done entirely from within R using rAURUM
@@ -241,12 +255,17 @@ Table 1: Table of rAURUM functions
 <h3 id="step-1-defining-a-cohort">Step 1: Defining a cohort<a class="anchor" aria-label="anchor" href="#step-1-defining-a-cohort"></a>
 </h3>
 <p>We have provided simulated patient, observation and drugissue files
-with these naming conventions, which will be utilisied in the worked
-example. They are contained in the <em>inst/aurum_data</em> directory of
-<strong>rAURUM</strong>. After installing <strong>rAURUM</strong>, this
-directory can be accessed using the command
-<code>system.file("aurum_data", package = "rAURUM")</code>. This
-contains data on 12 fake patients, split across two patient files
+which will be utilisied in the worked example. The names of the files
+share the same naming convention given in section 2.1, and column names
+of the data match the real Aurum data. Numeric variables were simulated
+at random as integers between 1 and 100, date variables as a date
+between 01/01/1900 and 01/01/2000, gender as an integer 1 or 2, and year
+of birth as an integer between 1900 and 2000. Patient id and practice id
+were assigned manually. These files are contained in the
+<em>inst/aurum_data</em> directory of <strong>rAURUM</strong>. After
+installing <strong>rAURUM</strong>, this directory can be accessed using
+the command <code>system.file("aurum_data", package = "rAURUM")</code>.
+This contains data on 12 fake patients, split across two patient files
 (<em>set1</em> and <em>set2</em>) and three observation and drugissue
 files (all <em>set1</em>):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -478,9 +497,9 @@ the same as previously.</p>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-07-29 17:31:44.588712"</span></span>
-<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-07-29 17:31:44.604306"</span></span>
-<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-07-29 17:31:44.615553"</span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-08-02 14:23:21.788028"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-08-02 14:23:21.80364"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-08-02 14:23:21.814746"</span></span>
 <span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
 <span></span>
 <span><span class="co">### Query first three rows</span></span>
@@ -503,9 +522,9 @@ the same as previously.</p>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>, </span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>, </span>
 <span>             filetype <span class="op">=</span> <span class="st">"drugissue"</span>, subset.patids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-07-29 17:31:44.699368"</span></span>
-<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-07-29 17:31:44.714905"</span></span>
-<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-07-29 17:31:44.726091"</span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-08-02 14:23:21.893684"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-08-02 14:23:21.908242"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-08-02 14:23:21.919287"</span></span>
 <span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
 <span></span>
 <span><span class="co">### List tables</span></span>
@@ -605,9 +624,9 @@ the data.frame provided to <code>subset.patids</code>.</p>
 <span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, </span>
 <span>             subset.patids <span class="op">=</span> <span class="va">pat</span>, </span>
 <span>             use.set <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-07-29 17:31:44.883038"</span></span>
-<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-07-29 17:31:44.896028"</span></span>
-<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-07-29 17:31:44.907395"</span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-08-02 14:23:22.076372"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-08-02 14:23:22.089391"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-08-02 14:23:22.100649"</span></span>
 <span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
 <span></span>
 <span><span class="co">### Add drugissue files</span></span>
@@ -616,9 +635,9 @@ the data.frame provided to <code>subset.patids</code>.</p>
 <span>             filetype <span class="op">=</span> <span class="st">"drugissue"</span>, </span>
 <span>             subset.patids <span class="op">=</span> <span class="va">pat</span>, </span>
 <span>             use.set <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-07-29 17:31:44.922721"</span></span>
-<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-07-29 17:31:44.935272"</span></span>
-<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-07-29 17:31:44.946541"</span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_001.txt 2024-08-02 14:23:22.11585"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_002.txt 2024-08-02 14:23:22.128324"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_drugissue_003.txt 2024-08-02 14:23:22.139536"</span></span>
 <span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
 <span></span>
 <span><span class="co">### Query first three rows of each table</span></span>
@@ -657,21 +676,21 @@ variables for creating an analysis-ready dataset.</p>
 <p>Once the data has been extracted and stored in an SQLite database, it
 can now be queried to create variables of interest. The normal process
 for extracting variables from electronic health records is to create
-codelists, a group of codes which denote the same condition. The
+code lists, a group of codes which denote the same condition. The
 database would then be queried for observations with medical codes
-matching those in the codelist. A <code>variable</code> would then be
+matching those in the code list. A <code>variable</code> would then be
 defined based on this query. Whether this is a binary variable,
 indicating whether an individual has any record of a given code, or the
 most recent test result with the given code, or something much more
 complex. In CPRD Aurum, medical diagnoses and tests are identified from
 the <em>observation</em> file using <em>medcodeids</em>, and
 prescription data is identified from the drugissue file using
-<em>prodcodeids</em>. Creation of codelists is an important step of data
-extraction, and we refer elsewhere for details on best practice for
-developing codelists, and the limitations of working with codelists
+<em>prodcodeids</em>. Creation of code lists is an important step of
+data extraction, and we refer elsewhere for details on best practice for
+developing code lists, and the limitations of working with code lists
 <span class="citation">(Williams et al. 2019, 2017; Watson et al. 2017;
-Gulliford et al. 2009)</span>. The functions in this section are split
-into three groups:</p>
+Gulliford et al. 2009; Matthewman et al. 2024)</span>. The functions in
+this section are split into three groups:</p>
 <ul>
 <li>Functions for extracting common variable types.</li>
 <li>Functions for extracting specific variables</li>
@@ -685,7 +704,7 @@ of condition/edication prior to index date (<code>extract_ho</code>),
 time until first occurence of a medical event/medication use after the
 index date (<code>extract_time_until</code>), and most recent test
 result in a given time frame relative to the index date
-(<code>extract_test_data</code>).</p>
+(<code>extract_test_recent</code>).</p>
 <p>The first, <code>extract_ho</code>, extracts a binary variable based
 on whether individual has a specified code recorded prior to index date.
 This can be applied to search for history of medical diagnoses or
@@ -732,7 +751,7 @@ can be specified through <code>censdt</code>.</p>
 <span><span class="co">#&gt;  $ patid        : chr  "1" "3" "4" "6"</span></span>
 <span><span class="co">#&gt;  $ var_time     : num  1461 1461 1461 1461</span></span>
 <span><span class="co">#&gt;  $ var_indicator: num  0 0 0 0</span></span></code></pre></div>
-<p>The third is <code>extract_test_data</code>, which will extract the
+<p>The third is <code>extract_test_recent</code>, which will extract the
 most recent test result in a given time frame. The number of days before
 and after the index date to search for results are specified through
 <code>time.post</code> and <code>time.prev</code> respectively. Test
@@ -740,8 +759,8 @@ results are identified from the observation file, using code lists.
 Lower and upper bounds can also be specified for the extracted data
 through <code>lower.bound</code> and <code>upper.bound</code>.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">### Extract test data using extract_test_data</span></span>
-<span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_test_data.html">extract_test_data</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">pat</span>, </span>
+<code class="sourceCode R"><span><span class="co">### Extract test data using extract_test_recent</span></span>
+<span><span class="va">test_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extract_test_recent.html">extract_test_recent</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">pat</span>, </span>
 <span>                               codelist.vector <span class="op">=</span> <span class="va">codelist</span>, </span>
 <span>                               indexdt <span class="op">=</span> <span class="st">"fup_start"</span>, </span>
 <span>                               db.open <span class="op">=</span> <span class="va">aurum_extract</span>,</span>
@@ -749,20 +768,26 @@ through <code>lower.bound</code> and <code>upper.bound</code>.</p>
 <span>                               time.prev <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>                               return.output <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 'data.frame':    4 obs. of  2 variables:</span></span>
-<span><span class="co">#&gt;  $ patid: chr  "1" "3" "4" "6"</span></span>
-<span><span class="co">#&gt;  $ value: num  84 NA NA 28</span></span></code></pre></div>
-<p>Once all the variables of interest have been extracted, they can be
-merged into an analysis-ready dataset (step 4).</p>
+<span><span class="co">#&gt; 'data.frame':    4 obs. of  3 variables:</span></span>
+<span><span class="co">#&gt;  $ patid    : chr  "1" "3" "4" "6"</span></span>
+<span><span class="co">#&gt;  $ value    : num  84 NA NA 28</span></span>
+<span><span class="co">#&gt;  $ numunitid: int  79 NA NA 20</span></span></code></pre></div>
+<p>Variations of this functions are also available, with
+<code>extract_test_data</code> will return all the test data within the
+specified time and value range, and <code>extract_test_data_var</code>
+returns the standard deviation of the test data within the specified
+time and value range. Once all the variables of interest have been
+extracted, they can be merged into an analysis-ready dataset (step
+4).</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Recursive merge</span></span>
 <span><span class="va">analysis.ready.pat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/funprog.html" class="external-link">Reduce</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">df1</span>, <span class="va">df2</span>, by <span class="op">=</span> <span class="st">"patid"</span>, all.x <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pat</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"patid"</span>, <span class="st">"gender"</span>, <span class="st">"yob"</span><span class="op">)</span><span class="op">]</span>, <span class="va">ho</span>, <span class="va">time_until</span>, <span class="va">test_data</span><span class="op">)</span><span class="op">)</span> </span>
 <span><span class="va">analysis.ready.pat</span></span>
-<span><span class="co">#&gt;   patid gender  yob ho var_time var_indicator value</span></span>
-<span><span class="co">#&gt; 1     1      2 1984  1     1461             0    84</span></span>
-<span><span class="co">#&gt; 2     3      1 1930  0     1461             0    NA</span></span>
-<span><span class="co">#&gt; 3     4      2 1915  0     1461             0    NA</span></span>
-<span><span class="co">#&gt; 4     6      1 1914  1     1461             0    28</span></span></code></pre></div>
+<span><span class="co">#&gt;   patid gender  yob ho var_time var_indicator value numunitid</span></span>
+<span><span class="co">#&gt; 1     1      2 1984  1     1461             0    84        79</span></span>
+<span><span class="co">#&gt; 2     3      1 1930  0     1461             0    NA        NA</span></span>
+<span><span class="co">#&gt; 3     4      2 1915  0     1461             0    NA        NA</span></span>
+<span><span class="co">#&gt; 4     6      1 1914  1     1461             0    28        20</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="functions-for-extracting-specific-variables">Functions for extracting specific variables<a class="anchor" aria-label="anchor" href="#functions-for-extracting-specific-variables"></a>
@@ -790,9 +815,6 @@ non-smoker, ex-smoker, light smoker, moderate smoker and heavy smoker.
 If the most recent smoking status is non-smoker, but there are
 historical codes which indicate smoking, then individual will be
 classified as an ex-smoker.</li>
-<li>
-<code>extract_test_data_var</code>: Derives standard deviation of
-test data values recorded over a specified time period.</li>
 </ul>
 <p>It was deemed that these variables required custom functions because
 their definitions did not fit into any of the variable types from
@@ -959,20 +981,29 @@ name, resulting in an easier workflow. The function
 <code><a href="../reference/create_directory_system.html">create_directory_system()</a></code> will create the directory system
 required to use <strong>rAURUM</strong> in this way. To avoid repetition
 of the previous section, this is showcased just once using the
-<code>extract_ho</code> function. We start by creating a temporary
-directory and setting this to be the working directory. Note to maintain
-the new working directory across multiple R markdown code chunks, we use
-<code>knitr::opts_knit$set</code>, however the user can implement this
-step as usual using <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd()</a></code>:</p>
+<code>extract_ho</code> function. For the sake of this example, we start
+by setting the working directory to a directory called
+<em>inst/example</em> within <strong>rAURUM</strong>. To maintain the
+new working directory across multiple R markdown code chunks, we use
+<code>knitr::opts_knit$set</code>. To follow this section, the user
+should simply set their working directory as usual using
+<code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">setwd()</a></code>:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Set working directory</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_knit.html" class="external-link">opts_knit</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>root.dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Print working directory</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "/home/runner/work/rAURUM/rAURUM/vignettes"</span></span></code></pre></div>
 <p>Next, the <code><a href="../reference/create_directory_system.html">create_directory_system()</a></code> function can be used
 to generate the required directory structure:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_directory_system.html">create_directory_system</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "The working directory is /home/runner/work/_temp/Library/rAURUM/example"</span></span></code></pre></div>
 <p>An SQLite database called “mydb.sqlite” is then created in the
 “data/sql” directory, using the same data from the previous
 examples:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Open connection</span></span>
 <span><span class="va">aurum_extract</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/connect_database.html">connect_database</a></span><span class="op">(</span><span class="st">"data/sql/mydb.sqlite"</span><span class="op">)</span></span>
 <span></span>
@@ -980,16 +1011,16 @@ examples:</p>
 <span><span class="fu"><a href="../reference/cprd_extract.html">cprd_extract</a></span><span class="op">(</span>db <span class="op">=</span> <span class="va">aurum_extract</span>,</span>
 <span>             filepath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"aurum_data"</span>, package <span class="op">=</span> <span class="st">"rAURUM"</span><span class="op">)</span>,</span>
 <span>             filetype <span class="op">=</span> <span class="st">"observation"</span>, use.set <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-07-29 17:31:46.034415"</span></span>
-<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-07-29 17:31:46.047043"</span></span>
-<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-07-29 17:31:46.058538"</span></span>
+<span><span class="co">#&gt;   |                                                                              |                                                                      |   0%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_001.txt 2024-08-02 14:23:23.17744"</span></span>
+<span><span class="co">#&gt;   |                                                                              |=======================                                               |  33%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_002.txt 2024-08-02 14:23:23.189731"</span></span>
+<span><span class="co">#&gt;   |                                                                              |===============================================                       |  67%[1] "Adding /home/runner/work/_temp/Library/rAURUM/aurum_data/aurum_allpatid_set1_extract_observation_003.txt 2024-08-02 14:23:23.200531"</span></span>
 <span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span>
 <span></span>
 <span><span class="co">## Disconnect</span></span>
 <span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu">dbDisconnect</span><span class="op">(</span><span class="va">aurum_extract</span><span class="op">)</span></span></code></pre></div>
 <p>Finally, a code list called <em>mylist.csv</em> is created and saved
 into the <em>codelists/analysis/</em> directory.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### Define codelist</span></span>
 <span><span class="va">codelist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>medcodeid <span class="op">=</span> <span class="st">"187341000000114"</span><span class="op">)</span></span>
 <span></span>
@@ -998,7 +1029,7 @@ into the <em>codelists/analysis/</em> directory.</p>
 <p>The <em>mydb.sqlite</em> database can now be queried to create a
 ‘history of’ type variable using the codelist <em>mylist.csv</em>, with
 the output saved directly onto the disk drive.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/extract_ho.html">extract_ho</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">pat</span>,</span>
 <span>           codelist <span class="op">=</span> <span class="st">"mylist"</span>,</span>
 <span>           indexdt <span class="op">=</span> <span class="st">"fup_start"</span>,</span>
@@ -1015,7 +1046,7 @@ to the SQLite database did not need to be created, the codelist did not
 need to be in the R workspace, and there is no output from this
 function. Instead the extracted variable has been saved onto the disk
 drive in an .rds file, and can be read in using:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"data/extraction/var_ho.rds"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   patid ho</span></span>
 <span><span class="co">#&gt; 1     1  1</span></span>
@@ -1076,10 +1107,37 @@ Andre Michael Toschke, Brendan Delaney, Andy Grieve, et al. 2009.
 analysis of electronic patient records. Application to stroke in a
 primary care database</span>.”</span> <em>PLoS ONE</em> 4 (9). <a href="https://doi.org/10.1371/journal.pone.0007168" class="external-link">https://doi.org/10.1371/journal.pone.0007168</a>.
 </div>
+<div id="ref-Herrett2015" class="csl-entry">
+Herrett, Emily, Arlene M. Gallagher, Krishnan Bhaskaran, Harriet Forbes,
+Rohini Mathur, Tjeerd van Staa, and Liam Smeeth. 2015. <span>“<span>Data
+Resource Profile: Clinical Practice Research Datalink
+(CPRD)</span>.”</span> <em>International Journal of Epidemiology</em> 44
+(3): 827–36. <a href="https://doi.org/10.1093/ije/dyv098" class="external-link">https://doi.org/10.1093/ije/dyv098</a>.
+</div>
+<div id="ref-Kontopantelis2018" class="csl-entry">
+Kontopantelis, Evangelos, Richard John Stevens, Peter J. Helms, Duncan
+Edwards, Tim Doran, and Darren M. Ashcroft. 2018. <span>“<span class="nocase">Spatial distribution of clinical computer systems in
+primary care in England in 2016 and implications for primary care
+electronic medical record databases: A cross-sectional population
+study</span>.”</span> <em>BMJ Open</em> 8 (2): 1–7. <a href="https://doi.org/10.1136/bmjopen-2017-020738" class="external-link">https://doi.org/10.1136/bmjopen-2017-020738</a>.
+</div>
+<div id="ref-Matthewman2024" class="csl-entry">
+Matthewman, Julian, Kirsty Andresen, Anne Suffel, Liang-Yu Lin, Anna
+Schultze, John Tazare, Krishnan Bhaskaran, et al. 2024. <span>“<span class="nocase">Checklist and guidance on creating codelists for
+electronic health records research</span>.”</span> <em>NIHR Open
+Research</em> 4: 20. <a href="https://doi.org/10.3310/nihropenres.13550.1" class="external-link">https://doi.org/10.3310/nihropenres.13550.1</a>.
+</div>
 <div id="ref-Muller2024" class="csl-entry">
 Müller, Kirill, Hadley Wickham, David A. James, and Seth Falcon. 2024.
 <span>“<span class="nocase">RSQLite: SQLite Interface for
 R</span>.”</span> <a href="https://rsqlite.r-dbi.org" class="external-link">https://rsqlite.r-dbi.org</a>.
+</div>
+<div id="ref-Padmanabhan2019" class="csl-entry">
+Padmanabhan, Shivani, Lucy Carty, Ellen Cameron, Rebecca E. Ghosh,
+Rachael Williams, and Helen Strongman. 2019. <span>“<span class="nocase">Approach to record linkage of primary care data from
+Clinical Practice Research Datalink to other health-related patient
+data: overview and implications</span>.”</span> <em>European Journal of
+Epidemiology</em> 34 (1): 91–99. <a href="https://doi.org/10.1007/s10654-018-0442-4" class="external-link">https://doi.org/10.1007/s10654-018-0442-4</a>.
 </div>
 <div id="ref-Pye2018" class="csl-entry">
 Pye, Stephen R., Thérèse Sheppard, Rebecca M. Joseph, Mark Lunt, Nadyne
@@ -1115,6 +1173,13 @@ Williams, Richard, Evangelos Kontopantelis, Iain Buchan, and Niels Peek.
 2017. <span>“<span class="nocase">Clinical code set engineering for
 reusing EHR data for research: A review</span>.”</span> <em>Journal of
 Biomedical Informatics</em> 70: 1–13. <a href="https://doi.org/10.1016/j.jbi.2017.04.010" class="external-link">https://doi.org/10.1016/j.jbi.2017.04.010</a>.
+</div>
+<div id="ref-Wolf2019" class="csl-entry">
+Wolf, Achim, Daniel Dedman, Jennifer Campbell, Helen Booth, Darren Lunn,
+Jennifer Chapman, and Puja Myles. 2019. <span>“<span class="nocase">Data
+resource profile: Clinical Practice Research Datalink (CPRD)
+Aurum</span>.”</span> <em>International Journal of Epidemiology</em> 48
+(6): 1740–1740G. <a href="https://doi.org/10.1093/ije/dyz034" class="external-link">https://doi.org/10.1093/ije/dyz034</a>.
 </div>
 <div id="ref-Yimer2021" class="csl-entry">
 Yimer, Belay Birlie, David Selby, Meghna Jani, Goran Nenadic, Mark Lunt,

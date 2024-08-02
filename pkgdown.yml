@@ -4,8 +4,7 @@ pkgdown_sha: ~
 articles:
   Details-on-algorithms-for-extracting-specific-variables: Details-on-algorithms-for-extracting-specific-variables.html
   rAURUM: rAURUM.html
-  test: test.html
-last_built: 2024-07-29T17:31Z
+last_built: 2024-08-02T14:23Z
 urls:
   reference: https://alexpate30.github.io/rAURUM/reference
   article: https://alexpate30.github.io/rAURUM/articles
