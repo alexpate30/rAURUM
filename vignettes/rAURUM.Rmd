@@ -411,6 +411,7 @@ Next, the `create_directory_system()` function can be used to generate the requi
 ```{r}
 create_directory_system()
 ```
+
 An SQLite database called "mydb.sqlite" is then created in the "data/sql" directory, using the same data from the previous examples:
 
 ```{r}
