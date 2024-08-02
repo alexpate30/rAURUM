@@ -439,6 +439,7 @@ extract_ho(cohort = pat,
            indexdt = "fup_start",
            db = "mydb",
            tab = "observation",
+           return.output = FALSE,
            out.save.disk = TRUE)
 ```
 
