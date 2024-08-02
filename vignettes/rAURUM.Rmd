@@ -393,14 +393,11 @@ There is similar functionality when specifying the codelists. Codelists can be s
 
 Finally, there is similar functionality for accessing the SQLite database internally, rather than having to 1) open a connection, 2) use this as an input in the functions, and then 3) remember to close the connection. Instead, if the SQLite database is stored in a directory "data/sql/" relative to the working directory, the SQLite database can be referred to by name (a character string) with the argument `db`. A connection to the SQLite datbase will be opened internally within the function call, the SQLite database will be queried, and then the connection closed. Alternatively, a SQLite database stored anywhere on the disk drive can be accessed by specifying the full filepath (character string) with the argument `db.filepath`. 
 
-This workflow is advantageous as it avoids hard file paths which beneficial if wanting to move your code onto another computer system. Furthermore, once codelists and the SQLite database have been created and stored in the appropriate folders, they can simply be referred to by name, resulting in an easier workflow. The function `create_directory_system()` will create the directory system required to use **rAURUM** in this way. To avoid repetition of the previous section, this is showcased just once using the `extract_ho` function. For the sake of this example, we start by setting the working directory to a directory called *inst/example* within **rAURUM**. To maintain the new working directory across multiple  R markdown code chunks, we use `knitr::opts_knit$set`. To follow this section, the user should simply set their working directory as usual using `setwd()`:
+This workflow is advantageous as it avoids hard file paths which beneficial if wanting to move your code onto another computer system. Furthermore, once codelists and the SQLite database have been created and stored in the appropriate folders, they can simply be referred to by name, resulting in an easier workflow. The function `create_directory_system()` will create the directory system required to use **rAURUM** in this way. To avoid repetition of the previous section, this is showcased just once using the `extract_ho` function. For the sake of this example, we start by setting the working directory to a directory called *inst/example* within **rAURUM**. To maintain the new working directory across multiple  R markdown code chunks, we use `knitr::opts_knit$set`. To follow this section, the user should simply set their working directory as usual using `setwd()`.
 
-```{r setup}
+```{r, setup, include = FALSE}
 ## Set working directory
 knitr::opts_knit$set(root.dir = system.file("example", package = "rAURUM"))
-
-## Print working directory
-getwd()
 ```
 
 Next, the `create_directory_system()` function can be used to generate the required directory structure:
