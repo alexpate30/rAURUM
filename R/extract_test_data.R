@@ -40,7 +40,7 @@
 #'
 #' Currently only returns most recent test result. This will be updated to return more than one most recent test result if specified.
 #'
-#' @returns A data frame containing most recent test result that meets required criteria.
+#' @returns A data frame containing all test results that meets required criteria.
 #'
 #' @examples
 #'
@@ -72,8 +72,8 @@ extract_test_data <- function(cohort,
                               indexdt,
                               t = NULL,
                               t.varname = TRUE,
-                              time.prev = 365.25*5,
-                              time.post = 0,
+                              time.prev = Inf,
+                              time.post = Inf,
                               lower.bound = -Inf,
                               upper.bound = Inf,
                               db.open = NULL,
@@ -128,13 +128,14 @@ extract_test_data <- function(cohort,
                                 time.prev = time.prev,
                                 time.post = time.post,
                                 lower.bound = lower.bound,
-                                upper.bound = upper.bound)
+                                upper.bound = upper.bound,
+                                numobs = 10000)
 
   ### Create dataframe of cohort and the variable of interest
   variable.dat <- merge(dplyr::select(cohort, patid), variable.dat, by.x = "patid", by.y = "patid", all.x = TRUE)
 
   ### Reduce to variables of interest
-  variable.dat <- variable.dat[,c("patid", "value")]
+  variable.dat <- variable.dat[,c("patid", "value", "numunitid", "medcodeid", "obsdate")]
 
   ### Change name of variable to varname
   colnames(variable.dat)[colnames(variable.dat) == "value"] <- varname

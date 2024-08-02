@@ -1,6 +1,8 @@
 ---
 title: "Details-on-algorithms-for-extracting-specific-variables"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    number_sections: true
 vignette: >
   %\VignetteIndexEntry{Details-on-algorithms-for-extracting-specific-variables}
   %\VignetteEngine{knitr::rmarkdown}
@@ -27,17 +29,19 @@ library(rAURUM)
 * Diabetes status: `extract_diabetes`
 * Smoking status: `extract_smoking`
 
-The algorithms underpinning the extraction of these variables are given here.
+The algorithms underpinning the extraction of these variables are given in section 2. A summary of the unit measurements recorded for these variables is given in section 3.
 
-# BMI (`extract_BMI`)
+# Algorithms for variable extraction
+
+## BMI (`extract_BMI`)
 
 Extraction of BMI requires the user to specify three codelists. One for BMI scores (`codelist.BMI`), one for height measurements (`codelist.height`) and one for weight measurements (`codelist.weight`). All the BMI, height and weight measurements for each patient in the cohort of interest are then extracted. The algorithm is as follows:
 
 * Extract the most recent BMI, height and weight measurements (within the specified time period) according to the user inputted code lists. Observation dates identified using variable *obsdate*.
   + The measurements must be non-missing
   + The BMI measurements must be within the user-defined valid range.
-* Rescale height scores to metres. When numunitid is not $\in{173, 432, 3202}$, which correspond to metres, the height measurement is divided by 100. All other measurements are assumed to be in centimetres. **LOOK AT THIS**.
-* All weight measurements are assumed to be in kilograms.
+* Rescale height scores to metres. When numunitid is not $\in \{173, 432, 3202\}$, which correspond to metres, the measurement is assumed to be centimetres, and the height measurement is divided by 100 (see section 3).
+* Rescale weight scores to kg. When numunitid is $\in \{1691, 2318, 2997, 6265\}$, which correspond to stone, the measurement is converted to kg. All other measurements are assumed to be kg (see section 3).
 * Merge height and weight measurements.
   + Calculate BMI for every pair of height and weight measurements using $\frac{weight}{height^{2}}$.
   + Remove BMI scores that are outside the specified range.
@@ -45,14 +49,14 @@ Extraction of BMI requires the user to specify three codelists. One for BMI scor
 * Merge the directly recorded BMI scores, with the BMI scores calculated from height and weight.
 * Take the most recent BMI score within the specified time period, whether it was a directly recorded BMI score, or calculated from height and weight. If both are recorded on the same date, the directly recorded BMI score takes preference. 
 
-# Cholesterol/HDL ratio (`extract_cholhdl_ratio`)
+## Cholesterol/HDL ratio (`extract_cholhdl_ratio`)
 
 Extraction of cholesterol/HDL ratio requires the user to specify three codelists. One for cholesterol/HDL ratio measurements (`codelist.ratio`), one for total cholesterol measurements (`codelist.chol`) and one for HDL measurements (`codelist.hdl`). All the cholesterol/HDL, total cholesterol and cholesterol/HDL measurements for each patient in the cohort of interest are then extracted. The algorithm is as follows:
 
 * Extract the most recent cholesterol/HDL, total cholesterol and cholesterol/HDL measurements (within the specified time period) according to the user inputted code lists. Observation dates identified using variable *obsdate*.
   + The measurements must be non-missing
   + The cholesterol/HDL ratio measurements must be within the user-defined valid range.
-* All measurements are assumed to be in the correct unit of measurement. **LOOK AT THIS**.
+* All measurements are assumed to be in the correct unit of measurement (see section 3).
 * Merge total cholesterol and HDL measurements.
   + Calculate cholesterol/HDL for every pair of total cholesterol and HDL measurements using $\frac{total cholesterol}{HDL}$.
   + Remove cholesterol/HDL scores that are outside the specified range.
@@ -60,7 +64,7 @@ Extraction of cholesterol/HDL ratio requires the user to specify three codelists
 * Merge the directly recorded cholesterol/HDL scores, with the cholesterol/HDL scores calculated from total cholesterol and HDL.
 * Take the most recent cholesterol/HDL score within the specified time period, whether it was a directly recorded cholesterol/HDL score, or calculated from total cholesterol and HDL. If both are recorded on the same date, the directly recorded cholesterol/HDL score takes preference.
 
-# Diabetes status (`extract_diabetes`)
+## Diabetes status (`extract_diabetes`)
 
 Extraction of diabetes status requires the user to specify two codelists. One for type 1 diabetes (`codelist.type1`), and another for type 2 diabetes (`codelist.type2`). The reason this variable is not treated as a `history of` type variable and extracted using `extract_ho` is because often individuals will have a generic code such as *diabetes mellitus*, which would be used to identify type 2 diabetes, but will also have a specific code such as *type 1 diabetes mellitus*. This algorithm treats the two as mutually exclusive, and assigns individuals with a code for both type 1 and type 1 diabetes, as having type 1 diabetes. The algorithm is as follows:
 
@@ -68,7 +72,7 @@ Extraction of diabetes status requires the user to specify two codelists. One fo
 * Assign diabetes status.
   + If an individual has a code for both type 1 and type 2 diabetes, assign diabetes type 1.
 
-# Smoking status (`extract_smoking`)
+## Smoking status (`extract_smoking`)
 
 Extraction of smoking status requires the user to specify five codelists. One for non-smoker (`codelist.non`), one for ex-smoker (`codelist.ex`), one for light smoker (`codelist.light`), one for moderate smoker (`codelist.moderate`) and one for heavy smoker (`codelist.heavy`). For records identified using the light, moderate or heavy smoker code lists, the *value* variable, which represents number of cigarettes smoker per day, is used to modify the outputted smoking status variable. This is to maximise the number of observations that are defined in the same way (< 10 day is light, 10 - 19 a day is moderate, > 19 is heavy). The *value* variable for observations recorded as ex-smoker are often denoting the number of cigarettes per day the individual used to smoke, therefore this data is not used to alter the smoking status. If an individuals most recent record is a non-smoker, but an individual has previous records which indicate a history of smoking, the smoking status is altered from non-smoker to ex-smoker. The algorithm is as follows:
 
@@ -82,8 +86,62 @@ Extraction of smoking status requires the user to specify five codelists. One fo
 * If there are multiple on the same date, use the most severe smoking status.
 * If the most recent observation is non-smoker, but there are codes for ex, light, moderate or heavy smoker prior to this, change to ex-smoker.
 
+# Summary of units of measurement for test data
 
+In this section we report the different units of measurement that the test data for the above variables may be recorded in. The unit of measurement is denoted with the *numunitid* variable in the observation file, which has a corresponding lookup file in the CPRD data. We queried the observation data for a large cohort of individuals aged 18 - 85 between 2005 - 2020 using the code lists provided within *inst/codelists* directory of **rAURUM**.
 
+```{r}
+list.files(system.file("codelists", package = "rAURUM"))
+```
 
+The test data was searched separately using each code list, and the resulting unit measurements that were recorded in more than 0.01% of the query are presented. The results of this were fed into the programs for deriving each of those variables (see section 2). When defining a variable, the aim is to convert all measurements to be on the scame scale/unit of measurement. For example, height measurements in metres should be converted to the same scale as those recorded in centimeters. However, for some records, the unit of measurement might be something odd, or missing, meaning it is unclear how to convert onto the desired scale. For observations with such unit measurements, we do not exclude these observations, as they may be correct measurements with a mis-recorded unit measurement. Instead, when extracting variables, and converting relevant unit measurements, we define a minimum and maximum value, and exclude observations that do not fit into this range. As will be seen below, the proportion of observations with unclear unit measurement is small (with the exception of cholesterol/hdl ratio, which is a special case).
 
+```{r, echo = FALSE}
+lookups.cholhdl.ratio <- read.csv("identify_numunits_cholhdl_ratio.csv")[,-1]
+knitr::kable(lookups.cholhdl.ratio, caption = "Unit measurements for cholesterol/high-density lipoprotein ratio")
+```
+
+The most common is 'NA' (78.95%). The second most common is 'ratio' (12.49%) then 1/1 (2.33%). The confusion about unit of measurement is likely due to the fact that this ratio has no unit of measurement, because total cholesterol and high-density lipoprotein have the same unit of measurement. All measurements are therefore assumed to be in the same unit of measurement (ratio).
+
+```{r, echo = FALSE}
+lookups.chol <- read.csv("identify_numunits_chol.csv")[,-1]
+knitr::kable(lookups.chol, caption = "Unit measurements for total cholesterol")
+```
+
+The majority of unit measurements are mmol/L (96.35%) or NA (3.54%). All observations are therefore assumed to be recorded in mmol/L.
+
+```{r, echo = FALSE}
+lookups.hdl <- read.csv("identify_numunits_hdl.csv")[,-1]
+knitr::kable(lookups.hdl, caption = "Unit measurements for high-density lipoprotein")
+```
+
+The majority of unit measurements are mmol/L (94.21%) or NA (5.67%). All observations are therefore assumed to be recorded in mmol/L.
+
+```{r, echo = FALSE}
+lookups.bmi <- read.csv("identify_numunits_bmi.csv")[,-1]
+knitr::kable(lookups.bmi, caption = "Unit measurements for body mass index")
+```
+
+The majority of unit measurements are kg/m2 (39.58%), kg/mA2 (1.26%) or NA (58.08%). All observations are therefore assumed to be recorded in kg/m2.
+
+```{r, echo = FALSE}
+lookups.weight <- read.csv("identify_numunits_weight.csv")[,-1]
+knitr::kable(lookups.weight, caption = "Unit measurements for weight")
+```
+
+The majority of unit measurements are kg (98.67%) or NA (1.24%). Most observations are therefore assumed to be recorded in kg, however we also know from that for numunitid $\in {1691, 2318, 2997 or 6265}$, this refers to stone. Observations with these units of measurements are therefore converted to kg.
+
+```{r, echo = FALSE}
+lookups.height <- read.csv("identify_numunits_sbp.csv")[,-1]
+knitr::kable(lookups.height, caption = "Unit measurements for height")
+```
+
+The majority of unit measurements are cm (96.82%), m (1.7%), metres (0.02%) or NA (.37%). All observations with numunit not corresponding to metres, will be assumed to be in centimetres, and converted to metres to enable estimation of BMI.
+
+```{r, echo = FALSE}
+lookups.sbp <- read.csv("identify_numunits_sbp.csv")[,-1]
+knitr::kable(lookups.sbp, caption = "Unit measurements for systolic blood pressure")
+```
+
+While there is not a unique algorithm for SBP, we still present the results from the database query for this variable. All measurement are in mm/Hg.
 

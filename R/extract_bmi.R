@@ -173,13 +173,12 @@ extract_bmi <- function(cohort,
                                        time.prev = time.prev,
                                        time.post = time.post)
 
-  ### For the height query, we need to rescale those with numunitid = 173, 432 or 3202 from metres to cm
+  ### For the height query, we need to rescale those without numunitid = 173, 432 or 3202 from cm to m
   db.qry.height <- dplyr::mutate(db.qry.height, value = dplyr::case_when(numunitid %in% c(173, 432, 3202) ~ value,
                                                                          !(numunitid %in% c(173, 432, 3202)) ~ value/100))
-
-
-
-
+  ### For the weight query, we need to rescale those with numunitid = 1691, 2318, 2997 or 6265 from stone to kg
+  db.qry.height <- dplyr::mutate(db.qry.height, value = dplyr::case_when(numunitid %in% c(1691, 2318, 2997, 6265) ~ 6.35029*value,
+                                                                         !(numunitid %in% c(1691, 2318, 2997, 6265)) ~ value))
 
   ### Calculate bmi's estimated from height/weight
   ## Merge height and weight datasets

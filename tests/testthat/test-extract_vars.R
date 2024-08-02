@@ -1,7 +1,7 @@
 ###
 ### Tests for variable extraction programs
 ###
-testthat::test_that("Test extract_ho, extract_time_until and extract_test_data, and specification of underlying directory systems", {
+testthat::test_that("Test extract_ho, extract_time_until and extract_test_recent, and specification of underlying directory systems", {
 
   ### Connect
   aurum_extract <- connect_database(tempfile("temp.sqlite"))
@@ -39,7 +39,7 @@ testthat::test_that("Test extract_ho, extract_time_until and extract_test_data, 
   ###
   ### Extract a medication history of type variable using extract_ho
   ho.drug <- extract_ho(pat,
-                   codelist.vector = 3092241000033113,
+                   codelist.vector = "3092241000033113",
                    indexdt = "fup_start",
                    db.open = aurum_extract,
                    tab = "drugissue",
@@ -64,18 +64,47 @@ testthat::test_that("Test extract_ho, extract_time_until and extract_test_data, 
   testthat::expect_equal(time_until$var_time, c(106, 16436,  16436,  16436,  16436,  16436))
   testthat::expect_equal(time_until$var_indicator, c(1, 0,  0,  0,  0,  0))
 
+  ### Change code list for test data functions, as previous code list only had one observation per patient
+  codelist <- "498521000006119"
+
   ###
-  ### Extract test data using extract_test_data
+  ### Extract most recent test result using extract_test_recent
+  test_data <- extract_test_recent(pat,
+                                   codelist.vector = codelist,
+                                   indexdt = "fup_start",
+                                   db.open = aurum_extract,
+                                   time.prev = Inf,
+                                   return.output = TRUE)
+
+  testthat::expect_equal(nrow(test_data), 6)
+  testthat::expect_equal(colnames(test_data), c("patid", "value", "numunitid"))
+  testthat::expect_equal(test_data$value, c(48, NA,  NA,  NA,  18,  NA))
+
+  ###
+  ### Extract all test results using extract_test_data
   test_data <- extract_test_data(pat,
                                  codelist.vector = codelist,
                                  indexdt = "fup_start",
                                  db.open = aurum_extract,
-                                 time.prev = Inf,
                                  return.output = TRUE)
 
+  testthat::expect_equal(nrow(test_data), 10)
+  testthat::expect_equal(colnames(test_data), c("patid", "value", "numunitid", "medcodeid", "obsdate"))
+  testthat::expect_equal(test_data$value, c(48, 43, 36, 75, 41, NA, NA, 32, 18, NA))
+
+  ###
+  ### Extract all test results using extract_test_data
+  test_data <- extract_test_data_var(pat,
+                                     codelist.vector = codelist,
+                                     indexdt = "fup_start",
+                                     db.open = aurum_extract,
+                                     time.prev = Inf,
+                                     time.post = Inf,
+                                     return.output = TRUE)
+
   testthat::expect_equal(nrow(test_data), 6)
-  testthat::expect_equal(colnames(test_data), c("patid", "value"))
-  testthat::expect_equal(test_data$value, c(NA, 46,  NA,  NA,  NA,  28))
+  testthat::expect_equal(colnames(test_data), c("patid", "value_var"))
+  testthat::expect_equal(sum(is.na(test_data$value_var)), 3)
 
   ### Disconnect
   RSQLite::dbDisconnect(aurum_extract)
@@ -108,9 +137,15 @@ testthat::test_that("Test extract_ho, extract_time_until and extract_test_data, 
                filetype = "drugissue", use.set = FALSE)
 
 
+  ### Define codelist
+  codelist <- data.frame(medcodeid = "187341000000114")
+  write.csv(codelist, "codelists/analysis/mylist.med.csv")
+  codelist <- data.frame(prodcodeid = "3092241000033113")
+  write.csv(codelist, "codelists/analysis/mylist.drug.csv")
+
   ### Extract a history of type variable and save to disc automatically, by just specifying name of database
   extract_ho(pat,
-             codelist.vector = codelist,
+             codelist = "mylist.med",
              indexdt = "fup_start",
              db = "temp",
              tab = "observation",
@@ -120,9 +155,21 @@ testthat::test_that("Test extract_ho, extract_time_until and extract_test_data, 
   ho.disk <- readRDS("data/extraction/var_ho.rds")
   testthat::expect_equal(ho, ho.disk)
 
+  ### Extract a history of type variable and save to disc automatically, by just specifying name of database
+  extract_ho(pat,
+             codelist = "mylist.drug",
+             indexdt = "fup_start",
+             db = "temp",
+             tab = "drugissue",
+             out.save.disk = TRUE)
+
+  ### Read from disk
+  ho.disk.drug <- readRDS("data/extraction/var_ho.rds")
+  testthat::expect_equal(ho.drug, ho.disk.drug)
+
   ### Extract a history of type variable and save to disk using out.subdir
   extract_ho(pat,
-             codelist.vector = codelist,
+             codelist = "mylist.med",
              indexdt = "fup_start",
              db = "temp",
              tab = "observation",
@@ -135,7 +182,7 @@ testthat::test_that("Test extract_ho, extract_time_until and extract_test_data, 
 
   ### Extract a history of type variable and save to disk manually specifying filepath for output and db
   extract_ho(pat,
-             codelist.vector = codelist,
+             codelist = "mylist.med",
              indexdt = "fup_start",
              db.filepath = "data/sql/temp.sqlite",
              tab = "observation",

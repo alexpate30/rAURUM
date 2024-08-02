@@ -1,7 +1,7 @@
-#' Extract standard deviation of all test data values over a specified time period relative to an index date.
+#' Extract test data.
 #'
 #' @description
-#' Extract standard deviation of all test data values over a specified time period relative to an index date.
+#' Query an RSQLite database and return a data frame containing the most recent test result that meets specified criteria.
 #'
 #' @param cohort Cohort of individuals to extract the 'history of' variable for.
 #' @param varname Name of variable in the outputted data frame.
@@ -32,9 +32,15 @@
 #' using `out.filepath` to manually specify the location on the hard disk to save. Alternatively, return the data frame into the R workspace using `return.output = TRUE`
 #' and then save onto the hard disk manually.
 #'
+#' Codelists can be specified in two ways. The first is to read the codelist into R as a character vector and then specify through the argument
+#' `codelist.vector`. Codelists stored on the hard disk can also be referred to from the `codelist` argument, but require a specific underlying directory structure.
+#' The codelist on the hard disk must be stored in a directory called "codelists/analysis/" relative to the working directory. The codelist must be a .csv file, and
+#' contain a column "medcodeid", "prodcodeid" or "ICD10" depending on the input for argument `tab`. The input to argument `codelist` should just be a character string of
+#' the name of the files (excluding the suffix '.csv'). The `codelist.vector` option will take precedence over the `codelist` argument if both are specified.
+#'
 #' Currently only returns most recent test result. This will be updated to return more than one most recent test result if specified.
 #'
-#' @returns A data frame containing standard deviation of test results.
+#' @returns A data frame containing most recent test result that meets required criteria.
 #'
 #' @examples
 #'
@@ -50,8 +56,8 @@
 #' pat<-extract_cohort(system.file("aurum_data", package = "rAURUM"))
 #' pat$indexdt <- as.Date("01/01/1955", format = "%d/%m/%Y")
 #'
-#' ## Extract standard deviation of previous test scores prior to index date
-#' extract_test_data_var(pat,
+#' ## Extract most recent test value prior to index date
+#' extract_test_data(pat,
 #' codelist.vector = "187341000000114",
 #' indexdt = "fup_start",
 #' db.open = aurum_extract,
@@ -59,48 +65,48 @@
 #' return.output = TRUE)
 #'
 #' @export
-extract_test_data_var <- function(cohort,
-                                  varname = NULL,
-                                  codelist,
-                                  codelist.vector,
-                                  indexdt,
-                                  t = NULL,
-                                  t.varname = TRUE,
-                                  time.prev = 365.25*5,
-                                  time.post = 0,
-                                  lower.bound = -Inf,
-                                  upper.bound = Inf,
-                                  db.open = NULL,
-                                  db = NULL,
-                                  db.filepath = NULL,
-                                  out.save.disk = FALSE,
-                                  out.subdir = NULL,
-                                  out.filepath = NULL,
-                                  return.output = FALSE){
+extract_test_data <- function(cohort,
+                              varname = NULL,
+                              codelist = NULL,
+                              codelist.vector = NULL,
+                              indexdt,
+                              t = NULL,
+                              t.varname = TRUE,
+                              time.prev = 365.25*5,
+                              time.post = 0,
+                              lower.bound = -Inf,
+                              upper.bound = Inf,
+                              db.open = NULL,
+                              db = NULL,
+                              db.filepath = NULL,
+                              out.save.disk = FALSE,
+                              out.subdir = NULL,
+                              out.filepath = NULL,
+                              return.output = FALSE){
 
-  #         varname = NULL
-  #         codelist = "edh_sbp_medcodeid"
-  #         cohort = cohortZ
-  #         indexdt = "fup_start"
-  #         t = 0
-  #         t.varname = TRUE
-  #         time.prev = 365.25*5
-  #         time.post = 0
-  #         lower.bound = -Inf
-  #         upper.bound = Inf
-  #         db = "aurum_small"
-  #         db.filepath = NULL
-  #         out.save.disk = FALSE
-  #         out.filepath = NULL
-  #         out.subdir = NULL
-  #         return.output = TRUE
+  #           varname = NULL
+  #           codelist = "edh_sbp_medcodeid"
+  #           cohort = cohortZ
+  #           indexdt = "fup_start"
+  #           t = 0
+  #           t.varname = TRUE
+  #           time.prev = 365.25*5
+  #           time.post = 0
+  #           lower.bound = -Inf
+  #           upper.bound = Inf
+  #           db = "aurum_small"
+  #           db.filepath = NULL
+  #           out.save.disk = FALSE
+  #           out.filepath = NULL
+  #           out.subdir = NULL
+  #           return.output = TRUE
 
   ### Preparation
   ## Add index date variable to cohort and change indexdt based on t
   cohort <- prep_cohort(cohort, indexdt, t)
   ## Assign variable name if unspecified
   if (is.null(varname)){
-    varname <- "value_var"
+    varname <- "value"
   }
   ## Change variable name based off time point specified for extraction
   varname <- prep_varname(varname, t, t.varname)
@@ -122,28 +128,16 @@ extract_test_data_var <- function(cohort,
                                 time.prev = time.prev,
                                 time.post = time.post,
                                 lower.bound = lower.bound,
-                                upper.bound = upper.bound,
-                                numobs = 1000)
-
-  ### Create a dataframe of patids for individuals who have more than one observation
-  patids.multiple <- variable.dat[duplicated(variable.dat$patid)] |>
-    dplyr::group_by(patid) |>
-    dplyr::slice(1) |>
-    dplyr::select(patid)
-
-  ### Merge with the dataset of all test data scores, keeping only individuals in 'patids.multiple'
-  variable.dat <- merge(variable.dat, patids.multiple, by.x = "patid", by.y = "patid")
-
-  ### Get sd of observations for each individual
-  variable.dat <- variable.dat |>
-    dplyr::group_by(patid) |>
-    dplyr::summarise("value_var" = stats::sd(value))
+                                upper.bound = upper.bound)
 
   ### Create dataframe of cohort and the variable of interest
   variable.dat <- merge(dplyr::select(cohort, patid), variable.dat, by.x = "patid", by.y = "patid", all.x = TRUE)
 
-  ### Change name of value to the variable name
-  colnames(variable.dat)[colnames(variable.dat) == "value_var"] <- varname
+  ### Reduce to variables of interest
+  variable.dat <- variable.dat[,c("patid", "value")]
+
+  ### Change name of variable to varname
+  colnames(variable.dat)[colnames(variable.dat) == "value"] <- varname
 
   implement_output(variable.dat, varname, out.save.disk, out.subdir, out.filepath, return.output)
 

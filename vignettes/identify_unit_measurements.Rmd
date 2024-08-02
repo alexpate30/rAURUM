@@ -1,0 +1,417 @@
+---
+title: "Identify unit measurements"
+author: "Alex Pate"
+date: "2024-07-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include = FALSE}
+### Clear workspace
+rm(list=ls())
+Sys.time()
+
+### Set wd
+setwd("/mnt/bmh01-rds/Sperrin_CHARIOT_CPRD/Aurum_Jun2021_extract/")
+getwd()
+
+### Source functions
+R.func.sources = list.files("R", full.names = TRUE)
+sapply(R.func.sources, source)
+
+###
+### Load the cohort
+cohort <- readRDS("data/extraction/cohort_exclu2.rds")
+cohort <- data.table::as.data.table(cohort)
+
+### Load the lookup file
+lookups <- data.table::fread(file = paste(getwd(),"/codelists/lookups/numunit.txt", sep = ""), 
+                             sep = "\t", header = TRUE, colClasses = c("numeric", "character"))
+
+### Define the sqlite database we will query
+db.in = "aurum_small"
+
+### Define dp
+dp <- 2
+
+###########
+### SBP ###
+###########
+
+### Define codelist
+codelist.in = "edh_sbp_medcodeid"
+
+### Extract codelist
+codelist <- data.table::fread(file = paste(getwd(),"/codelists/analysis/", codelist.in, ".csv", sep = ""), 
+                              sep = ",", header = TRUE, , colClasses = "character")
+codelist <- codelist$medcodeid
+
+### Connect to SQLite database
+mydb <- RSQLite::dbConnect(RSQLite::SQLite(), paste("data/sql/", db.in, ".sqlite", sep = ""))
+
+### Create the query
+where_clause <- paste0("`medcodeid` IN (", paste("'", codelist, "'", sep = "", collapse = ","), ")")
+tab <- "obs"
+qry <- paste("SELECT * FROM", tab, "WHERE", where_clause)
+
+### Run the query and turn into data.table
+print(paste("query database for relevant medcodes", Sys.time()))
+db.query <- RSQLite::dbGetQuery(mydb, qry)
+db.query <- data.table::as.data.table(db.query)
+
+### Disconnect
+RSQLite::dbDisconnect(mydb)
+
+### Merge cohort with the database query keeping observations that are in both 
+### (importantly only keeping observations that had a diagnosis and are in db.query)
+print(paste("merge", Sys.time()))
+merged <- merge(cohort, db.query, by.x = "patid", by.y = "patid")
+
+## Create count table
+count.table <- merged %>% dplyr::count(numunitid) %>% as.data.frame()
+
+### Lets look at numunitid
+lookups.sbp <- merge(count.table,lookups, by.x = "numunitid", by.y = "numunitid", all.x = TRUE) |>
+  dplyr::mutate(prop = round(100*n/sum(n), dp)) |>
+  dplyr::filter(prop > 0.01)
+print("SBP")
+lookups.sbp
+
+### Conclusion:
+### All the sbp units are mmHg, so no transformations will be needed
+
+######################
+### Chol/hdl ratio ###
+######################
+
+### Define codelist
+codelist.in = "edh_cholhdl_ratio_medcodeid"
+
+### Extract codelist
+codelist <- data.table::fread(file = paste(getwd(),"/codelists/analysis/", codelist.in, ".csv", sep = ""), 
+                              sep = ",", header = TRUE, , colClasses = "character")
+codelist <- codelist$medcodeid
+
+### Connect to SQLite database
+mydb <- RSQLite::dbConnect(RSQLite::SQLite(), paste("data/sql/", db.in, ".sqlite", sep = ""))
+
+### Create the query
+where_clause <- paste0("`medcodeid` IN (", paste("'", codelist, "'", sep = "", collapse = ","), ")")
+tab <- "obs"
+qry <- paste("SELECT * FROM", tab, "WHERE", where_clause)
+
+### Run the query and turn into data.table
+print(paste("query database for relevant medcodes", Sys.time()))
+db.query <- RSQLite::dbGetQuery(mydb, qry)
+db.query <- data.table::as.data.table(db.query)
+
+### Disconnect
+RSQLite::dbDisconnect(mydb)
+
+### Merge cohort with the database query keeping observations that are in both 
+### (importantly only keeping observations that had a diagnosis and are in db.query)
+print(paste("merge", Sys.time()))
+merged <- merge(cohort, db.query, by.x = "patid", by.y = "patid")
+
+## Create count table
+count.table <- merged %>% dplyr::count(numunitid) %>% as.data.frame()
+
+### Lets look at numunitid
+lookups.cholhdl.ratio <- merge(count.table,lookups, by.x = "numunitid", by.y = "numunitid", all.x = TRUE) |>
+  dplyr::mutate(prop = round(100*n/sum(n), dp)) |>
+  dplyr::filter(prop > 0.01)
+print("CHOL HDL RATIO")
+lookups.cholhdl.ratio
+
+hist(merged$value[merged$numunitid == 65])
+hist(merged$value[merged$numunitid == 218])
+hist(merged$value[merged$numunitid == 219])
+
+### Conclusion:
+### 
+
+
+###################
+### Cholesterol ###
+###################
+
+### Define codelist
+codelist.in = "edh_chol_medcodeid"
+
+### Extract codelist
+codelist <- data.table::fread(file = paste(getwd(),"/codelists/analysis/", codelist.in, ".csv", sep = ""), 
+                              sep = ",", header = TRUE, , colClasses = "character")
+codelist <- codelist$medcodeid
+
+### Connect to SQLite database
+mydb <- RSQLite::dbConnect(RSQLite::SQLite(), paste("data/sql/", db.in, ".sqlite", sep = ""))
+
+### Create the query
+where_clause <- paste0("`medcodeid` IN (", paste("'", codelist, "'", sep = "", collapse = ","), ")")
+tab <- "obs"
+qry <- paste("SELECT * FROM", tab, "WHERE", where_clause)
+
+### Run the query and turn into data.table
+print(paste("query database for relevant medcodes", Sys.time()))
+db.query <- RSQLite::dbGetQuery(mydb, qry)
+db.query <- data.table::as.data.table(db.query)
+
+### Disconnect
+RSQLite::dbDisconnect(mydb)
+
+### Merge cohort with the database query keeping observations that are in both 
+### (importantly only keeping observations that had a diagnosis and are in db.query)
+print(paste("merge", Sys.time()))
+merged <- merge(cohort, db.query, by.x = "patid", by.y = "patid")
+
+## Create count table
+count.table <- merged %>% dplyr::count(numunitid) %>% as.data.frame()
+
+### Lets look at numunitid
+lookups.chol <- merge(count.table,lookups, by.x = "numunitid", by.y = "numunitid", all.x = TRUE) |>
+  dplyr::mutate(prop = round(100*n/sum(n), dp)) |>
+  dplyr::filter(prop > 0.01)
+print("CHOL")
+lookups.chol
+
+### Conclusion:
+### Cholesterol always seems to be mmol/L so no need to transform anything
+
+###########
+### HDL ###
+###########
+
+### Define codelist
+codelist.in = "edh_hdl_medcodeid"
+
+### Extract codelist
+codelist <- data.table::fread(file = paste(getwd(),"/codelists/analysis/", codelist.in, ".csv", sep = ""), 
+                              sep = ",", header = TRUE, , colClasses = "character")
+codelist <- codelist$medcodeid
+
+### Connect to SQLite database
+mydb <- RSQLite::dbConnect(RSQLite::SQLite(), paste("data/sql/", db.in, ".sqlite", sep = ""))
+
+### Create the query
+where_clause <- paste0("`medcodeid` IN (", paste("'", codelist, "'", sep = "", collapse = ","), ")")
+tab <- "obs"
+qry <- paste("SELECT * FROM", tab, "WHERE", where_clause)
+
+### Run the query and turn into data.table
+print(paste("query database for relevant medcodes", Sys.time()))
+db.query <- RSQLite::dbGetQuery(mydb, qry)
+db.query <- data.table::as.data.table(db.query)
+
+### Disconnect
+RSQLite::dbDisconnect(mydb)
+
+### Merge cohort with the database query keeping observations that are in both 
+### (importantly only keeping observations that had a diagnosis and are in db.query)
+print(paste("merge", Sys.time()))
+merged <- merge(cohort, db.query, by.x = "patid", by.y = "patid")
+
+## Create count table
+count.table <- merged %>% dplyr::count(numunitid) %>% as.data.frame()
+
+### Lets look at numunitid
+lookups.hdl <- merge(count.table,lookups, by.x = "numunitid", by.y = "numunitid", all.x = TRUE) |>
+  dplyr::mutate(prop = round(100*n/sum(n), dp)) |>
+  dplyr::filter(prop > 0.01)
+print("HDL")
+lookups.hdl
+
+### Conclusion:
+### HDL always seems to be mmol/L so no need to transform anything
+
+
+###########
+### BMI ###
+###########
+
+### Define codelist
+codelist.in = "edh_bmi_medcodeid"
+
+### Extract codelist
+codelist <- data.table::fread(file = paste(getwd(),"/codelists/analysis/", codelist.in, ".csv", sep = ""), 
+                              sep = ",", header = TRUE, , colClasses = "character")
+codelist <- codelist$medcodeid
+
+### Connect to SQLite database
+mydb <- RSQLite::dbConnect(RSQLite::SQLite(), paste("data/sql/", db.in, ".sqlite", sep = ""))
+
+### Create the query
+where_clause <- paste0("`medcodeid` IN (", paste("'", codelist, "'", sep = "", collapse = ","), ")")
+tab <- "obs"
+qry <- paste("SELECT * FROM", tab, "WHERE", where_clause)
+
+### Run the query and turn into data.table
+print(paste("query database for relevant medcodes", Sys.time()))
+db.query <- RSQLite::dbGetQuery(mydb, qry)
+db.query <- data.table::as.data.table(db.query)
+
+### Disconnect
+RSQLite::dbDisconnect(mydb)
+
+### Merge cohort with the database query keeping observations that are in both 
+### (importantly only keeping observations that had a diagnosis and are in db.query)
+print(paste("merge", Sys.time()))
+merged <- merge(cohort, db.query, by.x = "patid", by.y = "patid")
+
+## Create count table
+count.table <- merged %>% dplyr::count(numunitid) %>% as.data.frame()
+
+### Lets look at numunitid
+lookups.bmi <- merge(count.table,lookups, by.x = "numunitid", by.y = "numunitid", all.x = TRUE) |>
+  dplyr::mutate(prop = round(100*n/sum(n), dp)) |>
+  dplyr::filter(prop > 0.01)
+print("bmi")
+lookups.bmi
+
+### Conclusion:
+### BMI is always different forms of kg/m2, so no need to transform any
+
+
+##############
+### Height ###
+##############
+
+### Define codelist
+codelist.in = "height_medcodeid"
+
+### Extract codelist
+codelist <- data.table::fread(file = paste(getwd(),"/codelists/analysis/", codelist.in, ".csv", sep = ""), 
+                              sep = ",", header = TRUE, colClasses = "character")
+codelist <- codelist$medcodeid
+
+### Connect to SQLite database
+mydb <- RSQLite::dbConnect(RSQLite::SQLite(), paste("data/sql/", db.in, ".sqlite", sep = ""))
+
+### Create the query
+where_clause <- paste0("`medcodeid` IN (", paste("'", codelist, "'", sep = "", collapse = ","), ")")
+tab <- "obs"
+qry <- paste("SELECT * FROM", tab, "WHERE", where_clause)
+
+### Run the query and turn into data.table
+print(paste("query database for relevant medcodes", Sys.time()))
+db.query <- RSQLite::dbGetQuery(mydb, qry)
+db.query <- data.table::as.data.table(db.query)
+
+### Disconnect
+RSQLite::dbDisconnect(mydb)
+
+### Merge cohort with the database query keeping observations that are in both 
+### (importantly only keeping observations that had a diagnosis and are in db.query)
+print(paste("merge", Sys.time()))
+merged <- merge(cohort, db.query, by.x = "patid", by.y = "patid")
+
+## Create count table
+count.table <- merged %>% dplyr::count(numunitid) %>% as.data.frame()
+
+### Lets look at numunitid
+lookups.height <- merge(count.table,lookups, by.x = "numunitid", by.y = "numunitid", all.x = TRUE) |>
+  dplyr::mutate(prop = round(100*n/sum(n), dp)) |>
+  dplyr::filter(prop > 0.01)
+print("HEIGHT")
+lookups.height
+
+quantile(merged$value[merged$numunitid == 122], na.rm = TRUE)
+quantile(merged$value[merged$numunitid == 173], na.rm = TRUE)
+
+### Conclusion:
+### Looks to be cm and the occasional metres
+### The metre values are generally < 2, meaning they are correctly recorded and should be converted (173, 432 or 3202)
+
+
+##############
+### Weight ###
+##############
+
+### Define codelist
+codelist.in = "weight_medcodeid"
+
+### Extract codelist
+codelist <- data.table::fread(file = paste(getwd(),"/codelists/analysis/", codelist.in, ".csv", sep = ""), 
+                              sep = ",", header = TRUE, colClasses = "character")
+codelist <- codelist$medcodeid
+
+### Connect to SQLite database
+mydb <- RSQLite::dbConnect(RSQLite::SQLite(), paste("data/sql/", db.in, ".sqlite", sep = ""))
+
+### Create the query
+where_clause <- paste0("`medcodeid` IN (", paste("'", codelist, "'", sep = "", collapse = ","), ")")
+tab <- "obs"
+qry <- paste("SELECT * FROM", tab, "WHERE", where_clause)
+
+### Run the query and turn into data.table
+print(paste("query database for relevant medcodes", Sys.time()))
+db.query <- RSQLite::dbGetQuery(mydb, qry)
+db.query <- data.table::as.data.table(db.query)
+
+### Disconnect
+RSQLite::dbDisconnect(mydb)
+
+### Merge cohort with the database query keeping observations that are in both 
+### (importantly only keeping observations that had a diagnosis and are in db.query)
+print(paste("merge", Sys.time()))
+merged <- merge(cohort, db.query, by.x = "patid", by.y = "patid")
+
+## Create count table
+count.table <- merged %>% dplyr::count(numunitid) %>% as.data.frame()
+
+### Lets look at numunitid
+lookups.weight <- merge(count.table,lookups, by.x = "numunitid", by.y = "numunitid", all.x = TRUE) |>
+  dplyr::mutate(prop = round(100*n/sum(n), dp)) |>
+  dplyr::filter(prop > 0.01)
+print("WEIGHT")
+lookups.weight
+
+### Conclusion:
+### Weights are pretty much all kg, so don't need to do anything
+```
+
+This file will identify all the different units that the test data has been recorded in (numunitids). This will then be fed into the programs for deriving each of those variables, and transformations made where appropriate. The test data is searched separately using each code list, and then resulting unit measurements that are recorded in more than 0.01% of the results are presented. When defining a variable, the aim is to convert all measurements to be on the scame scale/unit of measurement. For example, height measurements in metres should be converted to the same scale as those recorded in centimeters. However, for many records, the unit of measurement might be something odd, which it is unclear how to convert onto the desired scale. For observations with such unit measurements, we do not exclude these observations, as they may be correct measurements with a mis-recorded unit measurement. Instead, when extracting variables, and converting relevant unit measurements, we define a minimum and maximum value, and exclude observations that do not fit into this range. As will be seen below, the proportion of observations for which this is true, is often very small (with the exception of cholesterol/hdl ratio, which is a special case. The same approach is taken when dealing with observations with missing unit measurement, they are excluded based on whether value is outside of a pre-specified range.
+
+```{r, echo = FALSE}
+knitr::kable(lookups.sbp, caption = "Unit measurements for systolic blood pressure")
+```
+
+All measurement are in mm/Hg
+
+```{r, echo = FALSE}
+knitr::kable(lookups.cholhdl.ratio, caption = "Unit measurements for cholesterol/high-density lipoprotein ratio")
+```
+
+The most common is 'NA' (78.95%). The second most common is 'ratio' (12.49%) then 1/1 (2.33%). The confusion about unit of measurement is likely due to the fact that this ratio has no unit of measurement, because total cholesterol and high-density lipoprotein have the same unit of measurement. All measurements are therefore assumed to be in the same unit of measurement (ratio).
+
+```{r, echo = FALSE}
+knitr::kable(lookups.chol, caption = "Unit measurements for total cholesterol")
+```
+
+The majority of unit measurements are mmol/L (96.35%) or NA (3.54%). All observations are therefore assumed to be recorded in mmol/L.
+
+```{r, echo = FALSE}
+knitr::kable(lookups.hdl, caption = "Unit measurements for high-density lipoprotein")
+```
+
+The majority of unit measurements are mmol/L (94.21%) or NA (5.67%). All observations are therefore assumed to be recorded in mmol/L.
+
+```{r, echo = FALSE}
+knitr::kable(lookups.bmi, caption = "Unit measurements for body mass index")
+```
+
+The majority of unit measurements are kg/m2 (39.58%), kg/mA2 (1.26%) or NA (58.08%). All observations are therefore assumed to be recorded in kg/m2.
+
+```{r, echo = FALSE}
+knitr::kable(lookups.weight, caption = "Unit measurements for weight")
+```
+
+The majority of unit measurements are kg (98.67%) or NA (1.24%). All observations are therefore assumed to be recorded in kg.
+
+```{r, echo = FALSE}
+knitr::kable(lookups.height, caption = "Unit measurements for height")
+```
+
+The majority of unit measurements are cm (96.82%), m (1.7%), metres (0.02%) or NA (.37%). All observations with numunit corresponding to metres, will be converted to cm.

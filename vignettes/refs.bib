@@ -1,23 +1,17 @@
-@article{Gulliford2009,
-abstract = {BACKGROUND: Electronic patient records from primary care databases are increasingly used in public health and health services research but methods used to identify cases with disease are not well described. This study aimed to evaluate the relevance of different codes for the identification of acute stroke in a primary care database, and to evaluate trends in the use of different codes over time. METHODS: Data were obtained from the General Practice Research Database from 1997 to 2006. All subjects had a minimum of 24 months of up-to-standard record before the first recorded stroke diagnosis. Initially, we identified stroke cases using a supplemented version of the set of codes for prevalent stroke used by the Office for National Statistics in Key health statistics from general practice 1998 (ONS codes). The ONS codes were then independently reviewed by four raters and a restricted set of 121 codes for 'acute stroke' was identified but the kappa statistic was low at 0.23. RESULTS: Initial extraction of data using the ONS codes gave 48,239 cases of stroke from 1997 to 2006. Application of the restricted set of codes reduced this to 39,424 cases. There were 2,288 cases whose index medical codes were for 'stroke annual review' and 3,112 for 'stroke monitoring'. The frequency of stroke review and monitoring codes as index codes increased from 9 per year in 1997 to 1,612 in 2004, 1,530 in 2005 and 1,424 in 2006. The one year mortality of cases with the restricted set of codes was 29.1{%} but for 'stroke annual review,' 4.6{%} and for 'stroke monitoring codes', 5.7{%}. CONCLUSION: In the analysis of electronic patient records, different medical codes for a single condition may have varying clinical and prognostic significance; utilisation of different medical codes may change over time; researchers with differing clinical or epidemiological experience may have differing interpretations of the relevance of particular codes. There is a need for greater transparency in the selection of sets of codes for different conditions, for the reporting of sensitivity analyses using different sets of codes, as well as sharing of code sets among researchers.},
-author = {Gulliford, Martin C. and Charlton, Judith and Ashworth, Mark and Rudd, Anthony G. and Toschke, Andre Michael and Delaney, Brendan and Grieve, Andy and Heuschmann, Peter U. and Little, Paul and Redfern, Judith and van Staa, Tjeerd and Wolfe, Charles and Yardley, Lucy and McDermott, Lisa},
-doi = {10.1371/journal.pone.0007168},
-file = {:C\:/Users/mbrxsap3/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Gulliford et al. - 2009 - Selection of medical diagnostic codes for analysis of electronic patient records. Application to stroke in a p.pdf:pdf},
-isbn = {1932-6203 (Electronic)\r1932-6203 (Linking)},
+@article{Williams2019,
+abstract = {Objective Clinical code sets are vital to research using routinely-collected electronic healthcare data. Existing code set engineering methods pose significant limitations when considering reproducible research. To improve the transparency and reusability of research, these code sets must abide by FAIR principles; this is not currently happening. We propose ‘term sets', an equivalent alternative to code sets that are findable, accessible, interoperable and reusable. Materials and methods We describe a new code set representation, consisting of natural language inclusion and exclusion terms (term sets), and explain its relationship to code sets. We formally prove that any code set has a corresponding term set. We demonstrate utility by searching for recently published code sets, representing them as term sets, and reporting on the number of inclusion and exclusion terms compared with the size of the code set. Results Thirty-one code sets from 20 papers covering diverse disease domains were converted into term sets. The term sets were on average 74% the size of their equivalent original code set. Four term sets were larger due to deficiencies in the original code sets. Discussion Term sets can concisely represent any code set. This may reduce barriers for examining and reusing code sets, which may accelerate research using healthcare databases. We have developed open-source software that supports researchers using term sets. Conclusion Term sets are independent of clinical code terminologies and therefore: enable reproducible research; are resistant to terminology changes; and are less error-prone as they are shorter than the equivalent code set.},
+author = {Williams, Richard and Brown, Benjamin and Kontopantelis, Evan and van Staa, Tjeerd and Peek, Niels},
+doi = {10.1371/journal.pone.0212291},
+file = {:/nask.man.ac.uk/home$/Documents/JournalsandPapers/Williams2019.pdf:pdf},
+isbn = {1111111111},
 issn = {19326203},
 journal = {PLoS ONE},
-number = {9},
-pmid = {19777060},
-title = {{Selection of medical diagnostic codes for analysis of electronic patient records. Application to stroke in a primary care database}},
-volume = {4},
-year = {2009}
-}
-@misc{ClinicalPracticeResearchDatalink,
-author = {CPRD},
-title = {{CPRD GOLD June 2024 Dataset}},
-url = {https://www.cprd.com/doi/cprd-gold-june-2024-dataset},
-urldate = {2024-06-12},
-year = {2024}
+number = {2},
+pages = {1--15},
+pmid = {30763407},
+title = {{Term sets: A transparent and reproducible representation of clinical code sets}},
+volume = {14},
+year = {2019}
 }
 @article{Springate2017,
 abstract = {Research with structured Electronic Health Records (EHRs) is expanding as data becomes more accessible; analytic methods advance; and the scientific validity of such studies is increasingly accepted. However, data science methodology to enable the rapid searching/ extraction, cleaning and analysis of these large, often complex, datasets is less well developed. In addition, commonly used software is inadequate, resulting in bottlenecks in research workflows and in obstacles to increased transparency and reproducibility of the research. Preparing a research-ready dataset from EHRs is a complex and time consuming task requiring substantial data science skills, even for simple designs. In addition, certain aspects of the workflow are computationally intensive, for example extraction of longitudinal data and matching controls to a large cohort, which may take days or even weeks to run using standard software. The rEHR package simplifies and accelerates the process of extracting ready-for-analysis datasets from EHR databases. It has a simple import function to a database backend that greatly accelerates data access times. A set of generic query functions allow users to extract data efficiently without needing detailed knowledge of SQL queries. Longitudinal data extractions can also be made in a single command, making use of parallel processing. The package also contains functions for cutting data by time-varying covariates, matching controls to cases, unit conversion and construction of clinical code lists. There are also functions to synthesise dummy EHR. The package has been tested with one for the largest primary care EHRs, the Clinical Practice Research Datalink (CPRD), but allows for a common interface to other EHRs. This simplified and accelerated work flow for EHR data extraction results in simpler, cleaner scripts that are more easily debugged, shared and reproduced.},
@@ -34,32 +28,12 @@ title = {{rEHR: An R package for manipulating and analysing electronic health re
 volume = {12},
 year = {2017}
 }
-@misc{ClinicalPracticeResearchDatalink2022,
+@misc{ClinicalPracticeResearchDatalink,
 author = {CPRD},
-title = {{CPRD Aurum Data Specification. Version 2.7}},
-url = {https://www.cprd.com/},
-year = {2022}
-}
-@misc{Muller2024,
-author = {M{\"{u}}ller, Kirill and Wickham, Hadley and James, David A. and Falcon, Seth},
-title = {{RSQLite: SQLite Interface for R}},
-url = {https://rsqlite.r-dbi.org},
+title = {{CPRD GOLD June 2024 Dataset}},
+url = {https://www.cprd.com/doi/cprd-gold-june-2024-dataset},
+urldate = {2024-06-12},
 year = {2024}
-}
-@article{Williams2019,
-abstract = {Objective Clinical code sets are vital to research using routinely-collected electronic healthcare data. Existing code set engineering methods pose significant limitations when considering reproducible research. To improve the transparency and reusability of research, these code sets must abide by FAIR principles; this is not currently happening. We propose ‘term sets', an equivalent alternative to code sets that are findable, accessible, interoperable and reusable. Materials and methods We describe a new code set representation, consisting of natural language inclusion and exclusion terms (term sets), and explain its relationship to code sets. We formally prove that any code set has a corresponding term set. We demonstrate utility by searching for recently published code sets, representing them as term sets, and reporting on the number of inclusion and exclusion terms compared with the size of the code set. Results Thirty-one code sets from 20 papers covering diverse disease domains were converted into term sets. The term sets were on average 74% the size of their equivalent original code set. Four term sets were larger due to deficiencies in the original code sets. Discussion Term sets can concisely represent any code set. This may reduce barriers for examining and reusing code sets, which may accelerate research using healthcare databases. We have developed open-source software that supports researchers using term sets. Conclusion Term sets are independent of clinical code terminologies and therefore: enable reproducible research; are resistant to terminology changes; and are less error-prone as they are shorter than the equivalent code set.},
-author = {Williams, Richard and Brown, Benjamin and Kontopantelis, Evan and van Staa, Tjeerd and Peek, Niels},
-doi = {10.1371/journal.pone.0212291},
-file = {:/nask.man.ac.uk/home$/Documents/JournalsandPapers/Williams2019.pdf:pdf},
-isbn = {1111111111},
-issn = {19326203},
-journal = {PLoS ONE},
-number = {2},
-pages = {1--15},
-pmid = {30763407},
-title = {{Term sets: A transparent and reproducible representation of clinical code sets}},
-volume = {14},
-year = {2019}
 }
 @article{Watson2017,
 abstract = {Objective Analysis of routinely collected electronic health record (EHR) data from primary care is reliant on the creation of codelists to define clinical features of interest. To improve scientific rigour, transparency and replicability, we describe and demonstrate a standardised reproducible methodology for clinical codelist development. Design We describe a three-stage process for developing clinical codelists. First, the clear definition a priori of the clinical feature of interest using reliable clinical resources. Second, development of a list of potential codes using statistical software to comprehensively search all available codes. Third, a modified Delphi process to reach consensus between primary care practitioners on the most relevant codes, including the generation of an 'uncertainty' variable to allow sensitivity analysis. Setting These methods are illustrated by developing a codelist for shortness of breath in a primary care EHR sample, including modifiable syntax for commonly used statistical software. Participants The codelist was used to estimate the frequency of shortness of breath in a cohort of 28 216 patients aged over 18 years who received an incident diagnosis of lung cancer between 1 January 2000 and 30 November 2016 in the Clinical Practice Research Datalink (CPRD). Results Of 78 candidate codes, 29 were excluded as inappropriate. Complete agreement was reached for 44 (90%) of the remaining codes, with partial disagreement over 5 (10%). 13 091 episodes of shortness of breath were identified in the cohort of 28 216 patients. Sensitivity analysis demonstrates that codes with the greatest uncertainty tend to be rarely used in clinical practice. Conclusions Although initially time consuming, using a rigorous and reproducible method for codelist generation 'future-proofs' findings and an auditable, modifiable syntax for codelist generation enables sharing and replication of EHR studies. Published codelists should be badged by quality and report the methods of codelist generation including: definitions and justifications associated with each codelist; the syntax or search method; the number of candidate codes identified; and the categorisation of codes after Delphi review.},
@@ -92,23 +66,24 @@ url = {http://dx.doi.org/10.1016/j.jbi.2017.04.010},
 volume = {70},
 year = {2017}
 }
-@misc{CPRD2024,
-author = {CPRD},
-title = {{CPRD Aurum March 2024 Dataset}},
-url = {https://www.cprd.com/doi/cprd-aurum-march-2024-dataset},
-urldate = {12/06/2024},
-year = {2024}
+@article{Gulliford2009,
+abstract = {BACKGROUND: Electronic patient records from primary care databases are increasingly used in public health and health services research but methods used to identify cases with disease are not well described. This study aimed to evaluate the relevance of different codes for the identification of acute stroke in a primary care database, and to evaluate trends in the use of different codes over time. METHODS: Data were obtained from the General Practice Research Database from 1997 to 2006. All subjects had a minimum of 24 months of up-to-standard record before the first recorded stroke diagnosis. Initially, we identified stroke cases using a supplemented version of the set of codes for prevalent stroke used by the Office for National Statistics in Key health statistics from general practice 1998 (ONS codes). The ONS codes were then independently reviewed by four raters and a restricted set of 121 codes for 'acute stroke' was identified but the kappa statistic was low at 0.23. RESULTS: Initial extraction of data using the ONS codes gave 48,239 cases of stroke from 1997 to 2006. Application of the restricted set of codes reduced this to 39,424 cases. There were 2,288 cases whose index medical codes were for 'stroke annual review' and 3,112 for 'stroke monitoring'. The frequency of stroke review and monitoring codes as index codes increased from 9 per year in 1997 to 1,612 in 2004, 1,530 in 2005 and 1,424 in 2006. The one year mortality of cases with the restricted set of codes was 29.1{%} but for 'stroke annual review,' 4.6{%} and for 'stroke monitoring codes', 5.7{%}. CONCLUSION: In the analysis of electronic patient records, different medical codes for a single condition may have varying clinical and prognostic significance; utilisation of different medical codes may change over time; researchers with differing clinical or epidemiological experience may have differing interpretations of the relevance of particular codes. There is a need for greater transparency in the selection of sets of codes for different conditions, for the reporting of sensitivity analyses using different sets of codes, as well as sharing of code sets among researchers.},
+author = {Gulliford, Martin C. and Charlton, Judith and Ashworth, Mark and Rudd, Anthony G. and Toschke, Andre Michael and Delaney, Brendan and Grieve, Andy and Heuschmann, Peter U. and Little, Paul and Redfern, Judith and van Staa, Tjeerd and Wolfe, Charles and Yardley, Lucy and McDermott, Lisa},
+doi = {10.1371/journal.pone.0007168},
+file = {:C\:/Users/mbrxsap3/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Gulliford et al. - 2009 - Selection of medical diagnostic codes for analysis of electronic patient records. Application to stroke in a p.pdf:pdf},
+isbn = {1932-6203 (Electronic)\r1932-6203 (Linking)},
+issn = {19326203},
+journal = {PLoS ONE},
+number = {9},
+pmid = {19777060},
+title = {{Selection of medical diagnostic codes for analysis of electronic patient records. Application to stroke in a primary care database}},
+volume = {4},
+year = {2009}
 }
 @misc{TheHealthFoundationAnalyticsLab2021,
 author = {{The Health Foundation Analytics Lab}},
 title = {aurumpipeline},
 url = {https://github.com/HFAnalyticsLab/aurumpipeline},
-year = {2021}
-}
-@misc{Yimer2021,
-author = {Yimer, Belay Birlie and Selby, David and Jani, Meghna and Nenadic, Goran and Lunt, Mark and Dixon, William G.},
-title = {{drugprepr: Prepare Electronic Prescription Record Data to Estimate Drug Exposure}},
-url = {https://cran.r-project.org/package=drugprepr},
 year = {2021}
 }
 @article{Pye2018,
@@ -125,4 +100,101 @@ pmid = {29667263},
 title = {{Assumptions made when preparing drug exposure data for analysis have an impact on results: An unreported step in pharmacoepidemiology studies}},
 volume = {27},
 year = {2018}
+}
+@misc{Yimer2021,
+author = {Yimer, Belay Birlie and Selby, David and Jani, Meghna and Nenadic, Goran and Lunt, Mark and Dixon, William G.},
+title = {{drugprepr: Prepare Electronic Prescription Record Data to Estimate Drug Exposure}},
+url = {https://cran.r-project.org/package=drugprepr},
+year = {2021}
+}
+@misc{CPRD2024,
+author = {CPRD},
+title = {{CPRD Aurum March 2024 Dataset}},
+url = {https://www.cprd.com/doi/cprd-aurum-march-2024-dataset},
+urldate = {2024-06-12},
+year = {2024}
+}
+@misc{ClinicalPracticeResearchDatalink2022,
+author = {CPRD},
+title = {{CPRD Aurum Data Specification. Version 2.7}},
+url = {https://www.cprd.com/},
+year = {2022}
+}
+@misc{Muller2024,
+author = {M{\"{u}}ller, Kirill and Wickham, Hadley and James, David A. and Falcon, Seth},
+title = {{RSQLite: SQLite Interface for R}},
+url = {https://rsqlite.r-dbi.org},
+year = {2024}
+}
+@article{Padmanabhan2019,
+abstract = {Record linkage is increasingly used to expand the information available for public health research. An understanding of record linkage methods and the relevant strengths and limitations is important for robust analysis and interpretation of linked data. Here, we describe the approach used by Clinical Practice Research Datalink (CPRD) to link primary care data to other patient level datasets, and the potential implications of this approach for CPRD data analysis. General practice electronic health record software providers separately submit de-identified data to CPRD and patient identifiers to NHS Digital, excluding patients who have opted-out from contributing data. Data custodians for external datasets also send patient identifiers to NHS Digital. NHS Digital uses identifiers to link the datasets using an 8-stage deterministic methodology. CPRD subsequently receives a de-identified linked cohort file and provides researchers with anonymised linked data and metadata detailing the linkage process. This methodology has been used to generate routine primary care linked datasets, including data from Hospital Episode Statistics, Office for National Statistics and National Cancer Registration and Analysis Service. 10.6 million (M) patients from 411 English general practices were included in record linkage in June 2018. 9.1M (86%) patients were of research quality, of which 8.0M (88%) had a valid NHS number and were eligible for linkage in the CPRD standard linked dataset release. Linking CPRD data to other sources improves the range and validity of research studies. This manuscript, together with metadata generated on match strength and linkage eligibility, can be used to inform study design and explore potential linkage-related selection and misclassification biases.},
+author = {Padmanabhan, Shivani and Carty, Lucy and Cameron, Ellen and Ghosh, Rebecca E. and Williams, Rachael and Strongman, Helen},
+doi = {10.1007/s10654-018-0442-4},
+file = {:/nask.man.ac.uk/home$/Documents/JournalsandPapers/Padmanabhan2019.pdf:pdf},
+isbn = {0123456789},
+issn = {15737284},
+journal = {European Journal of Epidemiology},
+keywords = {Clinical Practice Research Datalink,Deterministic linkage,Electronic health records,Primary care data,Record linkage},
+number = {1},
+pages = {91--99},
+pmid = {30219957},
+publisher = {Springer Netherlands},
+title = {{Approach to record linkage of primary care data from Clinical Practice Research Datalink to other health-related patient data: overview and implications}},
+url = {https://doi.org/10.1007/s10654-018-0442-4},
+volume = {34},
+year = {2019}
+}
+@article{Herrett2015,
+abstract = {The Clinical Practice Research Datalink (CPRD) is an ongoing primary care database of anonymised medical records from general practitioners, with coverage of over 11.3 million patients from 674 practices in the UK. With 4.4 million active (alive, currently registered) patients meeting quality criteria, approximately 6.9% of the UK population are included and patients are broadly representative of the UK general population in terms of age, sex and ethnicity. General practitioners are the gatekeepers of primary care and specialist referrals in the UK. The CPRD primary care database is therefore a rich source of health data for research, including data on demographics, symptoms, tests, diagnoses, therapies, health-related behaviours and referrals to secondary care. For over half of patients, linkage with datasets from secondary care, disease-specific cohorts and mortality records enhance the range of data available for research. The CPRD is very widely used internationally for epidemiological research and has been used to produce over 1000 research studies, published in peer-reviewed journals across a broad range of health outcomes. However, researchers must be aware of the complexity of routinely collected electronic health records, including ways to manage variable completeness, misclassification and development of disease definitions for research.},
+author = {Herrett, Emily and Gallagher, Arlene M. and Bhaskaran, Krishnan and Forbes, Harriet and Mathur, Rohini and van Staa, Tjeerd and Smeeth, Liam},
+doi = {10.1093/ije/dyv098},
+file = {:C\:/Users/mbrxsap3/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Herrett et al. - 2015 - Data Resource Profile Clinical Practice Research Datalink (CPRD).pdf:pdf},
+isbn = {0300-5771},
+issn = {14643685},
+journal = {International Journal of Epidemiology},
+number = {3},
+pages = {827--836},
+pmid = {26050254},
+title = {{Data Resource Profile: Clinical Practice Research Datalink (CPRD)}},
+volume = {44},
+year = {2015}
+}
+@article{Matthewman2024,
+abstract = {Background Codelists are required to extract meaningful information on characteristics and events from electronic health records (EHRs). EHR research relies on codelists to define study populations and variables, thus, trustworthy codelists are important. Here, we provide a checklist, in the style of commonly used reporting guidelines, to help researchers adhere to best practice in codelist development and sharing. Methods Based on a literature search and a workshop with experienced EHR researchers we created a set of recommendations that are 1. broadly applicable to different datasets, research questions, and methods of codelist creation; 2. easy to follow, implement and document by an individual researcher, and 3. fit within a step-by-step process. We then formatted these recommendations into a checklist. Results We have created a 9-step checklist, comprising 26 items, with accompanying guidance on each step. The checklist advises on which metadata to provide, how to define a clinical concept, how to identify and evaluate existing codelists, how to create new codelists, and how to review, finalise, and publish a created codelist. Conclusions Use of the checklist can reassure researchers that best practice was followed during the development of their codelists, increasing trust in research that relies on these codelists and facilitating wider re-use and adaptation by other researchers.},
+author = {Matthewman, Julian and Andresen, Kirsty and Suffel, Anne and Lin, Liang-Yu and Schultze, Anna and Tazare, John and Bhaskaran, Krishnan and Williamson, Elizabeth and Costello, Ruth and Quint, Jennifer and Strongman, Helen},
+doi = {10.3310/nihropenres.13550.1},
+file = {:/nask.man.ac.uk/home$/Documents/JournalsandPapers/Matthewman2024.pdf:pdf},
+journal = {NIHR Open Research},
+pages = {20},
+title = {{Checklist and guidance on creating codelists for electronic health records research}},
+volume = {4},
+year = {2024}
+}
+@article{Kontopantelis2018,
+abstract = {UK primary care databases (PCDs) are used by researchers worldwide to inform clinical practice. These databases have been primarily tied to single clinical computer systems, but little is known about the adoption of these systems by primary care practices or their geographical representativeness. We explore the spatial distribution of clinical computing systems and discuss the implications for the longevity and regional representativeness of these resources. Design Cross-sectional study. Setting English primary care clinical computer systems. Participants 7526 general practices in August 2016. Methods Spatial mapping of family practices in England in 2016 by clinical computer system at two geographical levels, the lower Clinical Commissioning Group (CCG, 209 units) and the higher National Health Service regions (14 units). Data for practices included numbers of doctors, nurses and patients, and area deprivation. Results Of 7526 practices, Egton Medical Information Systems (EMIS) was used in 4199 (56%), SystmOne in 2552 (34%) and Vision in 636 (9%). Great regional variability was observed for all systems, with EMIS having a stronger presence in the West of England, London and the South; SystmOne in the East and some regions in the South; and Vision in London, the South, Greater Manchester and Birmingham. Conclusions PCDs based on single clinical computer systems are geographically clustered in England. For example, Clinical Practice Research Datalink and The Health Improvement Network, the most popular primary care databases in terms of research outputs, are based on the Vision clinical computer system, used by <10% of practices and heavily concentrated in three major conurbations and the South. Researchers need to be aware of the analytical challenges posed by clustering, and barriers to accessing alternative PCDs need to be removed.},
+author = {Kontopantelis, Evangelos and Stevens, Richard John and Helms, Peter J. and Edwards, Duncan and Doran, Tim and Ashcroft, Darren M.},
+doi = {10.1136/bmjopen-2017-020738},
+file = {:/nask.man.ac.uk/home$/Documents/JournalsandPapers/Kontopantelis2018.pdf:pdf},
+issn = {20446055},
+journal = {BMJ Open},
+keywords = {clinical computer systems,cprd,electronic health records,emis,primary care databases,vision},
+number = {2},
+pages = {1--7},
+pmid = {29490968},
+title = {{Spatial distribution of clinical computer systems in primary care in England in 2016 and implications for primary care electronic medical record databases: A cross-sectional population study}},
+volume = {8},
+year = {2018}
+}
+@article{Wolf2019,
+author = {Wolf, Achim and Dedman, Daniel and Campbell, Jennifer and Booth, Helen and Lunn, Darren and Chapman, Jennifer and Myles, Puja},
+doi = {10.1093/ije/dyz034},
+file = {:C\:/Users/mbrxsap3/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Wolf et al. - 2019 - Data resource profile Clinical Practice Research Datalink (CPRD) Aurum.pdf:pdf},
+issn = {14643685},
+journal = {International Journal of Epidemiology},
+number = {6},
+pages = {1740--1740G},
+pmid = {30859197},
+title = {{Data resource profile: Clinical Practice Research Datalink (CPRD) Aurum}},
+volume = {48},
+year = {2019}
 }
